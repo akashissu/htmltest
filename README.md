@@ -1,8 +1,8 @@
 # zero-human-sandbox-two
 
-## Backend health-check
+## Backend routes
 
-This repository now includes a minimal Node.js backend server with a health-check endpoint.
+This repository now includes a minimal Node.js backend server with health-check and ping endpoints.
 
 ### Install
 

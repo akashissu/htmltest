@@ -2,7 +2,7 @@
   "name": "zero-human-sandbox-two",
   "version": "1.0.0",
   "private": true,
-  "description": "Minimal Express backend with a health-check endpoint.",
+  "description": "Minimal Express backend with health-check and ping endpoints.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
