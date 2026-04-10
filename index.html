@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testimonials</title>
+    <title>Quick Actions Workspace</title>
     <style>
         :root {
             color-scheme: light dark;
@@ -17,10 +17,12 @@
             --border: rgba(23, 32, 51, 0.1);
             --shadow: 0 20px 48px rgba(23, 32, 51, 0.08);
             --shadow-hover: 0 24px 56px rgba(23, 32, 51, 0.14);
+            --modal-shadow: 0 26px 72px rgba(23, 32, 51, 0.16);
             --radius-xl: 28px;
             --radius-lg: 20px;
             --container-width: 1120px;
             --transition: 180ms ease;
+            --overlay: rgba(23, 32, 51, 0.4);
         }
 
         * {
@@ -41,6 +43,10 @@
                 var(--page-bg);
         }
 
+        body.palette-open {
+            overflow: hidden;
+        }
+
         .page {
             padding: 72px 24px;
         }
@@ -50,7 +56,14 @@
             margin: 0 auto;
         }
 
-        .testimonials-section {
+        .workspace-shell {
+            display: grid;
+            gap: 24px;
+        }
+
+        .workspace-header,
+        .workspace-panel,
+        .quick-actions-panel {
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
             background: var(--section-bg);
@@ -58,13 +71,17 @@
             backdrop-filter: blur(16px);
         }
 
-        .testimonials-shell {
-            padding: 56px;
+        .workspace-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 32px;
+            flex-wrap: wrap;
         }
 
-        .section-header {
-            max-width: 680px;
-            margin-bottom: 40px;
+        .header-copy {
+            max-width: 760px;
         }
 
         .eyebrow {
@@ -82,24 +99,171 @@
             text-transform: uppercase;
         }
 
-        .section-header h1 {
+        .workspace-header h1,
+        .section-header h2 {
             margin: 0 0 14px;
-            font-size: clamp(2rem, 3vw, 3.1rem);
             line-height: 1.08;
             letter-spacing: -0.03em;
         }
 
-        .section-header p {
+        .workspace-header h1 {
+            font-size: clamp(2rem, 3vw, 3.1rem);
+        }
+
+        .workspace-header p,
+        .section-header p,
+        .panel-copy {
             margin: 0;
             color: var(--text-secondary);
             font-size: 1.04rem;
             line-height: 1.7;
         }
 
+        .quick-actions-trigger,
+        .chip-link,
+        .quick-action-item,
+        .quick-actions-close,
+        .create-item-button {
+            border: 1px solid transparent;
+            border-radius: 999px;
+            font: inherit;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+        }
+
+        .quick-actions-trigger,
+        .create-item-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, var(--accent), #6882ff);
+            color: #ffffff;
+            box-shadow: 0 16px 34px rgba(81, 109, 255, 0.22);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .quick-actions-trigger:hover,
+        .quick-actions-trigger:focus-visible,
+        .chip-link:hover,
+        .chip-link:focus-visible,
+        .quick-action-item:hover,
+        .quick-action-item:focus-visible,
+        .quick-actions-close:hover,
+        .quick-actions-close:focus-visible,
+        .create-item-button:hover,
+        .create-item-button:focus-visible,
+        .testimonial-card:hover,
+        .testimonial-card:focus-within {
+            transform: translateY(-4px);
+            border-color: rgba(81, 109, 255, 0.28);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .quick-actions-trigger:focus-visible,
+        .chip-link:focus-visible,
+        .quick-action-item:focus-visible,
+        .quick-actions-close:focus-visible,
+        .create-item-button:focus-visible,
+        .quick-actions-search:focus-visible,
+        .testimonial-card:focus-visible {
+            outline: 2px solid rgba(81, 109, 255, 0.45);
+            outline-offset: 3px;
+        }
+
+        .shortcut-pill,
+        .quick-action-shortcut {
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.18);
+            color: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .workspace-grid {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+        }
+
+        .workspace-main,
+        .workspace-side {
+            display: grid;
+            gap: 24px;
+        }
+
+        .workspace-panel {
+            padding: 32px;
+            scroll-margin-top: 28px;
+        }
+
+        .panel-top,
+        .section-header {
+            margin-bottom: 26px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.5rem, 2vw, 2rem);
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .chip-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .stats-grid,
         .testimonials-grid {
             display: grid;
+            gap: 20px;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .stat-card,
+        .testimonial-card,
+        .doc-list li,
+        .settings-list li,
+        .search-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            box-shadow: 0 14px 30px rgba(23, 32, 51, 0.05);
+        }
+
+        .stat-card,
+        .search-card {
+            padding: 22px;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 1.7rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-card span {
+            color: var(--text-secondary);
+        }
+
+        .testimonials-grid {
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
         }
 
         .testimonial-card {
@@ -108,18 +272,7 @@
             gap: 22px;
             height: 100%;
             padding: 28px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            background: var(--card-bg);
-            box-shadow: 0 14px 30px rgba(23, 32, 51, 0.05);
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .testimonial-card:hover,
-        .testimonial-card:focus-within {
-            transform: translateY(-4px);
-            border-color: rgba(81, 109, 255, 0.28);
-            box-shadow: var(--shadow-hover);
         }
 
         .testimonial-header {
@@ -144,7 +297,7 @@
             overflow: hidden;
         }
 
-        .person-meta h2 {
+        .person-meta h3 {
             margin: 0;
             font-size: 1.05rem;
             line-height: 1.35;
@@ -182,13 +335,182 @@
             margin-left: 2px;
         }
 
+        .doc-list,
+        .settings-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 14px;
+        }
+
+        .doc-list li,
+        .settings-list li {
+            padding: 18px 20px;
+        }
+
+        .doc-list strong,
+        .settings-list strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .doc-list span,
+        .settings-list span,
+        .empty-state,
+        .quick-action-meta span {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .search-card {
+            display: grid;
+            gap: 14px;
+        }
+
+        .create-item-button {
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .quick-actions {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition);
+        }
+
+        .quick-actions.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .quick-actions-backdrop {
+            position: absolute;
+            inset: 0;
+            background: var(--overlay);
+            backdrop-filter: blur(8px);
+        }
+
+        .quick-actions-panel {
+            position: relative;
+            z-index: 1;
+            width: min(680px, 100%);
+            padding: 24px;
+            box-shadow: var(--modal-shadow);
+            transform: translateY(10px) scale(0.98);
+            transition: transform var(--transition);
+        }
+
+        .quick-actions.is-open .quick-actions-panel {
+            transform: translateY(0) scale(1);
+        }
+
+        .quick-actions-head {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .quick-actions-head h2 {
+            margin: 0 0 8px;
+            font-size: 1.25rem;
+        }
+
+        .quick-actions-head p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .quick-actions-close {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .quick-actions-search {
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 15px 16px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font: inherit;
+        }
+
+        .quick-actions-search::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .quick-actions-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quick-action-item {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 15px 16px;
+            text-align: left;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .quick-action-item.is-active {
+            border-color: rgba(81, 109, 255, 0.28);
+            background: rgba(81, 109, 255, 0.08);
+        }
+
+        .quick-action-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 1.15rem;
+        }
+
+        .quick-action-meta strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .empty-state {
+            padding: 18px;
+            border: 1px dashed var(--border);
+            border-radius: 18px;
+            background: rgba(81, 109, 255, 0.04);
+            text-align: center;
+        }
+
         @media (max-width: 900px) {
             .page {
                 padding: 56px 20px;
             }
 
-            .testimonials-shell {
-                padding: 40px 28px;
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workspace-header,
+            .workspace-panel {
+                padding: 28px;
             }
         }
 
@@ -197,20 +519,43 @@
                 padding: 32px 16px;
             }
 
-            .testimonials-shell {
-                padding: 28px 20px;
-            }
-
-            .testimonials-section {
+            .workspace-header,
+            .workspace-panel,
+            .quick-actions-panel {
                 border-radius: 22px;
             }
 
-            .testimonial-card {
-                padding: 22px;
+            .workspace-header,
+            .workspace-panel,
+            .quick-actions-panel {
+                padding: 22px 20px;
             }
 
-            .section-header {
-                margin-bottom: 28px;
+            .quick-actions {
+                align-items: end;
+                padding: 12px;
+            }
+
+            .quick-actions-panel {
+                width: 100%;
+                max-height: min(82vh, 680px);
+                overflow: auto;
+            }
+
+            .quick-action-item {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            .quick-action-shortcut {
+                display: none;
+            }
+
+            .testimonial-card,
+            .stat-card,
+            .search-card,
+            .doc-list li,
+            .settings-list li {
+                padding: 20px;
             }
         }
 
@@ -226,6 +571,8 @@
                 --border: rgba(170, 180, 202, 0.14);
                 --shadow: 0 24px 54px rgba(2, 6, 23, 0.48);
                 --shadow-hover: 0 30px 66px rgba(2, 6, 23, 0.58);
+                --modal-shadow: 0 30px 80px rgba(2, 6, 23, 0.6);
+                --overlay: rgba(2, 6, 23, 0.62);
             }
 
             body {
@@ -244,58 +591,430 @@
                 transition: none !important;
                 animation: none !important;
             }
+
+            .quick-actions-panel,
+            .quick-actions.is-open .quick-actions-panel {
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
     <main class="page">
-        <section class="testimonials-section container" id="testimonials" aria-labelledby="testimonials-title">
-            <div class="testimonials-shell">
-                <header class="section-header">
-                    <span class="eyebrow">Testimonials</span>
-                    <h1 id="testimonials-title">Trusted by teams that want elegant UI and dependable delivery.</h1>
+        <div class="container workspace-shell">
+            <section class="workspace-header" aria-label="Workspace header">
+                <div class="header-copy">
+                    <span class="eyebrow">Quick Actions</span>
+                    <h1>Command palette style shortcuts for a polished, keyboard-friendly workspace.</h1>
                     <p>
-                        Clean presentation, strong readability, and a responsive experience that still feels polished in dark mode.
-                        These testimonials highlight the kind of product experience the section is designed to support.
+                        Open a searchable quick actions panel to jump to Search, Dashboard, Docs, Settings,
+                        or create a new item without breaking the flow of the page.
                     </p>
-                </header>
-
-                <div class="testimonials-grid">
-                    <article class="testimonial-card">
-                        <div class="testimonial-header">
-                            <div class="testimonial-avatar" aria-hidden="true">AL</div>
-                            <div class="person-meta">
-                                <h2>Ava Lee</h2>
-                                <p>Product Designer</p>
-                            </div>
-                        </div>
-                        <p class="quote">The final result felt considered from top to bottom. The cards read clearly, scaled beautifully on mobile, and immediately looked like part of a mature product.</p>
-                    </article>
-
-                    <article class="testimonial-card">
-                        <div class="testimonial-header">
-                            <div class="testimonial-avatar" aria-hidden="true">MR</div>
-                            <div class="person-meta">
-                                <h2>Marcus Rivera</h2>
-                                <p>Engineering Lead</p>
-                            </div>
-                        </div>
-                        <p class="quote">We needed something fast without compromising quality. The section shipped clean, stayed responsive, and matched the rest of the interface without extra rework.</p>
-                    </article>
-
-                    <article class="testimonial-card">
-                        <div class="testimonial-header">
-                            <div class="testimonial-avatar" aria-hidden="true">SN</div>
-                            <div class="person-meta">
-                                <h2>Sophia Nguyen</h2>
-                                <p>Founder, Northstar Studio</p>
-                            </div>
-                        </div>
-                        <p class="quote">It gave us the modern, credible feel we wanted right away. Strong hierarchy, tasteful motion, and a dark-mode treatment that still feels refined instead of bolted on.</p>
-                    </article>
                 </div>
+                <button id="quick-actions-trigger" class="quick-actions-trigger" type="button" aria-haspopup="dialog" aria-controls="quick-actions-panel" aria-expanded="false">
+                    Open quick actions
+                    <span class="shortcut-pill">Ctrl/⌘ K</span>
+                </button>
+            </section>
+
+            <div class="workspace-grid">
+                <div class="workspace-main">
+                    <section class="workspace-panel" id="search-panel" aria-labelledby="search-title">
+                        <div class="section-header">
+                            <span class="eyebrow">Search</span>
+                            <h2 id="search-title">Find the right action faster</h2>
+                            <p>Use the command palette as the fastest path to page sections, primary tasks, and utility actions.</p>
+                        </div>
+                        <div class="search-card">
+                            <strong>Search tips</strong>
+                            <span>Try terms like dashboard, docs, settings, create, or search. The quick actions list filters live as you type.</span>
+                        </div>
+                    </section>
+
+                    <section class="workspace-panel" id="dashboard" aria-labelledby="dashboard-title">
+                        <div class="section-header">
+                            <span class="eyebrow">Dashboard</span>
+                            <h2 id="dashboard-title">A compact view of current product health</h2>
+                            <p>These cards act as the destination for the dashboard action and keep the page grounded in its original presentation style.</p>
+                        </div>
+                        <div class="stats-grid">
+                            <article class="stat-card">
+                                <strong>24</strong>
+                                <span>Design reviews shipped this quarter</span>
+                            </article>
+                            <article class="stat-card">
+                                <strong>98%</strong>
+                                <span>Responsive QA pass rate</span>
+                            </article>
+                            <article class="stat-card">
+                                <strong>4.9/5</strong>
+                                <span>Average stakeholder satisfaction</span>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="workspace-panel" id="testimonials" aria-labelledby="testimonials-title">
+                        <div class="section-header">
+                            <span class="eyebrow">Testimonials</span>
+                            <h2 id="testimonials-title">Trusted by teams that want elegant UI and dependable delivery.</h2>
+                            <p>
+                                Clean presentation, strong readability, and a responsive experience that still feels polished in dark mode.
+                                These testimonials show the same design language the quick actions panel now follows.
+                            </p>
+                        </div>
+
+                        <div class="testimonials-grid">
+                            <article class="testimonial-card" tabindex="0">
+                                <div class="testimonial-header">
+                                    <div class="testimonial-avatar" aria-hidden="true">AL</div>
+                                    <div class="person-meta">
+                                        <h3>Ava Lee</h3>
+                                        <p>Product Designer</p>
+                                    </div>
+                                </div>
+                                <p class="quote">The final result felt considered from top to bottom. The cards read clearly, scaled beautifully on mobile, and immediately looked like part of a mature product.</p>
+                            </article>
+
+                            <article class="testimonial-card" tabindex="0">
+                                <div class="testimonial-header">
+                                    <div class="testimonial-avatar" aria-hidden="true">MR</div>
+                                    <div class="person-meta">
+                                        <h3>Marcus Rivera</h3>
+                                        <p>Engineering Lead</p>
+                                    </div>
+                                </div>
+                                <p class="quote">We needed something fast without compromising quality. The section shipped clean, stayed responsive, and matched the rest of the interface without extra rework.</p>
+                            </article>
+
+                            <article class="testimonial-card" tabindex="0">
+                                <div class="testimonial-header">
+                                    <div class="testimonial-avatar" aria-hidden="true">SN</div>
+                                    <div class="person-meta">
+                                        <h3>Sophia Nguyen</h3>
+                                        <p>Founder, Northstar Studio</p>
+                                    </div>
+                                </div>
+                                <p class="quote">It gave us the modern, credible feel we wanted right away. Strong hierarchy, tasteful motion, and a dark-mode treatment that still feels refined instead of bolted on.</p>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="workspace-side">
+                    <section class="workspace-panel" id="docs" aria-labelledby="docs-title">
+                        <div class="panel-top">
+                            <span class="eyebrow">Docs</span>
+                            <h2 id="docs-title">Reference material</h2>
+                            <p class="panel-copy">Jump here from the palette to review guidance, patterns, and delivery notes.</p>
+                        </div>
+                        <ul class="doc-list">
+                            <li>
+                                <strong>Design system notes</strong>
+                                <span>Visual hierarchy, color tokens, and spacing patterns that keep the UI coherent.</span>
+                            </li>
+                            <li>
+                                <strong>Accessibility checklist</strong>
+                                <span>Keyboard navigation, focus visibility, and reduced-motion support remain first-class.</span>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="workspace-panel" id="settings" aria-labelledby="settings-title">
+                        <div class="panel-top">
+                            <span class="eyebrow">Settings</span>
+                            <h2 id="settings-title">Common workspace preferences</h2>
+                            <p class="panel-copy">Use this destination for palette-driven preference updates and a quick create action.</p>
+                        </div>
+                        <ul class="settings-list">
+                            <li>
+                                <strong>Keyboard-first mode</strong>
+                                <span>Open and navigate quick actions entirely without a pointer.</span>
+                            </li>
+                            <li>
+                                <strong>Theme-aware surfaces</strong>
+                                <span>All panels and the modal inherit the existing light and dark tokens.</span>
+                            </li>
+                        </ul>
+                        <button id="create-item-button" class="create-item-button" type="button">Create New Item</button>
+                        <div class="chip-row">
+                            <a class="chip-link" href="#search-panel">Search</a>
+                            <a class="chip-link" href="#dashboard">Dashboard</a>
+                            <a class="chip-link" href="#docs">Docs</a>
+                        </div>
+                    </section>
+                </aside>
             </div>
-        </section>
+        </div>
     </main>
+
+    <div class="quick-actions" id="quick-actions" hidden aria-hidden="true">
+        <div class="quick-actions-backdrop" data-close="backdrop"></div>
+        <section class="quick-actions-panel" id="quick-actions-panel" role="dialog" aria-modal="true" aria-labelledby="quick-actions-title">
+            <div class="quick-actions-head">
+                <div>
+                    <h2 id="quick-actions-title">Quick actions</h2>
+                    <p>Search and launch common actions without leaving the page.</p>
+                </div>
+                <button id="quick-actions-close" class="quick-actions-close" type="button" aria-label="Close quick actions">×</button>
+            </div>
+            <input id="quick-actions-search" class="quick-actions-search" type="text" autocomplete="off" placeholder="Search actions, docs, dashboard, settings..." aria-label="Search quick actions">
+            <div id="quick-actions-list" class="quick-actions-list" role="listbox" aria-label="Quick actions"></div>
+        </section>
+    </div>
+
+    <script>
+        const quickActions = document.getElementById('quick-actions');
+        const quickActionsTrigger = document.getElementById('quick-actions-trigger');
+        const quickActionsClose = document.getElementById('quick-actions-close');
+        const quickActionsSearch = document.getElementById('quick-actions-search');
+        const quickActionsList = document.getElementById('quick-actions-list');
+        const createItemButton = document.getElementById('create-item-button');
+
+        let activeActionIndex = 0;
+        let filteredActions = [];
+        let lastFocusedElement = null;
+        let closeTimer = null;
+        let newItemCount = 0;
+
+        const quickActionItems = [
+            {
+                id: 'search',
+                icon: '🔎',
+                label: 'Search',
+                description: 'Jump to the search guidance panel.',
+                keywords: ['find', 'lookup', 'search panel'],
+                run() {
+                    closeQuickActions();
+                    document.getElementById('search-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            },
+            {
+                id: 'dashboard',
+                icon: '📊',
+                label: 'Open Dashboard',
+                description: 'Scroll to the dashboard summary cards.',
+                keywords: ['overview', 'metrics', 'stats'],
+                run() {
+                    closeQuickActions();
+                    document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            },
+            {
+                id: 'docs',
+                icon: '📘',
+                label: 'View Docs',
+                description: 'Open the docs and guidance section.',
+                keywords: ['documentation', 'reference', 'guide'],
+                run() {
+                    closeQuickActions();
+                    document.getElementById('docs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            },
+            {
+                id: 'settings',
+                icon: '⚙️',
+                label: 'Go to Settings',
+                description: 'Jump to the workspace settings panel.',
+                keywords: ['preferences', 'config', 'options'],
+                run() {
+                    closeQuickActions();
+                    document.getElementById('settings').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            },
+            {
+                id: 'create',
+                icon: '➕',
+                label: 'Create New Item',
+                description: 'Create a new placeholder item in the dashboard area.',
+                keywords: ['new', 'add', 'create'],
+                run() {
+                    createNewItem();
+                    closeQuickActions();
+                    createItemButton.focus();
+                }
+            }
+        ];
+
+        function setQuickActionsVisibility(isOpen) {
+            if (closeTimer) {
+                window.clearTimeout(closeTimer);
+                closeTimer = null;
+            }
+
+            quickActions.hidden = !isOpen;
+            quickActions.setAttribute('aria-hidden', String(!isOpen));
+            quickActionsTrigger.setAttribute('aria-expanded', String(isOpen));
+            document.body.classList.toggle('palette-open', isOpen);
+        }
+
+        function openQuickActions() {
+            if (quickActions.classList.contains('is-open')) {
+                return;
+            }
+
+            lastFocusedElement = document.activeElement;
+            setQuickActionsVisibility(true);
+            quickActions.classList.add('is-open');
+            updateQuickActions(quickActionsSearch.value || '');
+
+            requestAnimationFrame(() => {
+                quickActionsSearch.focus();
+                quickActionsSearch.select();
+            });
+        }
+
+        function closeQuickActions() {
+            if (!quickActions.classList.contains('is-open')) {
+                return;
+            }
+
+            quickActions.classList.remove('is-open');
+            document.body.classList.remove('palette-open');
+
+            closeTimer = window.setTimeout(() => {
+                if (!quickActions.classList.contains('is-open')) {
+                    setQuickActionsVisibility(false);
+                }
+            }, 180);
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            } else {
+                quickActionsTrigger.focus();
+            }
+        }
+
+        function createNewItem() {
+            newItemCount += 1;
+            const statsGrid = document.querySelector('.stats-grid');
+            const item = document.createElement('article');
+            item.className = 'stat-card';
+            item.innerHTML = `
+                <strong>New ${newItemCount}</strong>
+                <span>Placeholder item created from the quick actions panel.</span>
+            `;
+            statsGrid.prepend(item);
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function matchesAction(action, query) {
+            const haystack = [action.label, action.description, action.keywords.join(' ')].join(' ').toLowerCase();
+            return haystack.includes(query);
+        }
+
+        function renderQuickActions() {
+            quickActionsList.innerHTML = '';
+
+            if (!filteredActions.length) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.textContent = 'No quick actions match that search yet.';
+                quickActionsList.appendChild(emptyState);
+                return;
+            }
+
+            filteredActions.forEach((action, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `quick-action-item${index === activeActionIndex ? ' is-active' : ''}`;
+                button.setAttribute('role', 'option');
+                button.setAttribute('aria-selected', String(index === activeActionIndex));
+                button.innerHTML = `
+                    <span class="quick-action-icon" aria-hidden="true">${action.icon}</span>
+                    <span class="quick-action-meta">
+                        <strong>${action.label}</strong>
+                        <span>${action.description}</span>
+                    </span>
+                    <span class="quick-action-shortcut">Enter</span>
+                `;
+                button.addEventListener('click', () => action.run());
+                button.addEventListener('mousemove', () => {
+                    if (activeActionIndex !== index) {
+                        activeActionIndex = index;
+                        renderQuickActions();
+                    }
+                });
+                quickActionsList.appendChild(button);
+            });
+        }
+
+        function updateQuickActions(query) {
+            const normalizedQuery = query.trim().toLowerCase();
+            filteredActions = normalizedQuery
+                ? quickActionItems.filter((action) => matchesAction(action, normalizedQuery))
+                : [...quickActionItems];
+            activeActionIndex = 0;
+            renderQuickActions();
+        }
+
+        function moveActiveAction(step) {
+            if (!filteredActions.length) {
+                return;
+            }
+
+            activeActionIndex = (activeActionIndex + step + filteredActions.length) % filteredActions.length;
+            renderQuickActions();
+        }
+
+        function runActiveAction() {
+            if (!filteredActions.length) {
+                return;
+            }
+
+            filteredActions[activeActionIndex].run();
+        }
+
+        quickActionsTrigger.addEventListener('click', openQuickActions);
+        quickActionsClose.addEventListener('click', closeQuickActions);
+        createItemButton.addEventListener('click', createNewItem);
+
+        quickActions.addEventListener('click', (event) => {
+            if (event.target.dataset.close === 'backdrop') {
+                closeQuickActions();
+            }
+        });
+
+        quickActionsSearch.addEventListener('input', (event) => {
+            updateQuickActions(event.target.value);
+        });
+
+        quickActionsSearch.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                moveActiveAction(1);
+            }
+
+            if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                moveActiveAction(-1);
+            }
+
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                runActiveAction();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            const isShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k';
+
+            if (isShortcut) {
+                event.preventDefault();
+                if (quickActions.classList.contains('is-open')) {
+                    closeQuickActions();
+                } else {
+                    openQuickActions();
+                }
+            }
+
+            if (event.key === 'Escape' && quickActions.classList.contains('is-open')) {
+                event.preventDefault();
+                closeQuickActions();
+            }
+        });
+
+        setQuickActionsVisibility(false);
+        updateQuickActions('');
+    </script>
 </body>
 </html>
