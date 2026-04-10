@@ -3,9 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Testimonials</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            --page-bg: #f4f7fb;
+            --section-bg: rgba(255, 255, 255, 0.78);
+            --card-bg: #ffffff;
+            --text-primary: #172033;
+            --text-secondary: #5b6478;
+            --accent: #516dff;
+            --accent-soft: rgba(81, 109, 255, 0.12);
+            --border: rgba(23, 32, 51, 0.1);
+            --shadow: 0 20px 48px rgba(23, 32, 51, 0.08);
+            --shadow-hover: 0 24px 56px rgba(23, 32, 51, 0.14);
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --container-width: 1120px;
+            --transition: 180ms ease;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text-primary);
+            background:
+                radial-gradient(circle at top, rgba(81, 109, 255, 0.18), transparent 32%),
+                var(--page-bg);
+        }
+
+        .page {
+            padding: 72px 24px;
+        }
+
+        .container {
+            width: min(100%, var(--container-width));
+            margin: 0 auto;
+        }
+
+        .testimonials-section {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--section-bg);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .testimonials-shell {
+            padding: 56px;
+        }
+
+        .section-header {
+            max-width: 680px;
+            margin-bottom: 40px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .section-header h1 {
+            margin: 0 0 14px;
+            font-size: clamp(2rem, 3vw, 3.1rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+        }
+
+        .section-header p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1.04rem;
+            line-height: 1.7;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            height: 100%;
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            box-shadow: 0 14px 30px rgba(23, 32, 51, 0.05);
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        }
+
+        .testimonial-card:hover,
+        .testimonial-card:focus-within {
+            transform: translateY(-4px);
+            border-color: rgba(81, 109, 255, 0.28);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(81, 109, 255, 0.2);
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(81, 109, 255, 0.16), rgba(102, 204, 193, 0.24));
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            overflow: hidden;
+        }
+
+        .person-meta h2 {
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.35;
+        }
+
+        .person-meta p {
+            margin: 4px 0 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+
+        .quote {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .quote::before {
+            content: "“";
+            color: var(--accent);
+            font-size: 1.45em;
+            line-height: 0;
+            vertical-align: -0.22em;
+            margin-right: 2px;
+        }
+
+        .quote::after {
+            content: "”";
+            color: var(--accent);
+            font-size: 1.45em;
+            line-height: 0;
+            vertical-align: -0.22em;
+            margin-left: 2px;
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                padding: 56px 20px;
+            }
+
+            .testimonials-shell {
+                padding: 40px 28px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                padding: 32px 16px;
+            }
+
+            .testimonials-shell {
+                padding: 28px 20px;
+            }
+
+            .testimonials-section {
+                border-radius: 22px;
+            }
+
+            .testimonial-card {
+                padding: 22px;
+            }
+
+            .section-header {
+                margin-bottom: 28px;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --page-bg: #0a1020;
+                --section-bg: rgba(15, 23, 42, 0.78);
+                --card-bg: rgba(15, 23, 42, 0.96);
+                --text-primary: #ecf2ff;
+                --text-secondary: #aab4ca;
+                --accent: #8da2ff;
+                --accent-soft: rgba(141, 162, 255, 0.14);
+                --border: rgba(170, 180, 202, 0.14);
+                --shadow: 0 24px 54px rgba(2, 6, 23, 0.48);
+                --shadow-hover: 0 30px 66px rgba(2, 6, 23, 0.58);
+            }
+
+            body {
+                background:
+                    radial-gradient(circle at top, rgba(81, 109, 255, 0.22), transparent 30%),
+                    var(--page-bg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>fsdxnunxn</p>
+    <main class="page">
+        <section class="testimonials-section container" id="testimonials" aria-labelledby="testimonials-title">
+            <div class="testimonials-shell">
+                <header class="section-header">
+                    <span class="eyebrow">Testimonials</span>
+                    <h1 id="testimonials-title">Trusted by teams that want elegant UI and dependable delivery.</h1>
+                    <p>
+                        Clean presentation, strong readability, and a responsive experience that still feels polished in dark mode.
+                        These testimonials highlight the kind of product experience the section is designed to support.
+                    </p>
+                </header>
+
+                <div class="testimonials-grid">
+                    <article class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar" aria-hidden="true">AL</div>
+                            <div class="person-meta">
+                                <h2>Ava Lee</h2>
+                                <p>Product Designer</p>
+                            </div>
+                        </div>
+                        <p class="quote">The final result felt considered from top to bottom. The cards read clearly, scaled beautifully on mobile, and immediately looked like part of a mature product.</p>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar" aria-hidden="true">MR</div>
+                            <div class="person-meta">
+                                <h2>Marcus Rivera</h2>
+                                <p>Engineering Lead</p>
+                            </div>
+                        </div>
+                        <p class="quote">We needed something fast without compromising quality. The section shipped clean, stayed responsive, and matched the rest of the interface without extra rework.</p>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar" aria-hidden="true">SN</div>
+                            <div class="person-meta">
+                                <h2>Sophia Nguyen</h2>
+                                <p>Founder, Northstar Studio</p>
+                            </div>
+                        </div>
+                        <p class="quote">It gave us the modern, credible feel we wanted right away. Strong hierarchy, tasteful motion, and a dark-mode treatment that still feels refined instead of bolted on.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
