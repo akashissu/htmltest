@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Responsive FAQ Accordion</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --page-bg: radial-gradient(circle at top, #1e293b, #020617 72%);
+      --surface: rgba(15, 23, 42, 0.8);
+      --surface-hover: rgba(30, 41, 59, 0.96);
+      --surface-strong: rgba(15, 23, 42, 0.95);
+      --border: rgba(148, 163, 184, 0.24);
+      --border-strong: rgba(96, 165, 250, 0.52);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #60a5fa;
+      --accent-soft: rgba(96, 165, 250, 0.14);
+      --shadow: 0 26px 80px rgba(2, 6, 23, 0.42);
+      --ring: 0 0 0 4px rgba(96, 165, 250, 0.2);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --transition: 180ms ease;
+      --max-width: 960px;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        color-scheme: light;
+        --page-bg: linear-gradient(180deg, #f8fbff 0%, #e2e8f0 100%);
+        --surface: rgba(255, 255, 255, 0.92);
+        --surface-hover: rgba(248, 250, 252, 0.98);
+        --surface-strong: rgba(255, 255, 255, 0.99);
+        --border: rgba(148, 163, 184, 0.38);
+        --border-strong: rgba(37, 99, 235, 0.46);
+        --text: #0f172a;
+        --muted: #475569;
+        --accent: #2563eb;
+        --accent-soft: rgba(37, 99, 235, 0.08);
+        --shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+        --ring: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--page-bg);
+      line-height: 1.6;
+    }
+
+    .page {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+      padding: clamp(2.5rem, 6vw, 5rem) 0;
+    }
+
+    .faq-shell {
+      padding: clamp(1.25rem, 3vw, 2.25rem);
+      border-radius: var(--radius-xl);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 1rem 0 0.75rem;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .intro {
+      margin: 0 0 1.75rem;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.2vw, 1.1rem);
+    }
+
+    .faq-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: clip;
+      background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+      transition: border-color var(--transition), background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+      transform: translateY(-1px);
+    }
+
+    .faq-item[open] {
+      border-color: var(--border-strong);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .faq-item__summary {
+      list-style: none;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      padding: 1.15rem 1.2rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+    }
+
+    .faq-item__summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item__summary:focus-visible {
+      box-shadow: var(--ring);
+      border-radius: calc(var(--radius-lg) - 4px);
+    }
+
+    .faq-item__question {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .faq-item__icon {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 1.2rem;
+      line-height: 1;
+      transition: transform var(--transition), background-color var(--transition);
+    }
+
+    .faq-item[open] .faq-item__icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-item__answer {
+      padding: 0 1.2rem 1.2rem;
+      color: var(--muted);
+    }
+
+    .faq-item__answer p {
+      margin: 0;
+      max-width: 68ch;
+    }
+
+    code {
+      padding: 0.1rem 0.35rem;
+      border-radius: 8px;
+      background: rgba(148, 163, 184, 0.16);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 1rem), var(--max-width));
+        padding: 1rem 0 2rem;
+      }
+
+      .faq-shell {
+        padding: 1rem;
+        border-radius: 22px;
+      }
+
+      .faq-item__summary,
+      .faq-item__answer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="faq-shell" aria-labelledby="faq-heading">
+      <div class="eyebrow">Support center</div>
+      <h1 id="faq-heading">Frequently asked questions</h1>
+      <p class="intro">
+        A responsive FAQ section with polished hover and focus states, accessible semantics, and a layout that stays easy to scan on both desktop and mobile screens.
+      </p>
+
+      <div class="faq-grid">
+        <details class="faq-item" open>
+          <summary class="faq-item__summary">
+            <span class="faq-item__question">How does this accordion open and close without JavaScript?</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-item__answer">
+            <p>
+              Each item uses the native <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements, which provide built-in disclosure behavior and keyboard support while keeping the implementation HTML-and-CSS only.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__summary">
+            <span class="faq-item__question">Is the layout responsive for phones, tablets, and desktops?</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-item__answer">
+            <p>
+              Yes. The section uses flexible widths, fluid spacing, and scalable type so the content remains readable on narrow mobile screens and balanced on larger displays.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__summary">
+            <span class="faq-item__question">What accessibility details are included?</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-item__answer">
+            <p>
+              The component uses semantic disclosure elements, preserves visible <code>:focus-visible</code> styling for keyboard users, maintains good contrast, and respects reduced-motion preferences.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__summary">
+            <span class="faq-item__question">Does the page support dark mode?</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-item__answer">
+            <p>
+              Yes. It defaults to a dark visual style that matches the project’s existing static demos and automatically switches to a light theme when the system preference requests it.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-item__summary">
+            <span class="faq-item__question">Can this section be reused in a larger landing page later?</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-item__answer">
+            <p>
+              Definitely. The markup is self-contained, so it can be dropped into a broader page or adapted into a shared component library later without pulling in any JavaScript dependency.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
