@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help Center Panel</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-start: #1e293b;
+      --bg-end: #020617;
+      --surface: rgba(255, 255, 255, 0.08);
+      --surface-strong: rgba(15, 23, 42, 0.94);
+      --surface-soft: rgba(255, 255, 255, 0.05);
+      --surface-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-soft: #94a3b8;
+      --text-faint: #64748b;
+      --primary: rgba(59, 130, 246, 0.28);
+      --primary-hover: rgba(59, 130, 246, 0.42);
+      --accent: #60a5fa;
+      --shadow-lg: 0 28px 90px rgba(0, 0, 0, 0.45);
+      --shadow-md: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --transition: 220ms ease;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      font-family: Inter, Arial, sans-serif;
+      background: radial-gradient(circle at top, var(--bg-start), var(--bg-end) 70%);
+      color: var(--text-main);
+    }
+    body.help-open { overflow: hidden; }
+
+    .demo-card {
+      width: min(92vw, 660px);
+      padding: 1.75rem;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-lg);
+    }
+    .eyebrow {
+      margin: 0 0 0.5rem;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.85rem;
+    }
+    h1 { margin: 0; font-size: clamp(1.9rem, 4vw, 2.6rem); }
+    .lead {
+      margin: 0.85rem 0 1.25rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    button,
+    input {
+      font: inherit;
+    }
+    button {
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 0.95rem 1.15rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 24px rgba(0,0,0,0.18);
+      transition: transform var(--transition), background var(--transition);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.16);
+    }
+    button:focus-visible,
+    input:focus-visible,
+    .help-center__item:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 3px;
+    }
+    .button-primary { background: var(--primary); }
+    .button-primary:hover { background: var(--primary-hover); }
+
+    .status {
+      margin-top: 1.25rem;
+      padding: 1rem 1.15rem;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      min-height: 76px;
+      line-height: 1.5;
+    }
+
+    .help-center {
+      position: fixed;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity var(--transition), visibility var(--transition);
+      z-index: 20;
+    }
+    .help-center.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .help-center__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(6px);
+    }
+    .help-center__panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: min(92vw, 440px);
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 1rem;
+      background: var(--surface-strong);
+      border-left: 1px solid var(--surface-border);
+      box-shadow: var(--shadow-md);
+      transform: translateX(100%);
+      transition: transform var(--transition);
+      padding: 1.1rem;
+    }
+    .help-center.is-open .help-center__panel { transform: translateX(0); }
+    .help-center__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 0.15rem;
+    }
+    .help-center__title { margin: 0; font-size: 1.25rem; }
+    .help-center__subtitle {
+      margin: 0.35rem 0 0;
+      color: var(--text-soft);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+    .help-center__close {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      border-radius: 14px;
+      line-height: 1;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+    .help-center__search {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+    }
+    .help-center__search::placeholder {
+      color: var(--text-faint);
+    }
+    .help-center__content {
+      overflow: auto;
+      display: grid;
+      gap: 1rem;
+      padding-right: 0.2rem;
+      align-content: start;
+    }
+    .help-center__section {
+      display: grid;
+      gap: 0.7rem;
+    }
+    .help-center__section-title {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .help-center__item {
+      width: 100%;
+      text-align: left;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: none;
+      display: grid;
+      gap: 0.35rem;
+    }
+    .help-center__item:hover {
+      transform: none;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .help-center__item-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+    .help-center__tag {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .help-center__item-desc {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.45;
+      font-size: 0.9rem;
+    }
+    .help-center__empty {
+      display: none;
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px dashed rgba(255, 255, 255, 0.14);
+      color: var(--text-soft);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .help-center__empty.is-visible {
+      display: block;
+    }
+    @media (max-width: 560px) {
+      body { padding: 1rem; }
+      .demo-card { padding: 1.15rem; }
+      .help-center__panel { width: 100%; }
+      .help-center__item-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="demo-card">
+    <p class="eyebrow">Support</p>
+    <h1>Help center panel</h1>
+    <p class="lead">A searchable help center panel for FAQs, support links, guides, and contact options in one focused place.</p>
+    <div class="toolbar">
+      <button class="button-primary" type="button" data-help-open>Open help center</button>
+    </div>
+    <div class="status" id="status-output">Choose a help topic to preview its selection here.</div>
+  </main>
+
+  <section class="help-center" id="help-center" aria-hidden="true">
+    <div class="help-center__backdrop" data-help-close aria-hidden="true"></div>
+    <aside class="help-center__panel" role="dialog" aria-modal="true" aria-labelledby="help-center-title">
+      <div class="help-center__header">
+        <div>
+          <h2 class="help-center__title" id="help-center-title">Help center</h2>
+          <p class="help-center__subtitle">Search FAQs, guides, support links, and ways to get in touch.</p>
+        </div>
+        <button class="help-center__close" type="button" aria-label="Close help center" data-help-close>&times;</button>
+      </div>
+
+      <input class="help-center__search" type="search" placeholder="Search help topics" aria-label="Search help topics" data-help-search />
+
+      <div class="help-center__content" id="help-content">
+        <section class="help-center__section" data-help-section>
+          <h3 class="help-center__section-title">FAQs</h3>
+          <button class="help-center__item" type="button" data-help-item data-search-text="reset password account sign in credentials" data-help-title="How to reset your password">
+            <span class="help-center__item-title">How to reset your password <span class="help-center__tag">FAQ</span></span>
+            <p class="help-center__item-desc">Find the password reset flow and troubleshoot common sign-in problems.</p>
+          </button>
+          <button class="help-center__item" type="button" data-help-item data-search-text="notifications alerts email push preferences" data-help-title="Manage alert preferences">
+            <span class="help-center__item-title">Manage alert preferences <span class="help-center__tag">FAQ</span></span>
+            <p class="help-center__item-desc">Learn how notification, email summary, and reminder settings behave.</p>
+          </button>
+        </section>
+
+        <section class="help-center__section" data-help-section>
+          <h3 class="help-center__section-title">Guides</h3>
+          <button class="help-center__item" type="button" data-help-item data-search-text="getting started onboarding workspace guide setup" data-help-title="Getting started guide">
+            <span class="help-center__item-title">Getting started guide <span class="help-center__tag">Guide</span></span>
+            <p class="help-center__item-desc">Walk through the first-run setup, workspace basics, and recommended habits.</p>
+          </button>
+          <button class="help-center__item" type="button" data-help-item data-search-text="keyboard shortcuts commands efficiency guide" data-help-title="Keyboard shortcuts">
+            <span class="help-center__item-title">Keyboard shortcuts <span class="help-center__tag">Guide</span></span>
+            <p class="help-center__item-desc">Review shortcuts and quick actions for faster navigation and support tasks.</p>
+          </button>
+        </section>
+
+        <section class="help-center__section" data-help-section>
+          <h3 class="help-center__section-title">Support links</h3>
+          <button class="help-center__item" type="button" data-help-item data-search-text="docs documentation api reference" data-help-title="Documentation hub">
+            <span class="help-center__item-title">Documentation hub <span class="help-center__tag">Docs</span></span>
+            <p class="help-center__item-desc">Browse the main documentation, API notes, and feature references.</p>
+          </button>
+          <button class="help-center__item" type="button" data-help-item data-search-text="status uptime incidents system health" data-help-title="System status page">
+            <span class="help-center__item-title">System status page <span class="help-center__tag">Status</span></span>
+            <p class="help-center__item-desc">Check uptime, maintenance windows, and incident history.</p>
+          </button>
+        </section>
+
+        <section class="help-center__section" data-help-section>
+          <h3 class="help-center__section-title">Contact</h3>
+          <button class="help-center__item" type="button" data-help-item data-search-text="email support contact team" data-help-title="Email support">
+            <span class="help-center__item-title">Email support <span class="help-center__tag">Contact</span></span>
+            <p class="help-center__item-desc">Reach the support team for longer-form questions and account help.</p>
+          </button>
+          <button class="help-center__item" type="button" data-help-item data-search-text="community forum discord chat help" data-help-title="Community forum">
+            <span class="help-center__item-title">Community forum <span class="help-center__tag">Contact</span></span>
+            <p class="help-center__item-desc">Ask the community, share tips, and find common workaround discussions.</p>
+          </button>
+        </section>
+
+        <div class="help-center__empty" id="help-empty">No help topics match your search yet. Try a broader keyword like “support”, “guide”, or “password”.</div>
+      </div>
+    </aside>
+  </section>
+
+  <script>
+    const panel = document.getElementById('help-center');
+    const openButton = document.querySelector('[data-help-open]');
+    const closeButtons = document.querySelectorAll('[data-help-close]');
+    const searchInput = document.querySelector('[data-help-search]');
+    const statusOutput = document.getElementById('status-output');
+    const helpItems = Array.from(document.querySelectorAll('[data-help-item]'));
+    const helpSections = Array.from(document.querySelectorAll('[data-help-section]'));
+    const emptyState = document.getElementById('help-empty');
+    let lastTrigger = null;
+
+    function setPanelState(isOpen) {
+      panel.classList.toggle('is-open', isOpen);
+      panel.setAttribute('aria-hidden', String(!isOpen));
+      document.body.classList.toggle('help-open', isOpen);
+    }
+
+    function openPanel(trigger) {
+      lastTrigger = trigger || null;
+      setPanelState(true);
+      searchInput.focus();
+    }
+
+    function closePanel() {
+      setPanelState(false);
+      if (lastTrigger) {
+        lastTrigger.focus();
+        lastTrigger = null;
+      }
+    }
+
+    function updateEmptyState() {
+      const visibleItems = helpItems.filter((item) => !item.hidden).length;
+      emptyState.classList.toggle('is-visible', visibleItems === 0);
+    }
+
+    function updateSectionVisibility() {
+      helpSections.forEach((section) => {
+        const visibleItems = section.querySelectorAll('[data-help-item]:not([hidden])').length;
+        section.hidden = visibleItems === 0;
+      });
+      updateEmptyState();
+    }
+
+    function filterHelpItems(query) {
+      const normalizedQuery = query.trim().toLowerCase();
+      helpItems.forEach((item) => {
+        const haystack = item.dataset.searchText.toLowerCase();
+        item.hidden = normalizedQuery ? !haystack.includes(normalizedQuery) : false;
+      });
+      updateSectionVisibility();
+    }
+
+    helpItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        statusOutput.textContent = `Selected help topic: ${item.dataset.helpTitle}`;
+      });
+    });
+
+    searchInput.addEventListener('input', (event) => {
+      filterHelpItems(event.target.value);
+    });
+
+    openButton.addEventListener('click', () => openPanel(openButton));
+    closeButtons.forEach((button) => button.addEventListener('click', closePanel));
+    document.addEventListener('keydown', (event) => {
+      if (!panel.classList.contains('is-open')) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closePanel();
+      }
+    });
+
+    updateSectionVisibility();
+  </script>
+</body>
+</html>
