@@ -1,5 +1,12 @@
 # zero-human-sandbox-two
 
+## Frontend demos
+
+This repository also includes standalone frontend UI examples:
+- `feature-cards.html`
+
+Open the file directly in a browser to preview the responsive feature cards section.
+
 ## Backend routes
 
 This repository now includes a minimal Node.js backend server with health-check and ping endpoints.

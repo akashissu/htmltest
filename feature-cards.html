@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Feature Cards</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-start: #1e293b;
+      --bg-end: #020617;
+      --surface: rgba(255, 255, 255, 0.08);
+      --surface-soft: rgba(255, 255, 255, 0.05);
+      --surface-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-soft: #94a3b8;
+      --accent: #60a5fa;
+      --shadow-lg: 0 28px 90px rgba(0, 0, 0, 0.45);
+      --shadow-md: 0 20px 50px rgba(0, 0, 0, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --transition: 220ms ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 1.5rem;
+      display: grid;
+      place-items: center;
+      font-family: Inter, Arial, sans-serif;
+      background: radial-gradient(circle at top, var(--bg-start), var(--bg-end) 72%);
+      color: var(--text-main);
+    }
+
+    .feature-section {
+      width: min(1100px, 100%);
+      padding: 2rem;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-section__intro {
+      max-width: 720px;
+      margin-bottom: 1.75rem;
+    }
+
+    .feature-section__eyebrow {
+      margin: 0 0 0.55rem;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.85rem;
+    }
+
+    .feature-section__title {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .feature-section__description {
+      margin: 0.9rem 0 0;
+      color: var(--text-muted);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+
+    .feature-section__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .feature-card {
+      padding: 1.25rem;
+      border-radius: var(--radius-lg);
+      background: var(--surface-soft);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 14px 32px rgba(2, 6, 23, 0.18);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(96, 165, 250, 0.35);
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .feature-card__icon {
+      width: 3rem;
+      height: 3rem;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(96, 165, 250, 0.14);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card__title {
+      margin: 0;
+      font-size: 1.08rem;
+    }
+
+    .feature-card__description {
+      margin: 0.7rem 0 0;
+      color: var(--text-soft);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+
+      .feature-section {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="feature-section">
+    <div class="feature-section__intro">
+      <p class="feature-section__eyebrow">Product highlights</p>
+      <h1 class="feature-section__title">Feature cards built for responsive product and developer surfaces</h1>
+      <p class="feature-section__description">
+        A polished HTML and CSS-only feature section with responsive cards, lightweight icon treatments, and hover states
+        that feel at home in the existing dark glassmorphism design system.
+      </p>
+    </div>
+
+    <div class="feature-section__grid">
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">⚡</div>
+        <h2 class="feature-card__title">Fast setup</h2>
+        <p class="feature-card__description">Launch new workflows quickly with a lightweight structure that keeps onboarding friction low.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">🧩</div>
+        <h2 class="feature-card__title">Reusable components</h2>
+        <p class="feature-card__description">Compose product sections from clean UI patterns that can be reused across demos and landing pages.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">📊</div>
+        <h2 class="feature-card__title">Usage insights</h2>
+        <p class="feature-card__description">Highlight reporting, visibility, and activity tracking in a compact card that stays readable at every breakpoint.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">🔒</div>
+        <h2 class="feature-card__title">Secure access</h2>
+        <p class="feature-card__description">Communicate trust with clear security-focused messaging supported by a strong, high-contrast visual treatment.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">🤝</div>
+        <h2 class="feature-card__title">Team collaboration</h2>
+        <p class="feature-card__description">Show how teams coordinate work, share updates, and stay aligned without leaving the current experience.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">🛠️</div>
+        <h2 class="feature-card__title">Developer friendly</h2>
+        <p class="feature-card__description">Surface technical strengths with concise copy, responsive layout behavior, and a crisp CSS-only presentation.</p>
+      </article>
+    </div>
+  </section>
+</body>
+</html>
