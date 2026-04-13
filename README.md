@@ -1,5 +1,14 @@
 # zero-human-sandbox-two
 
+## Frontend demos
+
+This repository includes standalone frontend UI examples:
+- `calculator.html`
+- `weather-widget.html`
+- `modal-component.html`
+
+Open any of these files directly in a browser to preview the component.
+
 ## Backend routes
 
 This repository now includes a minimal Node.js backend server with health-check and ping endpoints.
