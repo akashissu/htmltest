@@ -155,7 +155,9 @@
         .create-item-button:hover,
         .create-item-button:focus-visible,
         .testimonial-card:hover,
-        .testimonial-card:focus-within {
+        .testimonial-card:focus-within,
+        .blog-card:hover,
+        .blog-card:focus-within {
             transform: translateY(-4px);
             border-color: rgba(81, 109, 255, 0.28);
             box-shadow: var(--shadow-hover);
@@ -167,7 +169,8 @@
         .quick-actions-close:focus-visible,
         .create-item-button:focus-visible,
         .quick-actions-search:focus-visible,
-        .testimonial-card:focus-visible {
+        .testimonial-card:focus-visible,
+        .blog-card__link:focus-visible {
             outline: 2px solid rgba(81, 109, 255, 0.45);
             outline-offset: 3px;
         }
@@ -227,7 +230,8 @@
         }
 
         .stats-grid,
-        .testimonials-grid {
+        .testimonials-grid,
+        .blog-grid {
             display: grid;
             gap: 20px;
         }
@@ -238,6 +242,7 @@
 
         .stat-card,
         .testimonial-card,
+        .blog-card,
         .doc-list li,
         .settings-list li,
         .search-card {
@@ -262,17 +267,25 @@
             color: var(--text-secondary);
         }
 
-        .testimonials-grid {
+        .testimonials-grid,
+        .blog-grid {
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         }
 
-        .testimonial-card {
+        .testimonial-card,
+        .blog-card {
             display: flex;
             flex-direction: column;
             gap: 22px;
             height: 100%;
             padding: 28px;
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        }
+
+        .blog-card {
+            gap: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
         .testimonial-header {
@@ -308,6 +321,59 @@
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.45;
+        }
+
+        .blog-card__image {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: linear-gradient(135deg, rgba(81, 109, 255, 0.18), rgba(102, 204, 193, 0.22));
+        }
+
+        .blog-card__body {
+            display: grid;
+            gap: 14px;
+            padding: 24px;
+        }
+
+        .blog-card__meta {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .blog-card__body h3 {
+            margin: 0;
+            font-size: 1.18rem;
+            line-height: 1.35;
+        }
+
+        .blog-card__summary {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .blog-card__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .blog-card__link::after {
+            content: "→";
+            transition: transform var(--transition);
+        }
+
+        .blog-card:hover .blog-card__link::after,
+        .blog-card:focus-within .blog-card__link::after {
+            transform: translateX(4px);
         }
 
         .quote {
@@ -557,6 +623,10 @@
             .settings-list li {
                 padding: 20px;
             }
+
+            .blog-card__body {
+                padding: 20px;
+            }
         }
 
         @media (prefers-color-scheme: dark) {
@@ -695,6 +765,49 @@
                                     </div>
                                 </div>
                                 <p class="quote">It gave us the modern, credible feel we wanted right away. Strong hierarchy, tasteful motion, and a dark-mode treatment that still feels refined instead of bolted on.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="workspace-panel" id="blog" aria-labelledby="blog-title">
+                        <div class="section-header">
+                            <span class="eyebrow">Blog</span>
+                            <h2 id="blog-title">Insights, product notes, and interface thinking.</h2>
+                            <p>
+                                A compact editorial section helps highlight product stories, usability lessons, and practical guidance
+                                while keeping the layout polished across desktop and mobile screens.
+                            </p>
+                        </div>
+
+                        <div class="blog-grid">
+                            <article class="blog-card">
+                                <img class="blog-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23516dff'/%3E%3Cstop offset='100%25' stop-color='%2366ccc1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='450' fill='url(%23g1)'/%3E%3Crect x='84' y='92' width='632' height='266' rx='22' fill='white' fill-opacity='0.14'/%3E%3Crect x='132' y='140' width='224' height='24' rx='12' fill='white' fill-opacity='0.88'/%3E%3Crect x='132' y='184' width='360' height='18' rx='9' fill='white' fill-opacity='0.55'/%3E%3Crect x='132' y='216' width='316' height='18' rx='9' fill='white' fill-opacity='0.38'/%3E%3Crect x='132' y='274' width='128' height='36' rx='18' fill='white' fill-opacity='0.9'/%3E%3C/svg%3E" alt="Abstract illustration of a command palette interface" />
+                                <div class="blog-card__body">
+                                    <p class="blog-card__meta">By Ava Lee · April 12, 2026</p>
+                                    <h3>Designing command palettes for focused workflows</h3>
+                                    <p class="blog-card__summary">A look at how lightweight search, strong hierarchy, and keyboard-first interaction patterns can reduce friction in modern product interfaces.</p>
+                                    <a class="blog-card__link" href="#docs">Read more</a>
+                                </div>
+                            </article>
+
+                            <article class="blog-card">
+                                <img class="blog-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='450' fill='url(%23g2)'/%3E%3Crect x='110' y='86' width='580' height='278' rx='26' fill='white' fill-opacity='0.14'/%3E%3Crect x='154' y='128' width='160' height='160' rx='24' fill='white' fill-opacity='0.78'/%3E%3Crect x='342' y='138' width='210' height='22' rx='11' fill='white' fill-opacity='0.88'/%3E%3Crect x='342' y='182' width='268' height='18' rx='9' fill='white' fill-opacity='0.52'/%3E%3Crect x='342' y='214' width='226' height='18' rx='9' fill='white' fill-opacity='0.36'/%3E%3Crect x='342' y='276' width='116' height='34' rx='17' fill='white' fill-opacity='0.88'/%3E%3C/svg%3E" alt="Abstract card layout representing a responsive design system" />
+                                <div class="blog-card__body">
+                                    <p class="blog-card__meta">By Marcus Rivera · April 8, 2026</p>
+                                    <h3>Building responsive UI systems that scale cleanly</h3>
+                                    <p class="blog-card__summary">Thoughtful spacing, reusable tokens, and adaptable grid rules make it easier to ship interfaces that feel coherent from mobile to desktop.</p>
+                                    <a class="blog-card__link" href="#dashboard">Read more</a>
+                                </div>
+                            </article>
+
+                            <article class="blog-card">
+                                <img class="blog-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f97316'/%3E%3Cstop offset='100%25' stop-color='%23facc15'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='450' fill='url(%23g3)'/%3E%3Ccircle cx='204' cy='170' r='72' fill='white' fill-opacity='0.2'/%3E%3Ccircle cx='588' cy='278' r='102' fill='white' fill-opacity='0.12'/%3E%3Crect x='152' y='118' width='496' height='212' rx='24' fill='white' fill-opacity='0.16'/%3E%3Crect x='196' y='156' width='188' height='22' rx='11' fill='white' fill-opacity='0.88'/%3E%3Crect x='196' y='200' width='404' height='18' rx='9' fill='white' fill-opacity='0.54'/%3E%3Crect x='196' y='232' width='356' height='18' rx='9' fill='white' fill-opacity='0.38'/%3E%3Crect x='196' y='278' width='122' height='34' rx='17' fill='white' fill-opacity='0.88'/%3E%3C/svg%3E" alt="Abstract editorial illustration about accessibility and polish" />
+                                <div class="blog-card__body">
+                                    <p class="blog-card__meta">April 3, 2026</p>
+                                    <h3>Shipping accessible interfaces without losing polish</h3>
+                                    <p class="blog-card__summary">Accessibility works best when it is treated as part of the visual system itself, from contrast and focus states to motion and layout resilience.</p>
+                                    <a class="blog-card__link" href="#settings">Read more</a>
+                                </div>
                             </article>
                         </div>
                     </section>
