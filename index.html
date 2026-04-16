@@ -155,7 +155,9 @@
         .create-item-button:hover,
         .create-item-button:focus-visible,
         .testimonial-card:hover,
-        .testimonial-card:focus-within {
+        .testimonial-card:focus-within,
+        .team-card:hover,
+        .team-card:focus-within {
             transform: translateY(-4px);
             border-color: rgba(81, 109, 255, 0.28);
             box-shadow: var(--shadow-hover);
@@ -227,7 +229,8 @@
         }
 
         .stats-grid,
-        .testimonials-grid {
+        .testimonials-grid,
+        .team-grid {
             display: grid;
             gap: 20px;
         }
@@ -262,11 +265,13 @@
             color: var(--text-secondary);
         }
 
-        .testimonials-grid {
+        .testimonials-grid,
+        .team-grid {
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         }
 
-        .testimonial-card {
+        .testimonial-card,
+        .team-card {
             display: flex;
             flex-direction: column;
             gap: 22px;
@@ -275,13 +280,15 @@
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .testimonial-header {
+        .testimonial-header,
+        .team-card__header {
             display: flex;
             align-items: center;
             gap: 16px;
         }
 
-        .testimonial-avatar {
+        .testimonial-avatar,
+        .team-card__image {
             width: 56px;
             height: 56px;
             flex-shrink: 0;
@@ -295,19 +302,33 @@
             font-weight: 700;
             letter-spacing: 0.04em;
             overflow: hidden;
+            object-fit: cover;
         }
 
-        .person-meta h3 {
+        .person-meta h3,
+        .team-card__body h3 {
             margin: 0;
             font-size: 1.05rem;
             line-height: 1.35;
         }
 
-        .person-meta p {
+        .person-meta p,
+        .team-card__role {
             margin: 4px 0 0;
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.45;
+        }
+
+        .team-card__body {
+            display: grid;
+            gap: 12px;
+        }
+
+        .team-card__bio {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
 
         .quote {
@@ -695,6 +716,71 @@
                                     </div>
                                 </div>
                                 <p class="quote">It gave us the modern, credible feel we wanted right away. Strong hierarchy, tasteful motion, and a dark-mode treatment that still feels refined instead of bolted on.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="workspace-panel" id="team" aria-labelledby="team-title">
+                        <div class="section-header">
+                            <span class="eyebrow">Team</span>
+                            <h2 id="team-title">Meet the people shaping the product experience.</h2>
+                            <p>
+                                A polished team section helps visitors understand who is building the work, what they own,
+                                and how design, engineering, and product direction stay aligned across the experience.
+                            </p>
+                        </div>
+
+                        <div class="team-grid">
+                            <article class="team-card">
+                                <div class="team-card__header">
+                                    <img class="team-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23eef2ff'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%23516dff' fill-opacity='0.25'/%3E%3Cpath d='M20 82c5-15 18-22 28-22s23 7 28 22' fill='%23516dff'/%3E%3C/svg%3E" alt="Portrait of Ava Lee" />
+                                    <div class="person-meta">
+                                        <h3>Ava Lee</h3>
+                                        <p class="team-card__role">Product Designer</p>
+                                    </div>
+                                </div>
+                                <div class="team-card__body">
+                                    <p class="team-card__bio">Ava turns complex product requirements into clear, elegant interfaces with a strong focus on usability and visual systems.</p>
+                                </div>
+                            </article>
+
+                            <article class="team-card">
+                                <div class="team-card__header">
+                                    <img class="team-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23f0fdf4'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%2316a34a' fill-opacity='0.22'/%3E%3Cpath d='M20 82c5-15 18-22 28-22s23 7 28 22' fill='%2316a34a'/%3E%3C/svg%3E" alt="Portrait of Marcus Rivera" />
+                                    <div class="person-meta">
+                                        <h3>Marcus Rivera</h3>
+                                        <p class="team-card__role">Engineering Lead</p>
+                                    </div>
+                                </div>
+                                <div class="team-card__body">
+                                    <p class="team-card__bio">Marcus leads frontend delivery, keeping implementation quality high while maintaining fast iteration across responsive product surfaces.</p>
+                                </div>
+                            </article>
+
+                            <article class="team-card">
+                                <div class="team-card__header">
+                                    <img class="team-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23fff7ed'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%23f97316' fill-opacity='0.22'/%3E%3Cpath d='M20 82c5-15 18-22 28-22s23 7 28 22' fill='%23f97316'/%3E%3C/svg%3E" alt="Portrait of Sophia Nguyen" />
+                                    <div class="person-meta">
+                                        <h3>Sophia Nguyen</h3>
+                                        <p class="team-card__role">Founder &amp; Product Strategist</p>
+                                    </div>
+                                </div>
+                                <div class="team-card__body">
+                                    <p class="team-card__bio">Sophia connects product vision to execution, shaping roadmap priorities and making sure every release feels intentional.</p>
+                                </div>
+                            </article>
+
+                            <article class="team-card">
+                                <div class="team-card__header">
+                                    <img class="team-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='48' fill='%23ecfeff'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%2306b6d4' fill-opacity='0.22'/%3E%3Cpath d='M20 82c5-15 18-22 28-22s23 7 28 22' fill='%2306b6d4'/%3E%3C/svg%3E" alt="Portrait of Jordan Patel" />
+                                    <div class="person-meta">
+                                        <h3>Jordan Patel</h3>
+                                        <p class="team-card__role">Frontend Engineer</p>
+                                    </div>
+                                </div>
+                                <div class="team-card__body">
+                                    <p class="team-card__bio">Jordan focuses on performant, accessible UI implementation and keeps the component layer dependable across breakpoints.</p>
+                                </div>
                             </article>
                         </div>
                     </section>
