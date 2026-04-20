@@ -376,6 +376,105 @@
             transform: translateX(4px);
         }
 
+        .launch-banner {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top right, rgba(81, 109, 255, 0.18), transparent 34%),
+                linear-gradient(135deg, rgba(81, 109, 255, 0.08), rgba(102, 204, 193, 0.08)),
+                var(--section-bg);
+        }
+
+        .launch-banner__layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+            gap: 28px;
+            align-items: center;
+        }
+
+        .launch-banner__copy h2 {
+            margin: 0 0 14px;
+            font-size: clamp(1.7rem, 2.7vw, 2.45rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+        }
+
+        .launch-banner__copy p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.75;
+            max-width: 58ch;
+        }
+
+        .launch-banner__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .launch-banner__button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 184px;
+            padding: 14px 18px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent), #6882ff);
+            color: #ffffff;
+            box-shadow: 0 16px 34px rgba(81, 109, 255, 0.22);
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+        }
+
+        .launch-banner__button:hover,
+        .launch-banner__button:focus-visible {
+            transform: translateY(-4px);
+            border-color: rgba(81, 109, 255, 0.28);
+            box-shadow: var(--shadow-hover);
+            outline: 2px solid rgba(81, 109, 255, 0.45);
+            outline-offset: 3px;
+        }
+
+        .launch-banner__countdown {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .countdown-block {
+            display: grid;
+            gap: 8px;
+            align-content: center;
+            min-height: 136px;
+            padding: 18px 16px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: var(--card-bg);
+            box-shadow: 0 14px 30px rgba(23, 32, 51, 0.05);
+            text-align: center;
+        }
+
+        .countdown-block strong {
+            display: block;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .countdown-block span {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
         .quote {
             margin: 0;
             color: var(--text-primary);
@@ -570,7 +669,8 @@
                 padding: 56px 20px;
             }
 
-            .workspace-grid {
+            .workspace-grid,
+            .launch-banner__layout {
                 grid-template-columns: 1fr;
             }
 
@@ -626,6 +726,20 @@
 
             .blog-card__body {
                 padding: 20px;
+            }
+
+            .launch-banner__countdown {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .launch-banner__button {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .countdown-block {
+                min-height: 120px;
+                padding: 16px 14px;
             }
         }
 
@@ -720,6 +834,39 @@
                                 <strong>4.9/5</strong>
                                 <span>Average stakeholder satisfaction</span>
                             </article>
+                        </div>
+                    </section>
+
+                    <section class="workspace-panel launch-banner" id="launch-banner" aria-labelledby="launch-banner-title">
+                        <div class="launch-banner__layout">
+                            <div class="launch-banner__copy">
+                                <span class="eyebrow">Launch Countdown</span>
+                                <h2 id="launch-banner-title">Northstar Mobile goes live in just a few days.</h2>
+                                <p>
+                                    The launch window is locked in. Product updates, team approvals, and project visibility are about to become much easier to access on the go.
+                                </p>
+                                <div class="launch-banner__actions">
+                                    <a class="launch-banner__button" href="#docs">See launch details</a>
+                                </div>
+                            </div>
+                            <div class="launch-banner__countdown" aria-label="Launch countdown">
+                                <div class="countdown-block">
+                                    <strong>08</strong>
+                                    <span>Days</span>
+                                </div>
+                                <div class="countdown-block">
+                                    <strong>14</strong>
+                                    <span>Hours</span>
+                                </div>
+                                <div class="countdown-block">
+                                    <strong>36</strong>
+                                    <span>Minutes</span>
+                                </div>
+                                <div class="countdown-block">
+                                    <strong>12</strong>
+                                    <span>Seconds</span>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
