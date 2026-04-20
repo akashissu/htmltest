@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Dashboard</title>
+    <title>Property Listings</title>
     <style>
         :root {
             color-scheme: light dark;
-            --page-bg: #eef7f3;
-            --surface: rgba(255, 255, 255, 0.86);
+            --page-bg: #f3f1ed;
+            --surface: rgba(255, 255, 255, 0.88);
             --card-bg: #ffffff;
-            --text-primary: #183128;
-            --text-secondary: #5d7b6f;
-            --accent: #1fcf8b;
-            --accent-strong: #0f9f72;
-            --accent-soft: rgba(31, 207, 139, 0.14);
-            --accent-energy: #6f7bff;
-            --accent-warm: #ffb353;
-            --border: rgba(24, 49, 40, 0.1);
-            --shadow: 0 26px 58px rgba(25, 71, 56, 0.12);
-            --shadow-hover: 0 32px 68px rgba(25, 71, 56, 0.18);
+            --text-primary: #1f2b3a;
+            --text-secondary: #6a7788;
+            --accent: #b78b5b;
+            --accent-deep: #8f673b;
+            --accent-soft: rgba(183, 139, 91, 0.14);
+            --accent-cool: #4d6f97;
+            --border: rgba(31, 43, 58, 0.1);
+            --shadow: 0 24px 54px rgba(31, 43, 58, 0.12);
+            --shadow-hover: 0 30px 64px rgba(31, 43, 58, 0.18);
             --radius-xl: 32px;
             --radius-lg: 24px;
             --radius-md: 18px;
@@ -37,28 +36,26 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(31, 207, 139, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(111, 123, 255, 0.18), transparent 24%),
-                linear-gradient(180deg, #f7fdf9 0%, #eef7f3 100%);
+                radial-gradient(circle at top left, rgba(183, 139, 91, 0.18), transparent 24%),
+                radial-gradient(circle at top right, rgba(77, 111, 151, 0.14), transparent 22%),
+                linear-gradient(180deg, #faf8f4 0%, #f3f1ed 100%);
         }
 
-        .fitness-page {
-            padding: 42px 24px 60px;
+        .property-page {
+            padding: 46px 24px 64px;
         }
 
-        .fitness-shell {
+        .property-shell {
             width: min(100%, var(--container-width));
             margin: 0 auto;
             display: grid;
-            gap: 24px;
+            gap: 26px;
         }
 
-        .dashboard-hero,
-        .panel,
-        .stat-card,
-        .progress-card,
-        .goal-item,
-        .schedule-item {
+        .property-hero,
+        .listing-panel,
+        .highlight-card,
+        .property-card {
             border: 1px solid var(--border);
             background: var(--surface);
             box-shadow: var(--shadow);
@@ -66,16 +63,16 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        .dashboard-hero,
-        .panel {
+        .property-hero,
+        .listing-panel {
             border-radius: var(--radius-xl);
         }
 
-        .dashboard-hero {
+        .property-hero {
             display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 360px);
-            gap: 28px;
-            padding: 34px;
+            grid-template-columns: minmax(0, 1.08fr) minmax(300px, 410px);
+            gap: 30px;
+            padding: 36px;
             align-items: center;
         }
 
@@ -87,63 +84,59 @@
             padding: 8px 14px;
             border-radius: 999px;
             background: var(--accent-soft);
-            color: var(--accent-strong);
+            color: var(--accent-deep);
             font-size: 0.78rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .dashboard-hero h1,
+        .property-hero h1,
         .section-header h2,
-        .stat-card strong,
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
+        .property-card h3,
+        .highlight-card strong {
             margin: 0;
             line-height: 1.06;
             letter-spacing: -0.03em;
         }
 
-        .dashboard-hero h1 {
-            margin-bottom: 14px;
-            font-size: clamp(2.3rem, 4.5vw, 4rem);
+        .property-hero h1 {
+            margin-bottom: 16px;
+            font-size: clamp(2.4rem, 4.8vw, 4.1rem);
             max-width: 10ch;
         }
 
-        .dashboard-hero p,
+        .property-hero p,
         .section-header p,
-        .stat-card span,
-        .progress-card p,
-        .goal-item p,
-        .schedule-item p {
+        .property-card p,
+        .highlight-card span {
             margin: 0;
             color: var(--text-secondary);
-            line-height: 1.68;
+            line-height: 1.72;
         }
 
-        .dashboard-hero p {
+        .property-hero p {
             max-width: 58ch;
         }
 
         .hero-actions,
-        .hero-metrics {
+        .hero-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
         }
 
-        .hero-actions {
-            margin-top: 24px;
+        .hero-tags {
+            margin-top: 22px;
         }
 
-        .hero-metrics {
-            margin-top: 20px;
+        .hero-actions {
+            margin-top: 26px;
         }
 
         .primary-button,
         .secondary-button,
-        .metric-chip {
+        .hero-tag {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -161,20 +154,20 @@
         }
 
         .primary-button {
-            background: linear-gradient(135deg, var(--accent), #54dfaa);
+            background: linear-gradient(135deg, var(--accent), #d6ab79);
             color: #ffffff;
-            box-shadow: 0 18px 34px rgba(31, 207, 139, 0.24);
+            box-shadow: 0 18px 36px rgba(183, 139, 91, 0.24);
         }
 
         .secondary-button {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.72);
             color: var(--text-primary);
             border-color: var(--border);
         }
 
-        .metric-chip {
+        .hero-tag {
             padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.72);
+            background: rgba(255, 255, 255, 0.76);
             border: 1px solid var(--border);
             color: var(--text-primary);
         }
@@ -183,33 +176,30 @@
         .primary-button:focus-visible,
         .secondary-button:hover,
         .secondary-button:focus-visible,
-        .stat-card:hover,
-        .stat-card:focus-within,
-        .progress-card:hover,
-        .progress-card:focus-within,
-        .goal-item:hover,
-        .schedule-item:hover {
+        .property-card:hover,
+        .property-card:focus-within {
             transform: translateY(-4px);
-            border-color: rgba(31, 207, 139, 0.22);
+            border-color: rgba(183, 139, 91, 0.24);
             box-shadow: var(--shadow-hover);
         }
 
         .primary-button:focus-visible,
         .secondary-button:focus-visible,
-        .schedule-link:focus-visible {
-            outline: 2px solid rgba(111, 123, 255, 0.34);
+        .property-link:focus-visible,
+        .section-link:focus-visible {
+            outline: 2px solid rgba(77, 111, 151, 0.34);
             outline-offset: 3px;
         }
 
         .hero-visual {
-            min-height: 320px;
+            min-height: 360px;
             border-radius: calc(var(--radius-xl) - 8px);
-            overflow: hidden;
             position: relative;
+            overflow: hidden;
             background:
-                radial-gradient(circle at 26% 22%, rgba(255, 255, 255, 0.9), transparent 14%),
-                radial-gradient(circle at 74% 20%, rgba(111, 123, 255, 0.26), transparent 18%),
-                linear-gradient(180deg, #baf5d8 0%, #dffcf0 36%, #6f7bff 37%, #5261ff 100%);
+                linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 24%),
+                radial-gradient(circle at 22% 18%, rgba(255, 247, 232, 0.9), transparent 14%),
+                linear-gradient(180deg, #d7ebff 0%, #edf7ff 38%, #c6b6a0 39%, #aa8f72 100%);
         }
 
         .hero-visual::before,
@@ -219,62 +209,43 @@
         }
 
         .hero-visual::before {
-            inset: auto 26px 24px 26px;
-            height: 124px;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.24);
-            border: 1px solid rgba(255, 255, 255, 0.34);
+            inset: auto 24px 30px 24px;
+            height: 126px;
+            border-radius: 34px 34px 16px 16px;
+            background: linear-gradient(180deg, rgba(56, 66, 81, 0.08), rgba(56, 66, 81, 0.22));
+            border: 1px solid rgba(255, 255, 255, 0.38);
         }
 
         .hero-visual::after {
-            width: 138px;
-            height: 138px;
+            width: 164px;
+            height: 164px;
             top: 26px;
-            right: 24px;
+            right: 22px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.24);
-            border: 12px solid rgba(255, 255, 255, 0.34);
+            border: 12px solid rgba(255, 255, 255, 0.32);
         }
 
-        .stats-grid {
+        .market-highlights {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 18px;
         }
 
-        .stat-card {
+        .highlight-card {
             padding: 22px;
             border-radius: var(--radius-lg);
             background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .stat-card strong {
+        .highlight-card strong {
             display: block;
             margin-bottom: 8px;
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-size: 1.32rem;
         }
 
-        .stat-trend {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 14px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-            gap: 24px;
-        }
-
-        .panel {
-            padding: 28px;
+        .listing-panel {
+            padding: 30px;
         }
 
         .section-header {
@@ -287,191 +258,150 @@
         }
 
         .section-header h2 {
-            margin-bottom: 10px;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            margin-bottom: 12px;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
         }
 
-        .section-pill {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
+        .section-link {
+            color: var(--accent-cool);
             font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            text-decoration: none;
         }
 
-        .progress-grid {
+        .section-link:hover,
+        .section-link:focus-visible,
+        .property-link:hover,
+        .property-link:focus-visible {
+            text-decoration: underline;
+        }
+
+        .property-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
         }
 
-        .progress-card {
-            padding: 20px;
+        .property-card {
+            display: grid;
+            gap: 16px;
+            height: 100%;
+            padding: 18px;
             border-radius: var(--radius-lg);
             background: var(--card-bg);
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
-            font-size: 1.06rem;
-            margin-bottom: 8px;
-        }
-
-        .progress-value {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 8px;
-            margin: 16px 0 14px;
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .progress-value small {
-            font-size: 0.94rem;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar,
-        .goal-bar {
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(24, 49, 40, 0.08);
+        .property-image {
+            min-height: 210px;
+            border-radius: 20px;
+            position: relative;
             overflow: hidden;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 24%), #d6d0c7;
         }
 
-        .progress-fill,
-        .goal-fill {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
+        .property-image::before,
+        .property-image::after {
+            content: "";
+            position: absolute;
         }
 
-        .progress-fill--movement { width: 78%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .progress-fill--strength { width: 64%; background: linear-gradient(90deg, var(--accent-energy), #8da0ff); }
-        .progress-fill--hydration { width: 82%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .progress-fill--recovery { width: 71%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
-
-        .goals-panel,
-        .schedule-panel {
-            display: grid;
-            gap: 16px;
+        .property-image::before {
+            inset: auto 18px 0 18px;
+            height: 78px;
+            border-radius: 26px 26px 0 0;
+            background: rgba(255, 255, 255, 0.7);
         }
 
-        .goal-item,
-        .schedule-item {
-            padding: 18px;
-            border-radius: var(--radius-md);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        .property-image::after {
+            width: 104px;
+            height: 104px;
+            top: 16px;
+            right: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 8px solid rgba(255, 255, 255, 0.34);
         }
 
-        .goal-top,
-        .schedule-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
+        .property-image--hillside { background: linear-gradient(180deg, #dceeff 0%, #f4f8fc 42%, #c5b39f 43%, #a18469 100%); }
+        .property-image--penthouse { background: linear-gradient(180deg, #d8e9ff 0%, #eef5ff 42%, #7d8ba3 43%, #4f5f79 100%); }
+        .property-image--family { background: linear-gradient(180deg, #dff3ff 0%, #f4fbff 42%, #c9b18f 43%, #9d7c58 100%); }
+        .property-image--waterfront { background: linear-gradient(180deg, #cbeaff 0%, #ebf8ff 38%, #7fb9d8 39%, #3e7498 100%); }
+        .property-image--townhouse { background: linear-gradient(180deg, #dae8f5 0%, #f4f8fb 42%, #bda28b 43%, #7e624b 100%); }
+        .property-image--garden { background: linear-gradient(180deg, #ddf3e5 0%, #f4fbf6 42%, #8fc499 43%, #507a5c 100%); }
 
-        .goal-value,
-        .schedule-chip {
+        .property-badge {
             display: inline-flex;
+            width: fit-content;
             align-items: center;
             justify-content: center;
             padding: 8px 12px;
             border-radius: 999px;
-            font-weight: 800;
-        }
-
-        .goal-value {
             background: var(--accent-soft);
-            color: var(--accent-strong);
-        }
-
-        .goal-fill--steps { width: 76%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .goal-fill--water { width: 68%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .goal-fill--sleep { width: 88%; background: linear-gradient(90deg, var(--accent-energy), #94a4ff); }
-        .goal-fill--protein { width: 62%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
-
-        .schedule-chip {
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
+            color: var(--accent-deep);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .schedule-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            color: var(--text-secondary);
-            font-size: 0.94rem;
+        .property-price {
+            font-size: 1.52rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
-        .schedule-link {
-            color: var(--accent-energy);
+        .property-location {
+            color: var(--text-secondary);
+            font-size: 0.96rem;
+        }
+
+        .property-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .feature-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 12px;
+            border-radius: 999px;
+            background: rgba(77, 111, 151, 0.1);
+            color: var(--accent-cool);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .property-link {
+            color: var(--accent-cool);
             font-weight: 800;
             text-decoration: none;
         }
 
-        .schedule-link:hover,
-        .schedule-link:focus-visible {
-            text-decoration: underline;
-        }
-
         @media (max-width: 980px) {
-            .fitness-page {
-                padding: 32px 20px 48px;
+            .property-page {
+                padding: 36px 20px 48px;
             }
 
-            .dashboard-hero,
-            .dashboard-grid,
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .dashboard-hero {
+            .property-hero {
                 grid-template-columns: 1fr;
             }
 
-            .dashboard-grid {
+            .market-highlights {
                 grid-template-columns: 1fr;
-            }
-
-            .hero-visual {
-                min-height: 260px;
             }
         }
 
         @media (max-width: 640px) {
-            .fitness-page {
+            .property-page {
                 padding: 18px 16px 32px;
             }
 
-            .dashboard-hero,
-            .panel {
+            .property-hero,
+            .listing-panel {
                 padding: 22px 20px;
                 border-radius: 24px;
-            }
-
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr;
             }
 
             .hero-actions {
@@ -482,39 +412,41 @@
             .secondary-button {
                 width: 100%;
             }
+
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --page-bg: #07120f;
-                --surface: rgba(10, 23, 19, 0.86);
-                --card-bg: rgba(12, 28, 23, 0.96);
-                --text-primary: #eefbf4;
-                --text-secondary: #a4c3b6;
-                --border: rgba(168, 215, 195, 0.12);
-                --shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
-                --shadow-hover: 0 34px 76px rgba(0, 0, 0, 0.5);
+                --page-bg: #0c1118;
+                --surface: rgba(14, 21, 31, 0.88);
+                --card-bg: rgba(17, 25, 36, 0.96);
+                --text-primary: #f2f5fa;
+                --text-secondary: #a9b5c4;
+                --border: rgba(175, 189, 209, 0.12);
+                --shadow: 0 28px 64px rgba(0, 0, 0, 0.38);
+                --shadow-hover: 0 34px 72px rgba(0, 0, 0, 0.5);
             }
 
             body {
                 background:
-                    radial-gradient(circle at top left, rgba(31, 207, 139, 0.14), transparent 24%),
-                    radial-gradient(circle at top right, rgba(111, 123, 255, 0.16), transparent 24%),
-                    linear-gradient(180deg, #040a08 0%, #081310 100%);
+                    radial-gradient(circle at top left, rgba(183, 139, 91, 0.12), transparent 22%),
+                    radial-gradient(circle at top right, rgba(77, 111, 151, 0.16), transparent 20%),
+                    linear-gradient(180deg, #080c12 0%, #0d131c 100%);
             }
 
             .secondary-button,
-            .metric-chip,
-            .stat-card,
-            .progress-card,
-            .goal-item,
-            .schedule-item {
+            .hero-tag,
+            .highlight-card,
+            .property-card {
                 background: rgba(255, 255, 255, 0.04);
             }
 
-            .progress-bar,
-            .goal-bar {
-                background: rgba(255, 255, 255, 0.08);
+            .feature-pill {
+                background: rgba(77, 111, 151, 0.18);
+                color: #bed5f2;
             }
         }
 
@@ -527,198 +459,144 @@
     </style>
 </head>
 <body>
-    <main class="fitness-page">
-        <div class="fitness-shell">
-            <section class="dashboard-hero" aria-labelledby="dashboard-title">
+    <main class="property-page">
+        <div class="property-shell">
+            <section class="property-hero" aria-labelledby="property-hero-title">
                 <div>
-                    <span class="eyebrow">Weekly Snapshot</span>
-                    <h1 id="dashboard-title">Train stronger. Recover smarter.</h1>
+                    <span class="eyebrow">Curated property collection</span>
+                    <h1 id="property-hero-title">Discover homes with a polished point of view.</h1>
                     <p>
-                        Your dashboard keeps workouts, recovery, and goals in one clean view so you can keep momentum without losing sight of the bigger picture.
+                        Browse refined listings with spacious layouts, standout locations, and the details buyers care about most—from square footage to bedrooms, bathrooms, and private outdoor space.
                     </p>
-                    <div class="hero-metrics" aria-label="Quick filters">
-                        <span class="metric-chip">Weekly plan</span>
-                        <span class="metric-chip">Recovery focus</span>
-                        <span class="metric-chip">Nutrition sync</span>
+                    <div class="hero-tags" aria-label="Listing categories">
+                        <span class="hero-tag">Luxury homes</span>
+                        <span class="hero-tag">City residences</span>
+                        <span class="hero-tag">Family estates</span>
                     </div>
                     <div class="hero-actions">
-                        <a class="primary-button" href="#progress">View progress</a>
-                        <a class="secondary-button" href="#schedule">Today’s schedule</a>
+                        <a class="primary-button" href="#listings">View listings</a>
+                        <a class="secondary-button" href="#">Schedule a tour</a>
                     </div>
                 </div>
                 <div class="hero-visual" aria-hidden="true"></div>
             </section>
 
-            <section class="stats-grid" aria-label="Workout stats overview">
-                <article class="stat-card">
-                    <strong>18</strong>
-                    <span>Workouts completed this month</span>
-                    <div class="stat-trend">+12% from last month</div>
+            <section class="market-highlights" aria-label="Service highlights">
+                <article class="highlight-card">
+                    <strong>Verified listings</strong>
+                    <span>Every property detail is presented clearly to support confident browsing and comparison.</span>
                 </article>
-                <article class="stat-card">
-                    <strong>8,420</strong>
-                    <span>Calories burned across all sessions</span>
-                    <div class="stat-trend">Consistency up this week</div>
+                <article class="highlight-card">
+                    <strong>Private viewings</strong>
+                    <span>Arrange tours for standout homes with flexible scheduling and concise property summaries.</span>
                 </article>
-                <article class="stat-card">
-                    <strong>11h 40m</strong>
-                    <span>Active time logged this week</span>
-                    <div class="stat-trend">2 sessions ahead</div>
-                </article>
-                <article class="stat-card">
-                    <strong>6-day</strong>
-                    <span>Current training streak</span>
-                    <div class="stat-trend">Recovery score 82/100</div>
+                <article class="highlight-card">
+                    <strong>Premium locations</strong>
+                    <span>Explore city, coastal, and neighborhood-focused homes selected for quality and character.</span>
                 </article>
             </section>
 
-            <section class="dashboard-grid">
-                <div class="panel" id="progress" aria-labelledby="progress-title">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Progress</span>
-                            <h2 id="progress-title">Momentum at a glance</h2>
-                            <p>Track the habits and milestones that move your training forward every week.</p>
-                        </div>
-                        <span class="section-pill">4 active goals</span>
-                    </div>
-
-                    <div class="progress-grid">
-                        <article class="progress-card">
-                            <h3>Weekly movement</h3>
-                            <p>Active minutes completed toward your target.</p>
-                            <div class="progress-value">78<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Weekly movement progress">
-                                <span class="progress-fill progress-fill--movement"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Strength target</h3>
-                            <p>Resistance sessions completed this week.</p>
-                            <div class="progress-value">64<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Strength target progress">
-                                <span class="progress-fill progress-fill--strength"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Hydration</h3>
-                            <p>Average water intake relative to your plan.</p>
-                            <div class="progress-value">82<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Hydration progress">
-                                <span class="progress-fill progress-fill--hydration"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Recovery balance</h3>
-                            <p>Sleep and low-intensity work completed.</p>
-                            <div class="progress-value">71<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Recovery balance progress">
-                                <span class="progress-fill progress-fill--recovery"></span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Daily goals</span>
-                            <h2>Targets for today</h2>
-                            <p>Small wins that keep your routine moving in the right direction.</p>
-                        </div>
-                        <span class="section-pill">On track</span>
-                    </div>
-
-                    <div class="goals-panel">
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Steps</h3>
-                                <span class="goal-value">7,600 / 10,000</span>
-                            </div>
-                            <p>Daily movement target</p>
-                            <div class="goal-bar" aria-label="Steps goal progress">
-                                <span class="goal-fill goal-fill--steps"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Water</h3>
-                                <span class="goal-value">1.7L / 2.5L</span>
-                            </div>
-                            <p>Hydration goal</p>
-                            <div class="goal-bar" aria-label="Water goal progress">
-                                <span class="goal-fill goal-fill--water"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Sleep</h3>
-                                <span class="goal-value">7.1h / 8h</span>
-                            </div>
-                            <p>Recovery target</p>
-                            <div class="goal-bar" aria-label="Sleep goal progress">
-                                <span class="goal-fill goal-fill--sleep"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Protein</h3>
-                                <span class="goal-value">93g / 150g</span>
-                            </div>
-                            <p>Nutrition target</p>
-                            <div class="goal-bar" aria-label="Protein goal progress">
-                                <span class="goal-fill goal-fill--protein"></span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel schedule-panel" id="schedule" aria-labelledby="schedule-title">
+            <section class="listing-panel" id="listings" aria-labelledby="listing-title">
                 <div class="section-header">
                     <div>
-                        <span class="eyebrow">Schedule</span>
-                        <h2 id="schedule-title">Upcoming sessions</h2>
-                        <p>Your next sessions are lined up with enough variety to keep the week balanced.</p>
+                        <span class="eyebrow">Available now</span>
+                        <h2 id="listing-title">Featured property listings</h2>
+                        <p>A professional showcase of homes with pricing, location, and essential living details upfront.</p>
                     </div>
-                    <span class="section-pill">3 sessions left</span>
+                    <a class="section-link" href="#">Browse all properties</a>
                 </div>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Monday — HIIT Intervals</h3>
-                        <span class="schedule-chip">High intensity</span>
-                    </div>
-                    <p>Fast-paced interval work designed to boost endurance and conditioning.</p>
-                    <div class="schedule-meta">
-                        <span>7:00 AM • 35 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                <div class="property-grid">
+                    <article class="property-card">
+                        <div class="property-image property-image--hillside" aria-hidden="true"></div>
+                        <span class="property-badge">Featured</span>
+                        <div class="property-price">$2,450,000</div>
+                        <h3>Modern Hillside Residence</h3>
+                        <div class="property-location">Austin, Texas</div>
+                        <p>Panoramic views, open-plan living, and a seamless indoor-outdoor entertaining layout.</p>
+                        <div class="property-features" aria-label="Property features">
+                            <span class="feature-pill">4 Beds</span>
+                            <span class="feature-pill">3 Baths</span>
+                            <span class="feature-pill">2,950 sq ft</span>
+                        </div>
+                        <a class="property-link" href="#">View property</a>
+                    </article>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Tuesday — Upper Body Strength</h3>
-                        <span class="schedule-chip">Strength</span>
-                    </div>
-                    <p>Compound lifts and accessory work focused on pressing and pulling power.</p>
-                    <div class="schedule-meta">
-                        <span>6:30 PM • 50 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                    <article class="property-card">
+                        <div class="property-image property-image--penthouse" aria-hidden="true"></div>
+                        <span class="property-badge">City view</span>
+                        <div class="property-price">$1,980,000</div>
+                        <h3>Downtown Glass Penthouse</h3>
+                        <div class="property-location">Chicago, Illinois</div>
+                        <p>Floor-to-ceiling windows, a private terrace, and direct elevator access in the city core.</p>
+                        <div class="property-features" aria-label="Property features">
+                            <span class="feature-pill">3 Beds</span>
+                            <span class="feature-pill">2.5 Baths</span>
+                            <span class="feature-pill">2,240 sq ft</span>
+                        </div>
+                        <a class="property-link" href="#">View property</a>
+                    </article>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Wednesday — Recovery Yoga</h3>
-                        <span class="schedule-chip">Recovery</span>
-                    </div>
-                    <p>Mobility, breath work, and light movement to support recovery and range of motion.</p>
-                    <div class="schedule-meta">
-                        <span>8:00 AM • 30 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                    <article class="property-card">
+                        <div class="property-image property-image--family" aria-hidden="true"></div>
+                        <span class="property-badge">Open house</span>
+                        <div class="property-price">$865,000</div>
+                        <h3>Classic Family Home</h3>
+                        <div class="property-location">Nashville, Tennessee</div>
+                        <p>Warm interiors, a generous backyard, and a quiet neighborhood suited to everyday living.</p>
+                        <div class="property-features" aria-label="Property features">
+                            <span class="feature-pill">5 Beds</span>
+                            <span class="feature-pill">3 Baths</span>
+                            <span class="feature-pill">3,180 sq ft</span>
+                        </div>
+                        <a class="property-link" href="#">View property</a>
+                    </article>
+
+                    <article class="property-card">
+                        <div class="property-image property-image--waterfront" aria-hidden="true"></div>
+                        <span class="property-badge">Waterfront</span>
+                        <div class="property-price">$3,280,000</div>
+                        <h3>Coastal Villa Retreat</h3>
+                        <div class="property-location">Santa Barbara, California</div>
+                        <p>Bright, breezy living spaces with poolside lounging and direct views toward the water.</p>
+                        <div class="property-features" aria-label="Property features">
+                            <span class="feature-pill">4 Beds</span>
+                            <span class="feature-pill">4 Baths</span>
+                            <span class="feature-pill">3,420 sq ft</span>
+                        </div>
+                        <a class="property-link" href="#">View property</a>
+                    </article>
+
+                    <article class="property-card">
+                        <div class="property-image property-image--townhouse" aria-hidden="true"></div>
+                        <span class="property-badge">New listing</span>
+                        <div class="property-price">$1,140,000</div>
+                        <h3>Refined Brick Townhouse</h3>
+                        <div class="property-location">Boston, Massachusetts</div>
+                        <p>Updated finishes, elegant proportions, and a walkable neighborhood near local cafés.</p>
+                        <div class="property-features" aria-label="Property features">
+                            <span class="feature-pill">3 Beds</span>
+                            <span class="feature-pill">2 Baths</span>
+                            <span class="feature-pill">1,980 sq ft</span>
+                        </div>
+                        <a class="property-link" href="#">View property</a>
+                    </article>
+
+                    <article class="property-card">
+                        <div class="property-image property-image--garden" aria-hidden="true"></div>
+                        <span class="property-badge">Garden estate</span>
+                        <div class="property-price">$1,520,000</div>
+                        <h3>Garden Court Residence</h3>
+                        <div class="property-location">Portland, Oregon</div>
+                        <p>Thoughtful architecture with mature landscaping, bright rooms, and a calm residential setting.</p>
+                        <div class="property-features" aria-label="Property features">
+                            <span class="feature-pill">4 Beds</span>
+                            <span class="feature-pill">3.5 Baths</span>
+                            <span class="feature-pill">2,760 sq ft</span>
+                        </div>
+                        <a class="property-link" href="#">View property</a>
+                    </article>
+                </div>
             </section>
         </div>
     </main>
