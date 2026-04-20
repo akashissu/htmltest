@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
+    <title>Streaming Home</title>
     <style>
         :root {
-            color-scheme: light dark;
-            --page-bg: #f7f1e8;
-            --surface: rgba(255, 252, 247, 0.88);
-            --card-bg: #fffdf9;
-            --text-primary: #2d2016;
-            --text-secondary: #735e50;
-            --accent: #bb5a32;
-            --accent-soft: rgba(187, 90, 50, 0.12);
-            --border: rgba(88, 58, 37, 0.12);
-            --shadow: 0 24px 50px rgba(56, 33, 17, 0.1);
-            --shadow-hover: 0 28px 56px rgba(56, 33, 17, 0.16);
-            --radius-xl: 30px;
-            --radius-lg: 22px;
+            color-scheme: dark light;
+            --page-bg: #090d16;
+            --surface: rgba(14, 20, 34, 0.92);
+            --card-bg: rgba(17, 24, 40, 0.96);
+            --text-primary: #f5f7ff;
+            --text-secondary: #9fb0cf;
+            --accent: #ff4d67;
+            --accent-soft: rgba(255, 77, 103, 0.14);
+            --accent-cool: #68c7ff;
+            --border: rgba(171, 186, 223, 0.12);
+            --shadow: 0 28px 70px rgba(0, 0, 0, 0.42);
+            --shadow-hover: 0 34px 76px rgba(0, 0, 0, 0.56);
+            --radius-xl: 34px;
+            --radius-lg: 24px;
             --transition: 180ms ease;
-            --container-width: 1120px;
+            --container-width: 1180px;
         }
 
         * {
@@ -33,37 +34,71 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(255, 211, 164, 0.45), transparent 30%),
-                radial-gradient(circle at bottom right, rgba(187, 90, 50, 0.16), transparent 26%),
-                linear-gradient(180deg, #fff8ef 0%, #f7f1e8 100%);
+                radial-gradient(circle at top left, rgba(104, 199, 255, 0.14), transparent 28%),
+                radial-gradient(circle at top right, rgba(255, 77, 103, 0.16), transparent 24%),
+                linear-gradient(180deg, #05070d 0%, #090d16 36%, #0b1020 100%);
         }
 
-        .menu-page {
-            padding: 56px 24px 72px;
+        .streaming-page {
+            padding: 42px 24px 64px;
         }
 
-        .menu-shell {
+        .streaming-shell {
             width: min(100%, var(--container-width));
             margin: 0 auto;
             display: grid;
             gap: 28px;
         }
 
-        .menu-hero,
-        .menu-category {
+        .featured-banner,
+        .category-section {
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
             background: var(--surface);
             box-shadow: var(--shadow);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
-        .menu-hero {
+        .featured-banner {
+            position: relative;
+            overflow: hidden;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+            grid-template-columns: minmax(0, 1.1fr) minmax(280px, 420px);
             gap: 28px;
-            padding: 34px;
-            align-items: center;
+            padding: 38px;
+            align-items: end;
+            min-height: 480px;
+            background:
+                linear-gradient(90deg, rgba(6, 9, 17, 0.96) 0%, rgba(6, 9, 17, 0.84) 42%, rgba(6, 9, 17, 0.32) 100%),
+                radial-gradient(circle at 78% 22%, rgba(255, 77, 103, 0.34), transparent 16%),
+                linear-gradient(140deg, #111b35 0%, #3f2446 38%, #1c1f39 100%);
+        }
+
+        .featured-banner::before,
+        .featured-banner::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .featured-banner::before {
+            inset: auto -40px -80px auto;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 62%);
+        }
+
+        .featured-banner::after {
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 22%, rgba(0, 0, 0, 0.18));
+        }
+
+        .featured-copy,
+        .featured-poster {
+            position: relative;
+            z-index: 1;
         }
 
         .eyebrow {
@@ -74,282 +109,340 @@
             padding: 8px 14px;
             border-radius: 999px;
             background: var(--accent-soft);
-            color: var(--accent);
+            color: #ffc2cc;
             font-size: 0.78rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .menu-hero h1,
-        .category-header h2 {
-            margin: 0 0 14px;
-            line-height: 1.05;
+        .featured-copy h1,
+        .section-header h2,
+        .movie-card h3 {
+            margin: 0;
+            line-height: 1.04;
             letter-spacing: -0.03em;
         }
 
-        .menu-hero h1 {
-            font-size: clamp(2.2rem, 4vw, 3.6rem);
+        .featured-copy h1 {
+            margin-bottom: 16px;
+            font-size: clamp(2.4rem, 5vw, 4.8rem);
+            max-width: 8ch;
         }
 
-        .menu-hero p,
-        .category-header p,
-        .dish-description {
+        .featured-copy p,
+        .section-header p,
+        .movie-card p {
             margin: 0;
             color: var(--text-secondary);
-            line-height: 1.72;
+            line-height: 1.7;
         }
 
-        .menu-hero p {
+        .featured-copy p {
             max-width: 56ch;
             font-size: 1.02rem;
         }
 
-        .hero-highlights {
+        .meta-row {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-top: 22px;
         }
 
-        .hero-chip {
+        .meta-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 14px;
+            padding: 9px 13px;
             border-radius: 999px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-primary);
+            font-size: 0.86rem;
             font-weight: 700;
         }
 
-        .hero-visual {
-            min-height: 260px;
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            border-radius: calc(var(--radius-xl) - 4px);
+        .featured-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, var(--accent), #ff7a73);
+            color: #ffffff;
+            box-shadow: 0 20px 38px rgba(255, 77, 103, 0.24);
+        }
+
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .primary-button:hover,
+        .primary-button:focus-visible,
+        .secondary-button:hover,
+        .secondary-button:focus-visible,
+        .movie-card:hover,
+        .movie-card:focus-within {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.16);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .primary-button:focus-visible,
+        .secondary-button:focus-visible,
+        .movie-link:focus-visible {
+            outline: 2px solid rgba(104, 199, 255, 0.42);
+            outline-offset: 3px;
+        }
+
+        .featured-poster {
+            justify-self: end;
+            width: min(100%, 360px);
+            aspect-ratio: 3 / 4;
+            border-radius: calc(var(--radius-xl) - 8px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             background:
-                radial-gradient(circle at 30% 28%, rgba(255, 241, 214, 0.95), transparent 18%),
-                radial-gradient(circle at 66% 32%, rgba(255, 205, 154, 0.9), transparent 16%),
-                radial-gradient(circle at 54% 64%, rgba(187, 90, 50, 0.22), transparent 28%),
-                linear-gradient(145deg, #fff7ed 0%, #f6d3b5 42%, #efb78c 100%);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 28%),
+                radial-gradient(circle at 30% 22%, rgba(255, 189, 203, 0.42), transparent 16%),
+                linear-gradient(160deg, #11162a 0%, #5a2545 42%, #14162d 100%);
+            box-shadow: 0 28px 56px rgba(0, 0, 0, 0.34);
             position: relative;
             overflow: hidden;
         }
 
-        .hero-visual::before,
-        .hero-visual::after {
+        .featured-poster::before,
+        .featured-poster::after {
             content: "";
             position: absolute;
+        }
+
+        .featured-poster::before {
+            inset: auto 24px 26px 24px;
+            height: 140px;
+            border-radius: 26px 26px 18px 18px;
+            background: rgba(10, 14, 28, 0.58);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .featured-poster::after {
+            width: 128px;
+            height: 128px;
+            top: 28px;
+            right: 24px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 10px solid rgba(255, 255, 255, 0.14);
         }
 
-        .hero-visual::before {
-            width: 180px;
-            height: 180px;
-            right: 26px;
-            bottom: -14px;
-            background: rgba(255, 252, 247, 0.45);
-            border: 14px solid rgba(255, 252, 247, 0.7);
+        .category-section {
+            padding: 28px;
         }
 
-        .hero-visual::after {
-            width: 120px;
-            height: 120px;
-            left: 30px;
-            bottom: 34px;
-            background: rgba(255, 252, 247, 0.4);
-            border: 10px solid rgba(255, 252, 247, 0.7);
-        }
-
-        .menu-categories {
-            display: grid;
-            gap: 24px;
-        }
-
-        .menu-category {
-            padding: 30px;
-        }
-
-        .category-header {
+        .section-header {
             display: flex;
             align-items: end;
             justify-content: space-between;
-            gap: 20px;
+            gap: 18px;
             margin-bottom: 22px;
             flex-wrap: wrap;
         }
 
-        .category-header h2 {
-            font-size: clamp(1.5rem, 2.3vw, 2rem);
+        .section-header h2 {
+            margin-bottom: 10px;
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
         }
 
-        .category-note {
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent);
-            font-size: 0.82rem;
+        .section-link {
+            color: var(--accent-cool);
             font-weight: 800;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
+            text-decoration: none;
         }
 
-        .menu-grid {
+        .section-link:hover,
+        .section-link:focus-visible,
+        .movie-link:hover,
+        .movie-link:focus-visible {
+            text-decoration: underline;
+        }
+
+        .movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 18px;
         }
 
-        .dish-card {
+        .movie-card {
             display: grid;
+            align-content: start;
             gap: 14px;
             height: 100%;
-            padding: 22px;
+            padding: 16px;
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             background: var(--card-bg);
-            box-shadow: 0 14px 30px rgba(56, 33, 17, 0.06);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .dish-card:hover,
-        .dish-card:focus-within {
-            transform: translateY(-4px);
-            border-color: rgba(187, 90, 50, 0.28);
-            box-shadow: var(--shadow-hover);
+        .movie-poster {
+            aspect-ratio: 3 / 4;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 22%), #1b2239;
         }
 
-        .dish-badge {
+        .movie-poster::before,
+        .movie-poster::after {
+            content: "";
+            position: absolute;
+        }
+
+        .movie-poster::before {
+            inset: auto 14px 14px 14px;
+            height: 64px;
+            border-radius: 18px;
+            background: rgba(7, 10, 18, 0.42);
+        }
+
+        .movie-poster::after {
+            width: 88px;
+            height: 88px;
+            top: 14px;
+            right: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 7px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .movie-poster--one { background: linear-gradient(155deg, #11182f 0%, #6c2748 52%, #19192a 100%); }
+        .movie-poster--two { background: linear-gradient(155deg, #122033 0%, #236999 48%, #16253d 100%); }
+        .movie-poster--three { background: linear-gradient(155deg, #13201d 0%, #1d7b67 48%, #13211f 100%); }
+        .movie-poster--four { background: linear-gradient(155deg, #24152b 0%, #8b3b78 48%, #1d1628 100%); }
+        .movie-poster--five { background: linear-gradient(155deg, #261814 0%, #c76f3b 48%, #241815 100%); }
+        .movie-poster--six { background: linear-gradient(155deg, #10172a 0%, #5a6cff 48%, #12192d 100%); }
+        .movie-poster--seven { background: linear-gradient(155deg, #1a141f 0%, #dd4d77 48%, #171421 100%); }
+        .movie-poster--eight { background: linear-gradient(155deg, #141d2f 0%, #2d97b7 48%, #0f1726 100%); }
+
+        .movie-badge {
             display: inline-flex;
             width: fit-content;
             align-items: center;
             justify-content: center;
             padding: 7px 11px;
             border-radius: 999px;
-            background: rgba(122, 151, 84, 0.14);
-            color: #546e3a;
+            background: var(--accent-soft);
+            color: #ffc2cc;
             font-size: 0.74rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .dish-title-row {
-            display: flex;
-            align-items: start;
-            justify-content: space-between;
-            gap: 16px;
+        .movie-card h3 {
+            font-size: 1.02rem;
         }
 
-        .dish-title-row h3,
-        .dish-price {
-            margin: 0;
-            line-height: 1.3;
-        }
-
-        .dish-title-row h3 {
-            font-size: 1.08rem;
-        }
-
-        .dish-price {
-            color: var(--accent);
-            font-size: 1rem;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .dish-footer {
+        .movie-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            margin-top: auto;
             color: var(--text-secondary);
             font-size: 0.92rem;
         }
 
-        .dish-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: #f8f1e8;
-            border: 1px solid rgba(88, 58, 37, 0.08);
+        .movie-link {
+            color: var(--accent-cool);
+            font-weight: 800;
+            text-decoration: none;
         }
 
         @media (max-width: 900px) {
-            .menu-page {
-                padding: 40px 20px 56px;
+            .streaming-page {
+                padding: 32px 20px 48px;
             }
 
-            .menu-hero {
+            .featured-banner {
                 grid-template-columns: 1fr;
+                min-height: 0;
+            }
+
+            .featured-poster {
+                justify-self: start;
             }
         }
 
         @media (max-width: 640px) {
-            .menu-page {
-                padding: 24px 16px 40px;
+            .streaming-page {
+                padding: 18px 16px 32px;
             }
 
-            .menu-hero,
-            .menu-category {
+            .featured-banner,
+            .category-section {
                 padding: 22px 20px;
                 border-radius: 24px;
             }
 
-            .dish-card {
-                padding: 18px;
+            .featured-actions {
+                flex-direction: column;
             }
 
-            .dish-title-row {
-                flex-direction: column;
-                gap: 8px;
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+            .movie-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: light) {
             :root {
-                --page-bg: #140f0b;
-                --surface: rgba(31, 22, 16, 0.88);
-                --card-bg: rgba(39, 27, 20, 0.96);
-                --text-primary: #f7efe8;
-                --text-secondary: #c8b2a2;
-                --accent: #ff9a62;
-                --accent-soft: rgba(255, 154, 98, 0.14);
-                --border: rgba(229, 205, 188, 0.12);
-                --shadow: 0 24px 54px rgba(0, 0, 0, 0.42);
-                --shadow-hover: 0 28px 60px rgba(0, 0, 0, 0.52);
+                --page-bg: #f4f6fb;
+                --surface: rgba(255, 255, 255, 0.9);
+                --card-bg: #ffffff;
+                --text-primary: #172033;
+                --text-secondary: #627089;
+                --border: rgba(23, 32, 51, 0.1);
+                --shadow: 0 28px 60px rgba(23, 32, 51, 0.12);
+                --shadow-hover: 0 34px 68px rgba(23, 32, 51, 0.18);
             }
 
             body {
                 background:
-                    radial-gradient(circle at top left, rgba(255, 154, 98, 0.12), transparent 26%),
-                    radial-gradient(circle at bottom right, rgba(187, 90, 50, 0.18), transparent 24%),
-                    linear-gradient(180deg, #110b08 0%, #1a120d 100%);
+                    radial-gradient(circle at top left, rgba(104, 199, 255, 0.18), transparent 24%),
+                    radial-gradient(circle at top right, rgba(255, 77, 103, 0.12), transparent 18%),
+                    linear-gradient(180deg, #f7f9fc 0%, #edf3fb 100%);
             }
 
-            .hero-chip,
-            .dish-tag {
-                background: rgba(255, 255, 255, 0.04);
-            }
-
-            .hero-visual {
-                border-color: rgba(255, 255, 255, 0.08);
+            .featured-banner {
                 background:
-                    radial-gradient(circle at 30% 28%, rgba(255, 228, 187, 0.18), transparent 18%),
-                    radial-gradient(circle at 66% 32%, rgba(255, 163, 96, 0.18), transparent 16%),
-                    radial-gradient(circle at 54% 64%, rgba(255, 154, 98, 0.12), transparent 28%),
-                    linear-gradient(145deg, #2c1c13 0%, #6f432d 42%, #b86b43 100%);
-            }
-
-            .dish-badge {
-                background: rgba(173, 214, 112, 0.16);
-                color: #d7efb4;
+                    linear-gradient(90deg, rgba(19, 28, 48, 0.94) 0%, rgba(19, 28, 48, 0.82) 44%, rgba(19, 28, 48, 0.28) 100%),
+                    radial-gradient(circle at 78% 22%, rgba(255, 77, 103, 0.24), transparent 16%),
+                    linear-gradient(140deg, #18233e 0%, #553052 38%, #222949 100%);
             }
         }
 
@@ -362,169 +455,129 @@
     </style>
 </head>
 <body>
-    <main class="menu-page">
-        <div class="menu-shell">
-            <section class="menu-hero" aria-labelledby="menu-title">
-                <div>
-                    <span class="eyebrow">Seasonal Menu</span>
-                    <h1 id="menu-title">A warm, shareable menu crafted for slow evenings and bright flavors.</h1>
+    <main class="streaming-page">
+        <div class="streaming-shell">
+            <section class="featured-banner" aria-labelledby="featured-title">
+                <div class="featured-copy">
+                    <span class="eyebrow">Featured Tonight</span>
+                    <h1 id="featured-title">Midnight Echo</h1>
                     <p>
-                        From light starters to comforting mains and polished desserts, every plate is designed to be easy to scan, easy to love, and made for lingering over.
+                        A vanished signal, a city that never sleeps, and a crew racing through neon streets to uncover what’s real before sunrise erases the evidence.
                     </p>
-                    <div class="hero-highlights" aria-label="Menu highlights">
-                        <span class="hero-chip">House-made daily</span>
-                        <span class="hero-chip">Locally sourced produce</span>
-                        <span class="hero-chip">Vegetarian-friendly</span>
+                    <div class="meta-row" aria-label="Featured movie details">
+                        <span class="meta-pill">Sci-Fi Thriller</span>
+                        <span class="meta-pill">2h 11m</span>
+                        <span class="meta-pill">4K UHD</span>
+                    </div>
+                    <div class="featured-actions">
+                        <a class="primary-button" href="#trending">Watch now</a>
+                        <a class="secondary-button" href="#">Add to list</a>
                     </div>
                 </div>
-                <div class="hero-visual" aria-hidden="true"></div>
+                <div class="featured-poster" aria-hidden="true"></div>
             </section>
 
-            <div class="menu-categories">
-                <section class="menu-category" aria-labelledby="starters-title">
-                    <div class="category-header">
-                        <div>
-                            <h2 id="starters-title">Starters</h2>
-                            <p>Bright, shareable plates to open the table.</p>
+            <section class="category-section" id="trending" aria-labelledby="trending-title">
+                <div class="section-header">
+                    <div>
+                        <span class="eyebrow">Trending Now</span>
+                        <h2 id="trending-title">Popular picks this week</h2>
+                        <p>Fast-moving thrillers, glossy dramas, and high-stakes stories people are pressing play on right now.</p>
+                    </div>
+                    <a class="section-link" href="#">View all</a>
+                </div>
+                <div class="movie-grid">
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--one" aria-hidden="true"></div>
+                        <span class="movie-badge">Top 10</span>
+                        <h3>Neon Divide</h3>
+                        <p>A fractured alliance forms beneath a city split between memory and machine.</p>
+                        <div class="movie-meta">
+                            <span>Action • 1h 54m</span>
+                            <a class="movie-link" href="#">Details</a>
                         </div>
-                        <span class="category-note">Fresh picks</span>
-                    </div>
-                    <div class="menu-grid">
-                        <article class="dish-card">
-                            <span class="dish-badge">Chef's Pick</span>
-                            <div class="dish-title-row">
-                                <h3>Citrus Burrata</h3>
-                                <p class="dish-price">$14</p>
-                            </div>
-                            <p class="dish-description">Creamy burrata with orange segments, basil oil, toasted pistachio, and sea salt.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Light &amp; bright</span>
-                                <span>Vegetarian</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Charred Prawns</h3>
-                                <p class="dish-price">$16</p>
-                            </div>
-                            <p class="dish-description">Wood-fired prawns with lemon butter, roasted garlic, and herb breadcrumbs.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Coastal favorite</span>
-                                <span>Seafood</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Whipped Feta Dip</h3>
-                                <p class="dish-price">$12</p>
-                            </div>
-                            <p class="dish-description">Whipped feta with chili honey, cucumber ribbons, and warm grilled flatbread.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Best shared</span>
-                                <span>Vegetarian</span>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="menu-category" aria-labelledby="mains-title">
-                    <div class="category-header">
-                        <div>
-                            <h2 id="mains-title">Signature Plates</h2>
-                            <p>Comforting mains with depth, color, and balance.</p>
+                    </article>
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--two" aria-hidden="true"></div>
+                        <h3>Blue Horizon</h3>
+                        <p>An astronaut returns home carrying a mystery no one on Earth can explain.</p>
+                        <div class="movie-meta">
+                            <span>Sci-Fi • 2h 02m</span>
+                            <a class="movie-link" href="#">Details</a>
                         </div>
-                        <span class="category-note">Most ordered</span>
-                    </div>
-                    <div class="menu-grid">
-                        <article class="dish-card">
-                            <span class="dish-badge">Popular</span>
-                            <div class="dish-title-row">
-                                <h3>Rosemary Half Chicken</h3>
-                                <p class="dish-price">$28</p>
-                            </div>
-                            <p class="dish-description">Roasted half chicken with crispy potatoes, preserved lemon, and pan jus.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">House classic</span>
-                                <span>Gluten free</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Wild Mushroom Tagliatelle</h3>
-                                <p class="dish-price">$24</p>
-                            </div>
-                            <p class="dish-description">Fresh pasta with roasted mushrooms, thyme cream, parmesan, and cracked pepper.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Silky &amp; rich</span>
-                                <span>Vegetarian</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Seared Salmon Verde</h3>
-                                <p class="dish-price">$29</p>
-                            </div>
-                            <p class="dish-description">Crisp-skinned salmon with green tahini, spring vegetables, and fennel salad.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Seasonal</span>
-                                <span>Seafood</span>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="menu-category" aria-labelledby="desserts-title">
-                    <div class="category-header">
-                        <div>
-                            <h2 id="desserts-title">Desserts &amp; Sips</h2>
-                            <p>Finish with something smooth, sweet, or sparkling.</p>
+                    </article>
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--three" aria-hidden="true"></div>
+                        <span class="movie-badge">New</span>
+                        <h3>Green Signal</h3>
+                        <p>A courier breaks protocol to deliver a message that could stop a war.</p>
+                        <div class="movie-meta">
+                            <span>Drama • 1h 49m</span>
+                            <a class="movie-link" href="#">Details</a>
                         </div>
-                        <span class="category-note">After dinner</span>
-                    </div>
-                    <div class="menu-grid">
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Olive Oil Cake</h3>
-                                <p class="dish-price">$11</p>
-                            </div>
-                            <p class="dish-description">Tender citrus olive oil cake with mascarpone cream and candied orange peel.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Light finish</span>
-                                <span>Dessert</span>
-                            </div>
-                        </article>
+                    </article>
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--four" aria-hidden="true"></div>
+                        <h3>Velvet Static</h3>
+                        <p>A radio host starts receiving calls from listeners who haven’t happened yet.</p>
+                        <div class="movie-meta">
+                            <span>Mystery • 2h 05m</span>
+                            <a class="movie-link" href="#">Details</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
 
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Dark Chocolate Tart</h3>
-                                <p class="dish-price">$12</p>
-                            </div>
-                            <p class="dish-description">Bittersweet ganache tart with sea salt, espresso crema, and cocoa nib crunch.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Rich favorite</span>
-                                <span>Dessert</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <span class="dish-badge">Signature</span>
-                            <div class="dish-title-row">
-                                <h3>Sunset Spritz</h3>
-                                <p class="dish-price">$13</p>
-                            </div>
-                            <p class="dish-description">Blood orange, sparkling rosé, and rosemary syrup served tall over ice.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Refreshing</span>
-                                <span>Cocktail</span>
-                            </div>
-                        </article>
+            <section class="category-section" aria-labelledby="new-releases-title">
+                <div class="section-header">
+                    <div>
+                        <span class="eyebrow">New Releases</span>
+                        <h2 id="new-releases-title">Fresh premieres</h2>
+                        <p>New stories landing this month, from intimate character studies to spectacle-heavy event films.</p>
                     </div>
-                </section>
-            </div>
+                    <a class="section-link" href="#">Browse premieres</a>
+                </div>
+                <div class="movie-grid">
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--five" aria-hidden="true"></div>
+                        <h3>Sunline</h3>
+                        <p>A washed-up racer gets one last shot on the most dangerous desert course on Earth.</p>
+                        <div class="movie-meta">
+                            <span>Adventure • 1h 57m</span>
+                            <a class="movie-link" href="#">Details</a>
+                        </div>
+                    </article>
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--six" aria-hidden="true"></div>
+                        <span class="movie-badge">4K</span>
+                        <h3>Orbit Fall</h3>
+                        <p>A satellite collapse forces a rescue team to improvise above a dying world.</p>
+                        <div class="movie-meta">
+                            <span>Sci-Fi • 2h 08m</span>
+                            <a class="movie-link" href="#">Details</a>
+                        </div>
+                    </article>
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--seven" aria-hidden="true"></div>
+                        <h3>Afterglow Hotel</h3>
+                        <p>One surreal night ties five strangers together inside a disappearing seaside hotel.</p>
+                        <div class="movie-meta">
+                            <span>Drama • 1h 46m</span>
+                            <a class="movie-link" href="#">Details</a>
+                        </div>
+                    </article>
+                    <article class="movie-card">
+                        <div class="movie-poster movie-poster--eight" aria-hidden="true"></div>
+                        <span class="movie-badge">Award Pick</span>
+                        <h3>Atlas Wake</h3>
+                        <p>A documentary crew follows a polar expedition that begins rewriting history.</p>
+                        <div class="movie-meta">
+                            <span>Documentary • 1h 38m</span>
+                            <a class="movie-link" href="#">Details</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
         </div>
     </main>
 </body>
