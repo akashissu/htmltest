@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
+    <title>Travel Destinations</title>
     <style>
         :root {
             color-scheme: light dark;
-            --page-bg: #f7f1e8;
-            --surface: rgba(255, 252, 247, 0.88);
-            --card-bg: #fffdf9;
-            --text-primary: #2d2016;
-            --text-secondary: #735e50;
-            --accent: #bb5a32;
-            --accent-soft: rgba(187, 90, 50, 0.12);
-            --border: rgba(88, 58, 37, 0.12);
-            --shadow: 0 24px 50px rgba(56, 33, 17, 0.1);
-            --shadow-hover: 0 28px 56px rgba(56, 33, 17, 0.16);
-            --radius-xl: 30px;
-            --radius-lg: 22px;
+            --page-bg: #eff8ff;
+            --surface: rgba(255, 255, 255, 0.84);
+            --card-bg: #ffffff;
+            --text-primary: #16324f;
+            --text-secondary: #5b7491;
+            --accent: #0c8ce9;
+            --accent-soft: rgba(12, 140, 233, 0.12);
+            --accent-warm: #ffb860;
+            --border: rgba(22, 50, 79, 0.1);
+            --shadow: 0 26px 58px rgba(27, 78, 124, 0.12);
+            --shadow-hover: 0 32px 64px rgba(27, 78, 124, 0.18);
+            --radius-xl: 32px;
+            --radius-lg: 24px;
             --transition: 180ms ease;
             --container-width: 1120px;
         }
@@ -33,37 +34,42 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(255, 211, 164, 0.45), transparent 30%),
-                radial-gradient(circle at bottom right, rgba(187, 90, 50, 0.16), transparent 26%),
-                linear-gradient(180deg, #fff8ef 0%, #f7f1e8 100%);
+                radial-gradient(circle at top left, rgba(110, 201, 255, 0.42), transparent 28%),
+                radial-gradient(circle at top right, rgba(255, 184, 96, 0.28), transparent 22%),
+                linear-gradient(180deg, #f7fcff 0%, #eff8ff 46%, #ebf6ff 100%);
         }
 
-        .menu-page {
+        .travel-page {
             padding: 56px 24px 72px;
         }
 
-        .menu-shell {
+        .travel-shell {
             width: min(100%, var(--container-width));
             margin: 0 auto;
             display: grid;
             gap: 28px;
         }
 
-        .menu-hero,
-        .menu-category {
+        .hero,
+        .section-panel,
+        .destination-card {
             border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
             background: var(--surface);
             box-shadow: var(--shadow);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
 
-        .menu-hero {
+        .hero,
+        .section-panel {
+            border-radius: var(--radius-xl);
+        }
+
+        .hero {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 420px);
             gap: 28px;
-            padding: 34px;
+            padding: 36px;
             align-items: center;
         }
 
@@ -82,276 +88,331 @@
             text-transform: uppercase;
         }
 
-        .menu-hero h1,
-        .category-header h2 {
-            margin: 0 0 14px;
+        .hero h1,
+        .section-header h2,
+        .destination-card h3 {
+            margin: 0;
             line-height: 1.05;
             letter-spacing: -0.03em;
         }
 
-        .menu-hero h1 {
-            font-size: clamp(2.2rem, 4vw, 3.6rem);
+        .hero h1 {
+            margin-bottom: 16px;
+            font-size: clamp(2.4rem, 5vw, 4.2rem);
         }
 
-        .menu-hero p,
-        .category-header p,
-        .dish-description {
+        .hero p,
+        .section-header p,
+        .destination-card p {
             margin: 0;
             color: var(--text-secondary);
             line-height: 1.72;
         }
 
-        .menu-hero p {
-            max-width: 56ch;
+        .hero p {
+            max-width: 58ch;
             font-size: 1.02rem;
         }
 
-        .hero-highlights {
+        .hero-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 22px;
+            gap: 14px;
+            margin-top: 26px;
         }
 
-        .hero-chip {
+        .booking-button,
+        .secondary-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 14px;
+            gap: 10px;
+            padding: 14px 20px;
+            border: 1px solid transparent;
             border-radius: 999px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+        }
+
+        .booking-button {
+            background: linear-gradient(135deg, var(--accent), #46b5ff);
+            color: #ffffff;
+            box-shadow: 0 18px 36px rgba(12, 140, 233, 0.26);
+        }
+
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.72);
             color: var(--text-primary);
-            font-weight: 700;
+            border-color: var(--border);
+        }
+
+        .booking-button:hover,
+        .booking-button:focus-visible,
+        .secondary-button:hover,
+        .secondary-button:focus-visible,
+        .destination-card:hover,
+        .destination-card:focus-within {
+            transform: translateY(-4px);
+            border-color: rgba(12, 140, 233, 0.24);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .booking-button:focus-visible,
+        .secondary-button:focus-visible,
+        .destination-link:focus-visible {
+            outline: 2px solid rgba(12, 140, 233, 0.38);
+            outline-offset: 3px;
         }
 
         .hero-visual {
-            min-height: 260px;
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            border-radius: calc(var(--radius-xl) - 4px);
-            background:
-                radial-gradient(circle at 30% 28%, rgba(255, 241, 214, 0.95), transparent 18%),
-                radial-gradient(circle at 66% 32%, rgba(255, 205, 154, 0.9), transparent 16%),
-                radial-gradient(circle at 54% 64%, rgba(187, 90, 50, 0.22), transparent 28%),
-                linear-gradient(145deg, #fff7ed 0%, #f6d3b5 42%, #efb78c 100%);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-            position: relative;
+            min-height: 360px;
+            border-radius: calc(var(--radius-xl) - 6px);
             overflow: hidden;
+            position: relative;
+            background:
+                radial-gradient(circle at 28% 24%, rgba(255, 244, 213, 0.92), transparent 16%),
+                radial-gradient(circle at 70% 18%, rgba(255, 184, 96, 0.82), transparent 18%),
+                linear-gradient(180deg, #75d5ff 0%, #a8ebff 34%, #d7f6ff 50%, #7fd08b 51%, #52b36b 100%);
         }
 
         .hero-visual::before,
         .hero-visual::after {
             content: "";
             position: absolute;
-            border-radius: 50%;
         }
 
         .hero-visual::before {
-            width: 180px;
-            height: 180px;
-            right: 26px;
-            bottom: -14px;
-            background: rgba(255, 252, 247, 0.45);
-            border: 14px solid rgba(255, 252, 247, 0.7);
+            inset: auto 18px 0 18px;
+            height: 120px;
+            border-radius: 40px 40px 0 0;
+            background: linear-gradient(180deg, rgba(16, 103, 56, 0.15), rgba(16, 103, 56, 0.38));
         }
 
         .hero-visual::after {
-            width: 120px;
-            height: 120px;
-            left: 30px;
-            bottom: 34px;
-            background: rgba(255, 252, 247, 0.4);
-            border: 10px solid rgba(255, 252, 247, 0.7);
+            width: 180px;
+            height: 180px;
+            right: 26px;
+            bottom: 42px;
+            border-radius: 50%;
+            border: 14px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.18);
         }
 
-        .menu-categories {
+        .highlights {
             display: grid;
-            gap: 24px;
-        }
-
-        .menu-category {
-            padding: 30px;
-        }
-
-        .category-header {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 22px;
-            flex-wrap: wrap;
-        }
-
-        .category-header h2 {
-            font-size: clamp(1.5rem, 2.3vw, 2rem);
-        }
-
-        .category-note {
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent);
-            font-size: 0.82rem;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 18px;
         }
 
-        .dish-card {
-            display: grid;
-            align-content: start;
-            gap: 14px;
-            height: 100%;
+        .highlight-card {
             padding: 22px;
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             background: var(--card-bg);
-            box-shadow: 0 14px 30px rgba(56, 33, 17, 0.06);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+            box-shadow: 0 16px 34px rgba(27, 78, 124, 0.06);
         }
 
-        .dish-card:hover,
-        .dish-card:focus-within {
-            transform: translateY(-4px);
-            border-color: rgba(187, 90, 50, 0.28);
-            box-shadow: var(--shadow-hover);
+        .highlight-card strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1.4rem;
         }
 
-        .dish-badge {
+        .highlight-card span {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .section-panel {
+            padding: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .section-header h2 {
+            margin-bottom: 12px;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+        }
+
+        .section-pill {
             display: inline-flex;
-            width: fit-content;
             align-items: center;
             justify-content: center;
-            padding: 7px 11px;
+            padding: 9px 14px;
             border-radius: 999px;
-            background: rgba(122, 151, 84, 0.14);
-            color: #546e3a;
-            font-size: 0.74rem;
+            background: rgba(255, 184, 96, 0.18);
+            color: #9a5e13;
+            font-size: 0.8rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .dish-title-row {
-            display: flex;
-            align-items: start;
-            justify-content: space-between;
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .destination-card {
+            display: grid;
             gap: 16px;
+            height: 100%;
+            padding: 18px;
+            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .dish-title-row h3,
-        .dish-price {
-            margin: 0;
-            line-height: 1.3;
+        .destination-visual {
+            min-height: 180px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .dish-title-row h3 {
-            font-size: 1.08rem;
+        .destination-visual--santorini {
+            background: linear-gradient(180deg, #84d5ff 0%, #dff6ff 48%, #f5f4ef 49%, #fbfbff 100%);
         }
 
-        .dish-price {
-            color: var(--accent);
-            font-size: 1rem;
-            font-weight: 800;
-            white-space: nowrap;
+        .destination-visual--kyoto {
+            background: linear-gradient(180deg, #9ed4ff 0%, #f0f7ff 44%, #f6c69b 45%, #e17d58 100%);
         }
 
-        .dish-footer {
+        .destination-visual--bali {
+            background: linear-gradient(180deg, #84d6ef 0%, #dff8ff 44%, #5fc283 45%, #277344 100%);
+        }
+
+        .destination-visual--amalfi {
+            background: linear-gradient(180deg, #8fd8ff 0%, #dff6ff 42%, #ffd089 43%, #fa8d57 100%);
+        }
+
+        .destination-visual::before,
+        .destination-visual::after {
+            content: "";
+            position: absolute;
+        }
+
+        .destination-visual::before {
+            inset: auto 18px 0 18px;
+            height: 62px;
+            border-radius: 20px 20px 0 0;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .destination-visual::after {
+            width: 82px;
+            height: 82px;
+            right: 16px;
+            top: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.32);
+            border: 8px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .destination-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            margin-top: auto;
-            color: var(--text-secondary);
-            font-size: 0.92rem;
         }
 
-        .dish-tag {
+        .destination-chip {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
             padding: 8px 12px;
             border-radius: 999px;
-            background: #f8f1e8;
-            border: 1px solid rgba(88, 58, 37, 0.08);
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .destination-link {
+            color: var(--accent);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .destination-link:hover,
+        .destination-link:focus-visible {
+            text-decoration: underline;
         }
 
         @media (max-width: 900px) {
-            .menu-page {
-                padding: 40px 20px 56px;
+            .travel-page {
+                padding: 42px 20px 56px;
             }
 
-            .menu-hero {
+            .hero,
+            .highlights {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 640px) {
-            .menu-page {
+            .travel-page {
                 padding: 24px 16px 40px;
             }
 
-            .menu-hero,
-            .menu-category {
+            .hero,
+            .section-panel {
                 padding: 22px 20px;
                 border-radius: 24px;
             }
 
-            .dish-card {
-                padding: 18px;
+            .hero-actions {
+                flex-direction: column;
             }
 
-            .dish-title-row {
-                flex-direction: column;
-                gap: 8px;
+            .booking-button,
+            .secondary-button {
+                width: 100%;
             }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --page-bg: #140f0b;
-                --surface: rgba(31, 22, 16, 0.88);
-                --card-bg: rgba(39, 27, 20, 0.96);
-                --text-primary: #f7efe8;
-                --text-secondary: #c8b2a2;
-                --accent: #ff9a62;
-                --accent-soft: rgba(255, 154, 98, 0.14);
-                --border: rgba(229, 205, 188, 0.12);
-                --shadow: 0 24px 54px rgba(0, 0, 0, 0.42);
-                --shadow-hover: 0 28px 60px rgba(0, 0, 0, 0.52);
+                --page-bg: #08111d;
+                --surface: rgba(10, 23, 38, 0.82);
+                --card-bg: rgba(12, 27, 45, 0.96);
+                --text-primary: #edf7ff;
+                --text-secondary: #aac5dd;
+                --accent: #69c7ff;
+                --accent-soft: rgba(105, 199, 255, 0.14);
+                --border: rgba(173, 211, 238, 0.12);
+                --shadow: 0 28px 64px rgba(0, 0, 0, 0.38);
+                --shadow-hover: 0 34px 72px rgba(0, 0, 0, 0.48);
             }
 
             body {
                 background:
-                    radial-gradient(circle at top left, rgba(255, 154, 98, 0.12), transparent 26%),
-                    radial-gradient(circle at bottom right, rgba(187, 90, 50, 0.18), transparent 24%),
-                    linear-gradient(180deg, #110b08 0%, #1a120d 100%);
+                    radial-gradient(circle at top left, rgba(105, 199, 255, 0.16), transparent 24%),
+                    radial-gradient(circle at top right, rgba(255, 184, 96, 0.12), transparent 20%),
+                    linear-gradient(180deg, #04101b 0%, #091827 48%, #0b1c2d 100%);
             }
 
-            .hero-chip,
-            .dish-tag {
+            .secondary-button,
+            .highlight-card,
+            .destination-card {
                 background: rgba(255, 255, 255, 0.04);
             }
 
-            .hero-visual {
-                border-color: rgba(255, 255, 255, 0.08);
-                background:
-                    radial-gradient(circle at 30% 28%, rgba(255, 228, 187, 0.18), transparent 18%),
-                    radial-gradient(circle at 66% 32%, rgba(255, 163, 96, 0.18), transparent 16%),
-                    radial-gradient(circle at 54% 64%, rgba(255, 154, 98, 0.12), transparent 28%),
-                    linear-gradient(145deg, #2c1c13 0%, #6f432d 42%, #b86b43 100%);
-            }
-
-            .dish-badge {
-                background: rgba(173, 214, 112, 0.16);
-                color: #d7efb4;
+            .section-pill {
+                background: rgba(255, 184, 96, 0.16);
+                color: #ffd49d;
             }
         }
 
@@ -364,169 +425,90 @@
     </style>
 </head>
 <body>
-    <main class="menu-page">
-        <div class="menu-shell">
-            <section class="menu-hero" aria-labelledby="menu-title">
+    <main class="travel-page">
+        <div class="travel-shell">
+            <section class="hero" aria-labelledby="hero-title">
                 <div>
-                    <span class="eyebrow">Seasonal Menu</span>
-                    <h1 id="menu-title">A warm, shareable menu crafted for slow evenings and bright flavors.</h1>
+                    <span class="eyebrow">Explore Beyond the Ordinary</span>
+                    <h1 id="hero-title">Find your next unforgettable getaway.</h1>
                     <p>
-                        From light starters to comforting mains and polished desserts, every plate is designed to be easy to scan, easy to love, and made for lingering over.
+                        Discover sunlit coastlines, timeless cities, and peaceful escapes curated for travelers who want beautiful stays, easy planning, and a trip worth talking about.
                     </p>
-                    <div class="hero-highlights" aria-label="Menu highlights">
-                        <span class="hero-chip">House-made daily</span>
-                        <span class="hero-chip">Locally sourced produce</span>
-                        <span class="hero-chip">Vegetarian-friendly</span>
+                    <div class="hero-actions">
+                        <a class="booking-button" href="#destinations">Book your escape</a>
+                        <a class="secondary-button" href="#highlights">Browse highlights</a>
                     </div>
                 </div>
                 <div class="hero-visual" aria-hidden="true"></div>
             </section>
 
-            <div class="menu-categories">
-                <section class="menu-category" aria-labelledby="starters-title">
-                    <div class="category-header">
-                        <div>
-                            <h2 id="starters-title">Starters</h2>
-                            <p>Bright, shareable plates to open the table.</p>
+            <section class="highlights" id="highlights" aria-label="Travel highlights">
+                <article class="highlight-card">
+                    <strong>24 handpicked stays</strong>
+                    <span>Curated coastal villas, mountain retreats, and design-forward city hideaways.</span>
+                </article>
+                <article class="highlight-card">
+                    <strong>Flexible booking</strong>
+                    <span>Simple planning with clear availability, travel windows, and stress-free booking options.</span>
+                </article>
+                <article class="highlight-card">
+                    <strong>Local-first itineraries</strong>
+                    <span>Each destination comes with quick inspiration for food, culture, and memorable moments.</span>
+                </article>
+            </section>
+
+            <section class="section-panel" id="destinations" aria-labelledby="destinations-title">
+                <div class="section-header">
+                    <div>
+                        <span class="eyebrow">Destinations</span>
+                        <h2 id="destinations-title">Bright places to daydream about now</h2>
+                        <p>Shortlisted destinations that feel welcoming, scenic, and ready for a well-timed escape.</p>
+                    </div>
+                    <span class="section-pill">Sun &amp; culture</span>
+                </div>
+
+                <div class="destinations-grid">
+                    <article class="destination-card">
+                        <div class="destination-visual destination-visual--santorini" aria-hidden="true"></div>
+                        <div class="destination-meta">
+                            <span class="destination-chip">Greece</span>
+                            <a class="destination-link" href="#">View trip</a>
                         </div>
-                        <span class="category-note">Fresh picks</span>
-                    </div>
-                    <div class="menu-grid">
-                        <article class="dish-card">
-                            <span class="dish-badge">Chef's Pick</span>
-                            <div class="dish-title-row">
-                                <h3>Citrus Burrata</h3>
-                                <p class="dish-price">$14</p>
-                            </div>
-                            <p class="dish-description">Creamy burrata with orange segments, basil oil, toasted pistachio, and sea salt.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Light &amp; bright</span>
-                                <span>Vegetarian</span>
-                            </div>
-                        </article>
+                        <h3>Santorini</h3>
+                        <p>Whitewashed cliffside stays, blue water, and golden-hour dinners with a caldera view.</p>
+                    </article>
 
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Charred Prawns</h3>
-                                <p class="dish-price">$16</p>
-                            </div>
-                            <p class="dish-description">Wood-fired prawns with lemon butter, roasted garlic, and herb breadcrumbs.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Coastal favorite</span>
-                                <span>Seafood</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Whipped Feta Dip</h3>
-                                <p class="dish-price">$12</p>
-                            </div>
-                            <p class="dish-description">Whipped feta with chili honey, cucumber ribbons, and warm grilled flatbread.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Best shared</span>
-                                <span>Vegetarian</span>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="menu-category" aria-labelledby="mains-title">
-                    <div class="category-header">
-                        <div>
-                            <h2 id="mains-title">Signature Plates</h2>
-                            <p>Comforting mains with depth, color, and balance.</p>
+                    <article class="destination-card">
+                        <div class="destination-visual destination-visual--kyoto" aria-hidden="true"></div>
+                        <div class="destination-meta">
+                            <span class="destination-chip">Japan</span>
+                            <a class="destination-link" href="#">View trip</a>
                         </div>
-                        <span class="category-note">Most ordered</span>
-                    </div>
-                    <div class="menu-grid">
-                        <article class="dish-card">
-                            <span class="dish-badge">Popular</span>
-                            <div class="dish-title-row">
-                                <h3>Rosemary Half Chicken</h3>
-                                <p class="dish-price">$28</p>
-                            </div>
-                            <p class="dish-description">Roasted half chicken with crispy potatoes, preserved lemon, and pan jus.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">House classic</span>
-                                <span>Gluten free</span>
-                            </div>
-                        </article>
+                        <h3>Kyoto</h3>
+                        <p>Temple walks, quiet gardens, and refined city stays wrapped in seasonal color.</p>
+                    </article>
 
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Wild Mushroom Tagliatelle</h3>
-                                <p class="dish-price">$24</p>
-                            </div>
-                            <p class="dish-description">Fresh pasta with roasted mushrooms, thyme cream, parmesan, and cracked pepper.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Silky &amp; rich</span>
-                                <span>Vegetarian</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Seared Salmon Verde</h3>
-                                <p class="dish-price">$29</p>
-                            </div>
-                            <p class="dish-description">Crisp-skinned salmon with green tahini, spring vegetables, and fennel salad.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Seasonal</span>
-                                <span>Seafood</span>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="menu-category" aria-labelledby="desserts-title">
-                    <div class="category-header">
-                        <div>
-                            <h2 id="desserts-title">Desserts &amp; Sips</h2>
-                            <p>Finish with something smooth, sweet, or sparkling.</p>
+                    <article class="destination-card">
+                        <div class="destination-visual destination-visual--bali" aria-hidden="true"></div>
+                        <div class="destination-meta">
+                            <span class="destination-chip">Indonesia</span>
+                            <a class="destination-link" href="#">View trip</a>
                         </div>
-                        <span class="category-note">After dinner</span>
-                    </div>
-                    <div class="menu-grid">
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Olive Oil Cake</h3>
-                                <p class="dish-price">$11</p>
-                            </div>
-                            <p class="dish-description">Tender citrus olive oil cake with mascarpone cream and candied orange peel.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Light finish</span>
-                                <span>Dessert</span>
-                            </div>
-                        </article>
+                        <h3>Bali</h3>
+                        <p>Jungle villas, ocean mornings, and a relaxed rhythm that makes slow travel feel effortless.</p>
+                    </article>
 
-                        <article class="dish-card">
-                            <div class="dish-title-row">
-                                <h3>Dark Chocolate Tart</h3>
-                                <p class="dish-price">$12</p>
-                            </div>
-                            <p class="dish-description">Bittersweet ganache tart with sea salt, espresso crema, and cocoa nib crunch.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Rich favorite</span>
-                                <span>Dessert</span>
-                            </div>
-                        </article>
-
-                        <article class="dish-card">
-                            <span class="dish-badge">Signature</span>
-                            <div class="dish-title-row">
-                                <h3>Sunset Spritz</h3>
-                                <p class="dish-price">$13</p>
-                            </div>
-                            <p class="dish-description">Blood orange, sparkling rosé, and rosemary syrup served tall over ice.</p>
-                            <div class="dish-footer">
-                                <span class="dish-tag">Refreshing</span>
-                                <span>Cocktail</span>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-            </div>
+                    <article class="destination-card">
+                        <div class="destination-visual destination-visual--amalfi" aria-hidden="true"></div>
+                        <div class="destination-meta">
+                            <span class="destination-chip">Italy</span>
+                            <a class="destination-link" href="#">View trip</a>
+                        </div>
+                        <h3>Amalfi Coast</h3>
+                        <p>Sunlit terraces, lemon groves, and postcard views layered above the Mediterranean.</p>
+                    </article>
+                </div>
+            </section>
         </div>
     </main>
 </body>
