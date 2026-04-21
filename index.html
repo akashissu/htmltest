@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Dashboard</title>
+    <title>Fashion Product Showcase</title>
     <style>
         :root {
             color-scheme: light dark;
-            --page-bg: #eef7f3;
-            --surface: rgba(255, 255, 255, 0.86);
-            --card-bg: #ffffff;
-            --text-primary: #183128;
-            --text-secondary: #5d7b6f;
-            --accent: #1fcf8b;
-            --accent-strong: #0f9f72;
-            --accent-soft: rgba(31, 207, 139, 0.14);
-            --accent-energy: #6f7bff;
-            --accent-warm: #ffb353;
-            --border: rgba(24, 49, 40, 0.1);
-            --shadow: 0 26px 58px rgba(25, 71, 56, 0.12);
-            --shadow-hover: 0 32px 68px rgba(25, 71, 56, 0.18);
-            --radius-xl: 32px;
-            --radius-lg: 24px;
-            --radius-md: 18px;
+            --page-bg: #f7f2ed;
+            --surface: rgba(255, 252, 249, 0.9);
+            --card-bg: #fffaf6;
+            --text-primary: #241915;
+            --text-secondary: #75645c;
+            --accent: #a66a53;
+            --accent-soft: rgba(166, 106, 83, 0.12);
+            --border: rgba(36, 25, 21, 0.1);
+            --shadow: 0 26px 60px rgba(77, 52, 43, 0.12);
+            --shadow-hover: 0 32px 70px rgba(77, 52, 43, 0.18);
+            --radius-xl: 34px;
+            --radius-lg: 26px;
             --transition: 180ms ease;
-            --container-width: 1160px;
+            --container-width: 1180px;
         }
 
         * {
@@ -37,28 +33,27 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(31, 207, 139, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(111, 123, 255, 0.18), transparent 24%),
-                linear-gradient(180deg, #f7fdf9 0%, #eef7f3 100%);
+                radial-gradient(circle at top left, rgba(166, 106, 83, 0.16), transparent 24%),
+                radial-gradient(circle at top right, rgba(215, 193, 175, 0.22), transparent 22%),
+                linear-gradient(180deg, #fcf8f4 0%, #f7f2ed 100%);
         }
 
-        .fitness-page {
-            padding: 42px 24px 60px;
+        .fashion-page {
+            padding: 42px 24px 64px;
         }
 
-        .fitness-shell {
+        .fashion-shell {
             width: min(100%, var(--container-width));
             margin: 0 auto;
             display: grid;
             gap: 24px;
         }
 
-        .dashboard-hero,
-        .panel,
-        .stat-card,
-        .progress-card,
-        .goal-item,
-        .schedule-item {
+        .fashion-hero,
+        .featured-panel,
+        .collection-panel,
+        .service-strip,
+        .product-card {
             border: 1px solid var(--border);
             background: var(--surface);
             box-shadow: var(--shadow);
@@ -66,215 +61,226 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        .dashboard-hero,
-        .panel {
+        .fashion-hero,
+        .featured-panel,
+        .collection-panel,
+        .service-strip {
             border-radius: var(--radius-xl);
         }
 
-        .dashboard-hero {
+        .fashion-hero {
             display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 360px);
+            grid-template-columns: minmax(0, 1.05fr) minmax(320px, 420px);
             gap: 28px;
-            padding: 34px;
+            padding: 36px;
             align-items: center;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 24%),
+                radial-gradient(circle at 84% 18%, rgba(166, 106, 83, 0.16), transparent 16%),
+                linear-gradient(145deg, rgba(166, 106, 83, 0.08), rgba(215, 193, 175, 0.12));
         }
 
-        .eyebrow {
+        .eyebrow,
+        .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
+            justify-content: center;
             padding: 8px 14px;
             border-radius: 999px;
             background: var(--accent-soft);
-            color: var(--accent-strong);
+            color: var(--accent);
             font-size: 0.78rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .dashboard-hero h1,
+        .fashion-hero h1,
+        .featured-copy h2,
         .section-header h2,
-        .stat-card strong,
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
+        .product-card h3,
+        .service-item h3 {
             margin: 0;
-            line-height: 1.06;
-            letter-spacing: -0.03em;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
         }
 
-        .dashboard-hero h1 {
-            margin-bottom: 14px;
-            font-size: clamp(2.3rem, 4.5vw, 4rem);
-            max-width: 10ch;
+        .fashion-hero h1 {
+            margin-top: 18px;
+            font-size: clamp(2.6rem, 5vw, 4.6rem);
+            max-width: 11ch;
         }
 
-        .dashboard-hero p,
+        .fashion-hero p,
+        .featured-copy p,
         .section-header p,
-        .stat-card span,
-        .progress-card p,
-        .goal-item p,
-        .schedule-item p {
+        .product-copy p,
+        .service-item p {
             margin: 0;
             color: var(--text-secondary);
-            line-height: 1.68;
+            line-height: 1.72;
         }
 
-        .dashboard-hero p {
-            max-width: 58ch;
+        .fashion-hero p {
+            margin-top: 14px;
+            max-width: 54ch;
         }
 
         .hero-actions,
-        .hero-metrics {
+        .featured-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
+            margin-top: 26px;
         }
 
-        .hero-actions {
-            margin-top: 24px;
-        }
-
-        .hero-metrics {
-            margin-top: 20px;
-        }
-
-        .primary-button,
-        .secondary-button,
-        .metric-chip {
+        .button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 999px;
-            font-weight: 800;
-        }
-
-        .primary-button,
-        .secondary-button {
             gap: 10px;
             padding: 14px 20px;
+            border-radius: 999px;
             border: 1px solid transparent;
             text-decoration: none;
+            font-weight: 800;
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
         }
 
-        .primary-button {
-            background: linear-gradient(135deg, var(--accent), #54dfaa);
-            color: #ffffff;
-            box-shadow: 0 18px 34px rgba(31, 207, 139, 0.24);
+        .button--primary,
+        .button--shop {
+            background: linear-gradient(135deg, var(--accent), #c88c72);
+            color: #fff8f3;
+            box-shadow: 0 18px 36px rgba(166, 106, 83, 0.22);
         }
 
-        .secondary-button {
-            background: rgba(255, 255, 255, 0.7);
+        .button--secondary {
+            background: rgba(255, 255, 255, 0.72);
             color: var(--text-primary);
             border-color: var(--border);
         }
 
-        .metric-chip {
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-
-        .primary-button:hover,
-        .primary-button:focus-visible,
-        .secondary-button:hover,
-        .secondary-button:focus-visible,
-        .stat-card:hover,
-        .stat-card:focus-within,
-        .progress-card:hover,
-        .progress-card:focus-within,
-        .goal-item:hover,
-        .schedule-item:hover {
+        .button:hover,
+        .button:focus-visible,
+        .product-card:hover,
+        .product-card:focus-within {
             transform: translateY(-4px);
-            border-color: rgba(31, 207, 139, 0.22);
+            border-color: rgba(166, 106, 83, 0.2);
             box-shadow: var(--shadow-hover);
         }
 
-        .primary-button:focus-visible,
-        .secondary-button:focus-visible,
-        .schedule-link:focus-visible {
-            outline: 2px solid rgba(111, 123, 255, 0.34);
+        .button:focus-visible,
+        .section-link:focus-visible {
+            outline: 2px solid rgba(166, 106, 83, 0.42);
             outline-offset: 3px;
         }
 
-        .hero-visual {
-            min-height: 320px;
-            border-radius: calc(var(--radius-xl) - 8px);
-            overflow: hidden;
+        .hero-art {
+            min-height: 360px;
+            border-radius: 28px;
             position: relative;
+            overflow: hidden;
             background:
-                radial-gradient(circle at 26% 22%, rgba(255, 255, 255, 0.9), transparent 14%),
-                radial-gradient(circle at 74% 20%, rgba(111, 123, 255, 0.26), transparent 18%),
-                linear-gradient(180deg, #baf5d8 0%, #dffcf0 36%, #6f7bff 37%, #5261ff 100%);
+                linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 24%),
+                linear-gradient(145deg, #eedfd5 0%, #d7c1af 52%, #b7846c 100%);
         }
 
-        .hero-visual::before,
-        .hero-visual::after {
+        .hero-art::before,
+        .hero-art::after,
+        .hero-figure,
+        .featured-media::before,
+        .featured-media::after,
+        .product-media::before,
+        .product-media::after {
             content: "";
             position: absolute;
         }
 
-        .hero-visual::before {
-            inset: auto 26px 24px 26px;
-            height: 124px;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.24);
-            border: 1px solid rgba(255, 255, 255, 0.34);
+        .hero-art::before {
+            inset: auto auto 0 12%;
+            width: 48%;
+            height: 76%;
+            border-radius: 44% 44% 20% 20%;
+            background: linear-gradient(180deg, rgba(77, 52, 43, 0.16), rgba(77, 52, 43, 0.42));
         }
 
-        .hero-visual::after {
-            width: 138px;
-            height: 138px;
-            top: 26px;
-            right: 24px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.24);
-            border: 12px solid rgba(255, 255, 255, 0.34);
+        .hero-art::after {
+            width: 34%;
+            height: 34%;
+            right: 10%;
+            top: 12%;
+            border-radius: 30px;
+            background: rgba(255, 248, 243, 0.28);
+            border: 1px solid rgba(255, 248, 243, 0.34);
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
+        .hero-figure {
+            inset: 12% 18% 0 auto;
+            width: 28%;
+            border-radius: 48% 48% 16% 16%;
+            background: linear-gradient(180deg, rgba(255, 248, 243, 0.78), rgba(255, 248, 243, 0.16));
         }
 
-        .stat-card {
-            padding: 22px;
-            border-radius: var(--radius-lg);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .stat-card strong {
-            display: block;
-            margin-bottom: 8px;
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-        }
-
-        .stat-trend {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 14px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-            gap: 24px;
-        }
-
-        .panel {
+        .featured-panel,
+        .collection-panel,
+        .service-strip {
             padding: 28px;
+        }
+
+        .featured-panel {
+            display: grid;
+            grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+            gap: 24px;
+            align-items: center;
+        }
+
+        .featured-media {
+            min-height: 280px;
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #f3e7de 0%, #d4b9a7 52%, #8c614e 100%);
+        }
+
+        .featured-media::before {
+            inset: auto 16px 16px 16px;
+            height: 72px;
+            border-radius: 22px;
+            background: rgba(255, 248, 243, 0.26);
+            border: 1px solid rgba(255, 248, 243, 0.34);
+        }
+
+        .featured-media::after {
+            width: 44%;
+            height: 76%;
+            left: 24%;
+            bottom: 0;
+            border-radius: 46% 46% 18% 18%;
+            background: linear-gradient(180deg, rgba(77, 52, 43, 0.18), rgba(77, 52, 43, 0.46));
+        }
+
+        .featured-copy {
+            display: grid;
+            gap: 14px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+        }
+
+        .price-note,
+        .product-tag {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
         }
 
         .section-header {
@@ -287,234 +293,171 @@
         }
 
         .section-header h2 {
+            margin-top: 12px;
             margin-bottom: 10px;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-size: clamp(1.7rem, 2.8vw, 2.2rem);
         }
 
-        .section-pill {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
+        .section-link {
+            color: var(--accent);
             font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            text-decoration: none;
         }
 
-        .progress-grid {
+        .section-link:hover,
+        .section-link:focus-visible {
+            text-decoration: underline;
+        }
+
+        .collection-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 18px;
         }
 
-        .progress-card {
-            padding: 20px;
+        .product-card {
+            display: grid;
+            gap: 14px;
+            height: 100%;
+            padding: 18px;
             border-radius: var(--radius-lg);
             background: var(--card-bg);
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
-            font-size: 1.06rem;
-            margin-bottom: 8px;
-        }
-
-        .progress-value {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 8px;
-            margin: 16px 0 14px;
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .progress-value small {
-            font-size: 0.94rem;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar,
-        .goal-bar {
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(24, 49, 40, 0.08);
+        .product-media {
+            aspect-ratio: 4 / 5;
+            border-radius: 22px;
+            position: relative;
             overflow: hidden;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 22%), #e7d8cd;
         }
 
-        .progress-fill,
-        .goal-fill {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
+        .product-media::before {
+            width: 46%;
+            height: 72%;
+            left: 27%;
+            bottom: 0;
+            border-radius: 46% 46% 16% 16%;
+            background: linear-gradient(180deg, rgba(77, 52, 43, 0.2), rgba(77, 52, 43, 0.5));
         }
 
-        .progress-fill--movement { width: 78%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .progress-fill--strength { width: 64%; background: linear-gradient(90deg, var(--accent-energy), #8da0ff); }
-        .progress-fill--hydration { width: 82%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .progress-fill--recovery { width: 71%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
+        .product-media::after {
+            inset: auto 12px 12px 12px;
+            height: 54px;
+            border-radius: 18px;
+            background: rgba(255, 248, 243, 0.22);
+            border: 1px solid rgba(255, 248, 243, 0.22);
+        }
 
-        .goals-panel,
-        .schedule-panel {
+        .product-media--one { background: linear-gradient(145deg, #efe2d9 0%, #d6bdaf 56%, #9d725d 100%); }
+        .product-media--two { background: linear-gradient(145deg, #f2ebe7 0%, #d9cfc6 56%, #8b6d62 100%); }
+        .product-media--three { background: linear-gradient(145deg, #eee0d9 0%, #d8c0b2 56%, #7d5848 100%); }
+        .product-media--four { background: linear-gradient(145deg, #f1e7dd 0%, #d7c5b2 56%, #b58a69 100%); }
+
+        .product-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .product-copy {
             display: grid;
-            gap: 16px;
+            gap: 8px;
         }
 
-        .goal-item,
-        .schedule-item {
-            padding: 18px;
-            border-radius: var(--radius-md);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        .product-card h3 {
+            font-size: 1.18rem;
         }
 
-        .goal-top,
-        .schedule-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
+        .service-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
         }
 
-        .goal-value,
-        .schedule-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 12px;
-            border-radius: 999px;
-            font-weight: 800;
+        .service-item {
+            display: grid;
+            gap: 8px;
+            padding: 10px 8px;
         }
 
-        .goal-value {
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-        }
-
-        .goal-fill--steps { width: 76%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .goal-fill--water { width: 68%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .goal-fill--sleep { width: 88%; background: linear-gradient(90deg, var(--accent-energy), #94a4ff); }
-        .goal-fill--protein { width: 62%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
-
-        .schedule-chip {
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-        }
-
-        .schedule-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            color: var(--text-secondary);
-            font-size: 0.94rem;
-        }
-
-        .schedule-link {
-            color: var(--accent-energy);
-            font-weight: 800;
-            text-decoration: none;
-        }
-
-        .schedule-link:hover,
-        .schedule-link:focus-visible {
-            text-decoration: underline;
+        .service-item h3 {
+            font-size: 1.04rem;
         }
 
         @media (max-width: 980px) {
-            .fitness-page {
-                padding: 32px 20px 48px;
-            }
-
-            .dashboard-hero,
-            .dashboard-grid,
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .dashboard-hero {
+            .fashion-hero,
+            .featured-panel {
                 grid-template-columns: 1fr;
             }
 
-            .dashboard-grid {
-                grid-template-columns: 1fr;
+            .collection-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
+        }
 
-            .hero-visual {
-                min-height: 260px;
+        @media (max-width: 760px) {
+            .service-strip {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 640px) {
-            .fitness-page {
-                padding: 18px 16px 32px;
+            .fashion-page {
+                padding: 20px 16px 36px;
             }
 
-            .dashboard-hero,
-            .panel {
+            .fashion-hero,
+            .featured-panel,
+            .collection-panel,
+            .service-strip {
                 padding: 22px 20px;
-                border-radius: 24px;
+                border-radius: 26px;
             }
 
-            .stats-grid,
-            .progress-grid {
+            .collection-grid {
                 grid-template-columns: 1fr;
             }
 
-            .hero-actions {
+            .hero-actions,
+            .featured-actions {
                 flex-direction: column;
             }
 
-            .primary-button,
-            .secondary-button {
+            .button {
                 width: 100%;
             }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --page-bg: #07120f;
-                --surface: rgba(10, 23, 19, 0.86);
-                --card-bg: rgba(12, 28, 23, 0.96);
-                --text-primary: #eefbf4;
-                --text-secondary: #a4c3b6;
-                --border: rgba(168, 215, 195, 0.12);
-                --shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
-                --shadow-hover: 0 34px 76px rgba(0, 0, 0, 0.5);
+                --page-bg: #120f0d;
+                --surface: rgba(24, 19, 17, 0.9);
+                --card-bg: rgba(29, 24, 21, 0.96);
+                --text-primary: #f7efe9;
+                --text-secondary: #c8b7ab;
+                --border: rgba(240, 226, 216, 0.1);
+                --shadow: 0 28px 64px rgba(0, 0, 0, 0.38);
+                --shadow-hover: 0 34px 74px rgba(0, 0, 0, 0.5);
             }
 
             body {
                 background:
-                    radial-gradient(circle at top left, rgba(31, 207, 139, 0.14), transparent 24%),
-                    radial-gradient(circle at top right, rgba(111, 123, 255, 0.16), transparent 24%),
-                    linear-gradient(180deg, #040a08 0%, #081310 100%);
+                    radial-gradient(circle at top left, rgba(166, 106, 83, 0.14), transparent 24%),
+                    radial-gradient(circle at top right, rgba(215, 193, 175, 0.12), transparent 22%),
+                    linear-gradient(180deg, #0d0b0a 0%, #15110f 100%);
             }
 
-            .secondary-button,
-            .metric-chip,
-            .stat-card,
-            .progress-card,
-            .goal-item,
-            .schedule-item {
-                background: rgba(255, 255, 255, 0.04);
-            }
-
-            .progress-bar,
-            .goal-bar {
-                background: rgba(255, 255, 255, 0.08);
+            .fashion-hero,
+            .featured-panel,
+            .collection-panel,
+            .service-strip,
+            .product-card,
+            .button--secondary {
+                background: rgba(255, 255, 255, 0.03);
             }
         }
 
@@ -527,197 +470,133 @@
     </style>
 </head>
 <body>
-    <main class="fitness-page">
-        <div class="fitness-shell">
-            <section class="dashboard-hero" aria-labelledby="dashboard-title">
-                <div>
-                    <span class="eyebrow">Weekly Snapshot</span>
-                    <h1 id="dashboard-title">Train stronger. Recover smarter.</h1>
-                    <p>
-                        Your dashboard keeps workouts, recovery, and goals in one clean view so you can keep momentum without losing sight of the bigger picture.
-                    </p>
-                    <div class="hero-metrics" aria-label="Quick filters">
-                        <span class="metric-chip">Weekly plan</span>
-                        <span class="metric-chip">Recovery focus</span>
-                        <span class="metric-chip">Nutrition sync</span>
-                    </div>
+    <main class="fashion-page">
+        <div class="fashion-shell">
+            <section class="fashion-hero" aria-labelledby="fashion-title">
+                <div class="hero-copy">
+                    <span class="eyebrow">Editorial picks</span>
+                    <h1 id="fashion-title">A refined wardrobe shaped by clean lines and soft texture.</h1>
+                    <p>Discover a modern collection of elevated essentials—tailored layers, rich neutrals, and statement pieces designed to feel timeless from first wear.</p>
                     <div class="hero-actions">
-                        <a class="primary-button" href="#progress">View progress</a>
-                        <a class="secondary-button" href="#schedule">Today’s schedule</a>
+                        <a class="button button--primary" href="#collection">Shop collection</a>
+                        <a class="button button--secondary" href="#featured-look">View featured look</a>
                     </div>
                 </div>
-                <div class="hero-visual" aria-hidden="true"></div>
-            </section>
-
-            <section class="stats-grid" aria-label="Workout stats overview">
-                <article class="stat-card">
-                    <strong>18</strong>
-                    <span>Workouts completed this month</span>
-                    <div class="stat-trend">+12% from last month</div>
-                </article>
-                <article class="stat-card">
-                    <strong>8,420</strong>
-                    <span>Calories burned across all sessions</span>
-                    <div class="stat-trend">Consistency up this week</div>
-                </article>
-                <article class="stat-card">
-                    <strong>11h 40m</strong>
-                    <span>Active time logged this week</span>
-                    <div class="stat-trend">2 sessions ahead</div>
-                </article>
-                <article class="stat-card">
-                    <strong>6-day</strong>
-                    <span>Current training streak</span>
-                    <div class="stat-trend">Recovery score 82/100</div>
-                </article>
-            </section>
-
-            <section class="dashboard-grid">
-                <div class="panel" id="progress" aria-labelledby="progress-title">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Progress</span>
-                            <h2 id="progress-title">Momentum at a glance</h2>
-                            <p>Track the habits and milestones that move your training forward every week.</p>
-                        </div>
-                        <span class="section-pill">4 active goals</span>
-                    </div>
-
-                    <div class="progress-grid">
-                        <article class="progress-card">
-                            <h3>Weekly movement</h3>
-                            <p>Active minutes completed toward your target.</p>
-                            <div class="progress-value">78<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Weekly movement progress">
-                                <span class="progress-fill progress-fill--movement"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Strength target</h3>
-                            <p>Resistance sessions completed this week.</p>
-                            <div class="progress-value">64<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Strength target progress">
-                                <span class="progress-fill progress-fill--strength"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Hydration</h3>
-                            <p>Average water intake relative to your plan.</p>
-                            <div class="progress-value">82<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Hydration progress">
-                                <span class="progress-fill progress-fill--hydration"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Recovery balance</h3>
-                            <p>Sleep and low-intensity work completed.</p>
-                            <div class="progress-value">71<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Recovery balance progress">
-                                <span class="progress-fill progress-fill--recovery"></span>
-                            </div>
-                        </article>
-                    </div>
+                <div class="hero-art" aria-hidden="true">
+                    <div class="hero-figure"></div>
                 </div>
+            </section>
 
-                <div class="panel">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Daily goals</span>
-                            <h2>Targets for today</h2>
-                            <p>Small wins that keep your routine moving in the right direction.</p>
-                        </div>
-                        <span class="section-pill">On track</span>
+            <section class="featured-panel" id="featured-look" aria-labelledby="featured-title">
+                <div class="featured-media" aria-hidden="true"></div>
+                <div class="featured-copy">
+                    <span class="eyebrow">Featured look</span>
+                    <h2 id="featured-title">The Autumn Atelier Set</h2>
+                    <p>A softly structured blazer with fluid tailored trousers for a confident silhouette that feels polished, effortless, and wearable all season.</p>
+                    <div class="price-row" aria-label="Featured look price">
+                        <span class="price">$248</span>
+                        <span class="price-note">Blazer and trouser set</span>
                     </div>
-
-                    <div class="goals-panel">
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Steps</h3>
-                                <span class="goal-value">7,600 / 10,000</span>
-                            </div>
-                            <p>Daily movement target</p>
-                            <div class="goal-bar" aria-label="Steps goal progress">
-                                <span class="goal-fill goal-fill--steps"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Water</h3>
-                                <span class="goal-value">1.7L / 2.5L</span>
-                            </div>
-                            <p>Hydration goal</p>
-                            <div class="goal-bar" aria-label="Water goal progress">
-                                <span class="goal-fill goal-fill--water"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Sleep</h3>
-                                <span class="goal-value">7.1h / 8h</span>
-                            </div>
-                            <p>Recovery target</p>
-                            <div class="goal-bar" aria-label="Sleep goal progress">
-                                <span class="goal-fill goal-fill--sleep"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Protein</h3>
-                                <span class="goal-value">93g / 150g</span>
-                            </div>
-                            <p>Nutrition target</p>
-                            <div class="goal-bar" aria-label="Protein goal progress">
-                                <span class="goal-fill goal-fill--protein"></span>
-                            </div>
-                        </article>
+                    <div class="featured-actions">
+                        <a class="button button--primary" href="#collection">Quick shop</a>
+                        <a class="button button--secondary" href="#collection">See the full edit</a>
                     </div>
                 </div>
             </section>
 
-            <section class="panel schedule-panel" id="schedule" aria-labelledby="schedule-title">
+            <section class="collection-panel" id="collection" aria-labelledby="collection-title">
                 <div class="section-header">
                     <div>
-                        <span class="eyebrow">Schedule</span>
-                        <h2 id="schedule-title">Upcoming sessions</h2>
-                        <p>Your next sessions are lined up with enough variety to keep the week balanced.</p>
+                        <span class="eyebrow">New arrivals</span>
+                        <h2 id="collection-title">Curated pieces for a polished closet</h2>
+                        <p>Elegant staples, softly bold accessories, and versatile silhouettes selected for a wardrobe that feels elevated every day.</p>
                     </div>
-                    <span class="section-pill">3 sessions left</span>
+                    <a class="section-link" href="#service-notes">Why shop this edit?</a>
                 </div>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Monday — HIIT Intervals</h3>
-                        <span class="schedule-chip">High intensity</span>
-                    </div>
-                    <p>Fast-paced interval work designed to boost endurance and conditioning.</p>
-                    <div class="schedule-meta">
-                        <span>7:00 AM • 35 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                <div class="collection-grid">
+                    <article class="product-card">
+                        <div class="product-media product-media--one" aria-hidden="true"></div>
+                        <div class="product-topline">
+                            <span class="badge">Best seller</span>
+                            <span class="product-tag">Tailoring</span>
+                        </div>
+                        <div class="product-copy">
+                            <h3>Rue Structured Blazer</h3>
+                            <p>Sharp shoulders, gentle drape, and a neutral finish for everyday refinement.</p>
+                        </div>
+                        <div class="price-row">
+                            <span class="price">$128</span>
+                            <span class="price-note">Available in oat and espresso</span>
+                        </div>
+                        <a class="button button--shop" href="#">Quick shop</a>
+                    </article>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Tuesday — Upper Body Strength</h3>
-                        <span class="schedule-chip">Strength</span>
-                    </div>
-                    <p>Compound lifts and accessory work focused on pressing and pulling power.</p>
-                    <div class="schedule-meta">
-                        <span>6:30 PM • 50 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                    <article class="product-card">
+                        <div class="product-media product-media--two" aria-hidden="true"></div>
+                        <div class="product-topline">
+                            <span class="badge">New</span>
+                            <span class="product-tag">Dresses</span>
+                        </div>
+                        <div class="product-copy">
+                            <h3>Elara Silk Midi Dress</h3>
+                            <p>Fluid movement, minimal lines, and a soft sheen for evening plans and special dinners.</p>
+                        </div>
+                        <div class="price-row">
+                            <span class="price">$156</span>
+                            <span class="price-note">Cut on the bias</span>
+                        </div>
+                        <a class="button button--shop" href="#">Quick shop</a>
+                    </article>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Wednesday — Recovery Yoga</h3>
-                        <span class="schedule-chip">Recovery</span>
-                    </div>
-                    <p>Mobility, breath work, and light movement to support recovery and range of motion.</p>
-                    <div class="schedule-meta">
-                        <span>8:00 AM • 30 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
+                    <article class="product-card">
+                        <div class="product-media product-media--three" aria-hidden="true"></div>
+                        <div class="product-topline">
+                            <span class="badge">Limited</span>
+                            <span class="product-tag">Accessories</span>
+                        </div>
+                        <div class="product-copy">
+                            <h3>Marlow Leather Tote</h3>
+                            <p>Supple structure with room for essentials, work notes, and a spare layer.</p>
+                        </div>
+                        <div class="price-row">
+                            <span class="price">$182</span>
+                            <span class="price-note">Hand-finished hardware</span>
+                        </div>
+                        <a class="button button--shop" href="#">Quick shop</a>
+                    </article>
+
+                    <article class="product-card">
+                        <div class="product-media product-media--four" aria-hidden="true"></div>
+                        <div class="product-topline">
+                            <span class="badge">Editor’s pick</span>
+                            <span class="product-tag">Footwear</span>
+                        </div>
+                        <div class="product-copy">
+                            <h3>Solène Heel Sandals</h3>
+                            <p>A sculpted heel and understated straps that lift both tailored and soft looks.</p>
+                        </div>
+                        <div class="price-row">
+                            <span class="price">$144</span>
+                            <span class="price-note">Cushioned insole</span>
+                        </div>
+                        <a class="button button--shop" href="#">Quick shop</a>
+                    </article>
+                </div>
+            </section>
+
+            <section class="service-strip" id="service-notes" aria-label="Shopping highlights">
+                <article class="service-item">
+                    <h3>Free premium shipping</h3>
+                    <p>Complimentary delivery on collection orders over $150.</p>
+                </article>
+                <article class="service-item">
+                    <h3>Easy returns</h3>
+                    <p>Try pieces at home with a 30-day return window.</p>
+                </article>
+                <article class="service-item">
+                    <h3>Curated seasonal drops</h3>
+                    <p>Refined edits focused on timeless silhouettes and rich texture.</p>
                 </article>
             </section>
         </div>
