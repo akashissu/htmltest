@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Dashboard</title>
+    <title>Help Center</title>
     <style>
         :root {
             color-scheme: light dark;
-            --page-bg: #eef7f3;
-            --surface: rgba(255, 255, 255, 0.86);
+            --page-bg: #f4f8fb;
+            --surface: rgba(255, 255, 255, 0.92);
             --card-bg: #ffffff;
-            --text-primary: #183128;
-            --text-secondary: #5d7b6f;
-            --accent: #1fcf8b;
-            --accent-strong: #0f9f72;
-            --accent-soft: rgba(31, 207, 139, 0.14);
-            --accent-energy: #6f7bff;
-            --accent-warm: #ffb353;
-            --border: rgba(24, 49, 40, 0.1);
-            --shadow: 0 26px 58px rgba(25, 71, 56, 0.12);
-            --shadow-hover: 0 32px 68px rgba(25, 71, 56, 0.18);
+            --text-primary: #1c2a3a;
+            --text-secondary: #66788f;
+            --accent: #2e84ff;
+            --accent-soft: rgba(46, 132, 255, 0.12);
+            --accent-mint: #43c6ac;
+            --border: rgba(28, 42, 58, 0.1);
+            --shadow: 0 24px 54px rgba(30, 53, 82, 0.1);
+            --shadow-hover: 0 30px 64px rgba(30, 53, 82, 0.16);
             --radius-xl: 32px;
             --radius-lg: 24px;
             --radius-md: 18px;
             --transition: 180ms ease;
-            --container-width: 1160px;
+            --container-width: 1120px;
         }
 
         * {
@@ -37,28 +35,29 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(31, 207, 139, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(111, 123, 255, 0.18), transparent 24%),
-                linear-gradient(180deg, #f7fdf9 0%, #eef7f3 100%);
+                radial-gradient(circle at top left, rgba(46, 132, 255, 0.14), transparent 24%),
+                radial-gradient(circle at top right, rgba(67, 198, 172, 0.12), transparent 20%),
+                linear-gradient(180deg, #fbfdff 0%, #f4f8fb 100%);
         }
 
-        .fitness-page {
-            padding: 42px 24px 60px;
+        .help-page {
+            padding: 42px 24px 64px;
         }
 
-        .fitness-shell {
+        .help-shell {
             width: min(100%, var(--container-width));
             margin: 0 auto;
             display: grid;
             gap: 24px;
         }
 
-        .dashboard-hero,
-        .panel,
-        .stat-card,
-        .progress-card,
-        .goal-item,
-        .schedule-item {
+        .help-hero,
+        .categories-panel,
+        .faq-panel,
+        .support-panel,
+        .category-card,
+        .faq-card,
+        .support-card {
             border: 1px solid var(--border);
             background: var(--surface);
             box-shadow: var(--shadow);
@@ -66,84 +65,121 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        .dashboard-hero,
-        .panel {
+        .help-hero,
+        .categories-panel,
+        .faq-panel,
+        .support-panel {
             border-radius: var(--radius-xl);
         }
 
-        .dashboard-hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 360px);
-            gap: 28px;
+        .help-hero {
             padding: 34px;
-            align-items: center;
+            display: grid;
+            gap: 22px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 22%),
+                radial-gradient(circle at 82% 18%, rgba(46, 132, 255, 0.16), transparent 16%),
+                linear-gradient(145deg, rgba(46, 132, 255, 0.08), rgba(67, 198, 172, 0.08));
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 16px;
             padding: 8px 14px;
             border-radius: 999px;
             background: var(--accent-soft);
-            color: var(--accent-strong);
+            color: var(--accent);
             font-size: 0.78rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .dashboard-hero h1,
+        .help-hero h1,
         .section-header h2,
-        .stat-card strong,
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
+        .category-card h3,
+        .faq-card h3,
+        .support-card h3 {
             margin: 0;
             line-height: 1.06;
             letter-spacing: -0.03em;
         }
 
-        .dashboard-hero h1 {
-            margin-bottom: 14px;
-            font-size: clamp(2.3rem, 4.5vw, 4rem);
+        .help-hero h1 {
+            font-size: clamp(2.3rem, 4.8vw, 4rem);
             max-width: 10ch;
         }
 
-        .dashboard-hero p,
+        .help-hero p,
         .section-header p,
-        .stat-card span,
-        .progress-card p,
-        .goal-item p,
-        .schedule-item p {
+        .category-card p,
+        .faq-card p,
+        .support-card p,
+        .helper-text {
             margin: 0;
             color: var(--text-secondary);
-            line-height: 1.68;
+            line-height: 1.72;
         }
 
-        .dashboard-hero p {
+        .help-hero p {
             max-width: 58ch;
         }
 
-        .hero-actions,
-        .hero-metrics {
-            display: flex;
-            flex-wrap: wrap;
+        .search-panel {
+            display: grid;
             gap: 12px;
         }
 
-        .hero-actions {
-            margin-top: 24px;
+        .search-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
         }
 
-        .hero-metrics {
-            margin-top: 20px;
+        .search-label {
+            font-size: 0.94rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .search-field {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        .search-field input {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: var(--text-primary);
+            font: inherit;
+        }
+
+        .search-field input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-field:focus-within {
+            border-color: rgba(46, 132, 255, 0.34);
+            box-shadow: 0 0 0 4px rgba(46, 132, 255, 0.1);
+        }
+
+        .search-field input:focus {
+            outline: none;
         }
 
         .primary-button,
-        .secondary-button,
-        .metric-chip {
+        .ghost-link,
+        .card-link,
+        .support-link,
+        .quick-chip {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -152,8 +188,7 @@
         }
 
         .primary-button,
-        .secondary-button {
-            gap: 10px;
+        .ghost-link {
             padding: 14px 20px;
             border: 1px solid transparent;
             text-decoration: none;
@@ -161,119 +196,59 @@
         }
 
         .primary-button {
-            background: linear-gradient(135deg, var(--accent), #54dfaa);
+            background: linear-gradient(135deg, var(--accent), #5aa3ff);
             color: #ffffff;
-            box-shadow: 0 18px 34px rgba(31, 207, 139, 0.24);
+            box-shadow: 0 18px 34px rgba(46, 132, 255, 0.2);
         }
 
-        .secondary-button {
-            background: rgba(255, 255, 255, 0.7);
+        .ghost-link {
+            background: rgba(255, 255, 255, 0.76);
             color: var(--text-primary);
             border-color: var(--border);
         }
 
-        .metric-chip {
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.72);
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quick-chip {
+            padding: 10px 13px;
+            background: rgba(255, 255, 255, 0.78);
             border: 1px solid var(--border);
             color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.86rem;
         }
 
         .primary-button:hover,
         .primary-button:focus-visible,
-        .secondary-button:hover,
-        .secondary-button:focus-visible,
-        .stat-card:hover,
-        .stat-card:focus-within,
-        .progress-card:hover,
-        .progress-card:focus-within,
-        .goal-item:hover,
-        .schedule-item:hover {
+        .ghost-link:hover,
+        .ghost-link:focus-visible,
+        .category-card:hover,
+        .category-card:focus-within,
+        .faq-card:hover,
+        .faq-card:focus-within,
+        .support-card:hover,
+        .support-card:focus-within {
             transform: translateY(-4px);
-            border-color: rgba(31, 207, 139, 0.22);
+            border-color: rgba(46, 132, 255, 0.2);
             box-shadow: var(--shadow-hover);
         }
 
         .primary-button:focus-visible,
-        .secondary-button:focus-visible,
-        .schedule-link:focus-visible {
-            outline: 2px solid rgba(111, 123, 255, 0.34);
+        .ghost-link:focus-visible,
+        .card-link:focus-visible,
+        .support-link:focus-visible,
+        .quick-chip:focus-visible {
+            outline: 2px solid rgba(67, 198, 172, 0.42);
             outline-offset: 3px;
         }
 
-        .hero-visual {
-            min-height: 320px;
-            border-radius: calc(var(--radius-xl) - 8px);
-            overflow: hidden;
-            position: relative;
-            background:
-                radial-gradient(circle at 26% 22%, rgba(255, 255, 255, 0.9), transparent 14%),
-                radial-gradient(circle at 74% 20%, rgba(111, 123, 255, 0.26), transparent 18%),
-                linear-gradient(180deg, #baf5d8 0%, #dffcf0 36%, #6f7bff 37%, #5261ff 100%);
-        }
-
-        .hero-visual::before,
-        .hero-visual::after {
-            content: "";
-            position: absolute;
-        }
-
-        .hero-visual::before {
-            inset: auto 26px 24px 26px;
-            height: 124px;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.24);
-            border: 1px solid rgba(255, 255, 255, 0.34);
-        }
-
-        .hero-visual::after {
-            width: 138px;
-            height: 138px;
-            top: 26px;
-            right: 24px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.24);
-            border: 12px solid rgba(255, 255, 255, 0.34);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .stat-card {
-            padding: 22px;
-            border-radius: var(--radius-lg);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .stat-card strong {
-            display: block;
-            margin-bottom: 8px;
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-        }
-
-        .stat-trend {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 14px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-            gap: 24px;
-        }
-
-        .panel {
+        .categories-panel,
+        .faq-panel,
+        .support-panel {
             padding: 28px;
         }
 
@@ -291,230 +266,154 @@
             font-size: clamp(1.5rem, 2.5vw, 2rem);
         }
 
-        .section-pill {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
+        .section-link {
+            color: var(--accent);
             font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            text-decoration: none;
         }
 
-        .progress-grid {
+        .section-link:hover,
+        .section-link:focus-visible,
+        .card-link:hover,
+        .card-link:focus-visible,
+        .support-link:hover,
+        .support-link:focus-visible {
+            text-decoration: underline;
+        }
+
+        .category-grid,
+        .faq-grid,
+        .support-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 18px;
         }
 
-        .progress-card {
+        .category-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .faq-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .support-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .category-card,
+        .faq-card,
+        .support-card {
+            display: grid;
+            gap: 12px;
+            height: 100%;
             padding: 20px;
             border-radius: var(--radius-lg);
             background: var(--card-bg);
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
         }
 
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
-            font-size: 1.06rem;
-            margin-bottom: 8px;
-        }
-
-        .progress-value {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 8px;
-            margin: 16px 0 14px;
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .progress-value small {
-            font-size: 0.94rem;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar,
-        .goal-bar {
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(24, 49, 40, 0.08);
-            overflow: hidden;
-        }
-
-        .progress-fill,
-        .goal-fill {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
-        }
-
-        .progress-fill--movement { width: 78%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .progress-fill--strength { width: 64%; background: linear-gradient(90deg, var(--accent-energy), #8da0ff); }
-        .progress-fill--hydration { width: 82%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .progress-fill--recovery { width: 71%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
-
-        .goals-panel,
-        .schedule-panel {
-            display: grid;
-            gap: 16px;
-        }
-
-        .goal-item,
-        .schedule-item {
-            padding: 18px;
-            border-radius: var(--radius-md);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .goal-top,
-        .schedule-top {
+        .category-meta,
+        .support-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
         }
 
-        .goal-value,
-        .schedule-chip {
+        .badge {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 8px 12px;
+            padding: 8px 11px;
             border-radius: 999px;
-            font-weight: 800;
-        }
-
-        .goal-value {
             background: var(--accent-soft);
-            color: var(--accent-strong);
-        }
-
-        .goal-fill--steps { width: 76%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .goal-fill--water { width: 68%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .goal-fill--sleep { width: 88%; background: linear-gradient(90deg, var(--accent-energy), #94a4ff); }
-        .goal-fill--protein { width: 62%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
-
-        .schedule-chip {
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
+            color: var(--accent);
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .schedule-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            color: var(--text-secondary);
-            font-size: 0.94rem;
-        }
-
-        .schedule-link {
-            color: var(--accent-energy);
+        .card-link,
+        .support-link {
+            color: var(--accent);
             font-weight: 800;
             text-decoration: none;
+            width: fit-content;
         }
 
-        .schedule-link:hover,
-        .schedule-link:focus-visible {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 980px) {
-            .fitness-page {
+        @media (max-width: 900px) {
+            .help-page {
                 padding: 32px 20px 48px;
             }
 
-            .dashboard-hero,
-            .dashboard-grid,
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr 1fr;
+            .category-grid,
+            .support-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
+        }
 
-            .dashboard-hero {
+        @media (max-width: 700px) {
+            .search-row,
+            .faq-grid,
+            .category-grid,
+            .support-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-visual {
-                min-height: 260px;
             }
         }
 
         @media (max-width: 640px) {
-            .fitness-page {
+            .help-page {
                 padding: 18px 16px 32px;
             }
 
-            .dashboard-hero,
-            .panel {
+            .help-hero,
+            .categories-panel,
+            .faq-panel,
+            .support-panel {
                 padding: 22px 20px;
                 border-radius: 24px;
             }
 
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-actions {
-                flex-direction: column;
-            }
-
             .primary-button,
-            .secondary-button {
+            .ghost-link {
                 width: 100%;
             }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --page-bg: #07120f;
-                --surface: rgba(10, 23, 19, 0.86);
-                --card-bg: rgba(12, 28, 23, 0.96);
-                --text-primary: #eefbf4;
-                --text-secondary: #a4c3b6;
-                --border: rgba(168, 215, 195, 0.12);
-                --shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
-                --shadow-hover: 0 34px 76px rgba(0, 0, 0, 0.5);
+                --page-bg: #0b1119;
+                --surface: rgba(14, 21, 32, 0.9);
+                --card-bg: rgba(17, 26, 39, 0.96);
+                --text-primary: #edf4ff;
+                --text-secondary: #acbbcf;
+                --border: rgba(177, 194, 219, 0.12);
+                --shadow: 0 28px 64px rgba(0, 0, 0, 0.38);
+                --shadow-hover: 0 34px 72px rgba(0, 0, 0, 0.5);
             }
 
             body {
                 background:
-                    radial-gradient(circle at top left, rgba(31, 207, 139, 0.14), transparent 24%),
-                    radial-gradient(circle at top right, rgba(111, 123, 255, 0.16), transparent 24%),
-                    linear-gradient(180deg, #040a08 0%, #081310 100%);
+                    radial-gradient(circle at top left, rgba(46, 132, 255, 0.14), transparent 24%),
+                    radial-gradient(circle at top right, rgba(67, 198, 172, 0.12), transparent 20%),
+                    linear-gradient(180deg, #070c13 0%, #0c131c 100%);
             }
 
-            .secondary-button,
-            .metric-chip,
-            .stat-card,
-            .progress-card,
-            .goal-item,
-            .schedule-item {
+            .category-card,
+            .faq-card,
+            .support-card,
+            .ghost-link,
+            .search-field,
+            .quick-chip {
                 background: rgba(255, 255, 255, 0.04);
             }
 
-            .progress-bar,
-            .goal-bar {
-                background: rgba(255, 255, 255, 0.08);
+            .search-field input {
+                color: var(--text-primary);
             }
         }
 
@@ -527,198 +426,172 @@
     </style>
 </head>
 <body>
-    <main class="fitness-page">
-        <div class="fitness-shell">
-            <section class="dashboard-hero" aria-labelledby="dashboard-title">
+    <main class="help-page">
+        <div class="help-shell">
+            <section class="help-hero" aria-labelledby="help-title">
+                <span class="eyebrow">Support center</span>
                 <div>
-                    <span class="eyebrow">Weekly Snapshot</span>
-                    <h1 id="dashboard-title">Train stronger. Recover smarter.</h1>
-                    <p>
-                        Your dashboard keeps workouts, recovery, and goals in one clean view so you can keep momentum without losing sight of the bigger picture.
-                    </p>
-                    <div class="hero-metrics" aria-label="Quick filters">
-                        <span class="metric-chip">Weekly plan</span>
-                        <span class="metric-chip">Recovery focus</span>
-                        <span class="metric-chip">Nutrition sync</span>
-                    </div>
-                    <div class="hero-actions">
-                        <a class="primary-button" href="#progress">View progress</a>
-                        <a class="secondary-button" href="#schedule">Today’s schedule</a>
-                    </div>
+                    <h1 id="help-title">How can we help today?</h1>
+                    <p>Search common topics, browse support categories, or contact our team for help with your account, billing, orders, and setup.</p>
                 </div>
-                <div class="hero-visual" aria-hidden="true"></div>
-            </section>
 
-            <section class="stats-grid" aria-label="Workout stats overview">
-                <article class="stat-card">
-                    <strong>18</strong>
-                    <span>Workouts completed this month</span>
-                    <div class="stat-trend">+12% from last month</div>
-                </article>
-                <article class="stat-card">
-                    <strong>8,420</strong>
-                    <span>Calories burned across all sessions</span>
-                    <div class="stat-trend">Consistency up this week</div>
-                </article>
-                <article class="stat-card">
-                    <strong>11h 40m</strong>
-                    <span>Active time logged this week</span>
-                    <div class="stat-trend">2 sessions ahead</div>
-                </article>
-                <article class="stat-card">
-                    <strong>6-day</strong>
-                    <span>Current training streak</span>
-                    <div class="stat-trend">Recovery score 82/100</div>
-                </article>
-            </section>
-
-            <section class="dashboard-grid">
-                <div class="panel" id="progress" aria-labelledby="progress-title">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Progress</span>
-                            <h2 id="progress-title">Momentum at a glance</h2>
-                            <p>Track the habits and milestones that move your training forward every week.</p>
+                <div class="search-panel" aria-label="Search help articles">
+                    <label class="search-label" for="help-search">Search help topics</label>
+                    <div class="search-row">
+                        <div class="search-field">
+                            <span aria-hidden="true">🔎</span>
+                            <input id="help-search" type="search" placeholder="Search articles, billing, account access, setup…" />
                         </div>
-                        <span class="section-pill">4 active goals</span>
+                        <a class="primary-button" href="#categories">Search guides</a>
                     </div>
-
-                    <div class="progress-grid">
-                        <article class="progress-card">
-                            <h3>Weekly movement</h3>
-                            <p>Active minutes completed toward your target.</p>
-                            <div class="progress-value">78<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Weekly movement progress">
-                                <span class="progress-fill progress-fill--movement"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Strength target</h3>
-                            <p>Resistance sessions completed this week.</p>
-                            <div class="progress-value">64<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Strength target progress">
-                                <span class="progress-fill progress-fill--strength"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Hydration</h3>
-                            <p>Average water intake relative to your plan.</p>
-                            <div class="progress-value">82<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Hydration progress">
-                                <span class="progress-fill progress-fill--hydration"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Recovery balance</h3>
-                            <p>Sleep and low-intensity work completed.</p>
-                            <div class="progress-value">71<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Recovery balance progress">
-                                <span class="progress-fill progress-fill--recovery"></span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Daily goals</span>
-                            <h2>Targets for today</h2>
-                            <p>Small wins that keep your routine moving in the right direction.</p>
-                        </div>
-                        <span class="section-pill">On track</span>
-                    </div>
-
-                    <div class="goals-panel">
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Steps</h3>
-                                <span class="goal-value">7,600 / 10,000</span>
-                            </div>
-                            <p>Daily movement target</p>
-                            <div class="goal-bar" aria-label="Steps goal progress">
-                                <span class="goal-fill goal-fill--steps"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Water</h3>
-                                <span class="goal-value">1.7L / 2.5L</span>
-                            </div>
-                            <p>Hydration goal</p>
-                            <div class="goal-bar" aria-label="Water goal progress">
-                                <span class="goal-fill goal-fill--water"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Sleep</h3>
-                                <span class="goal-value">7.1h / 8h</span>
-                            </div>
-                            <p>Recovery target</p>
-                            <div class="goal-bar" aria-label="Sleep goal progress">
-                                <span class="goal-fill goal-fill--sleep"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Protein</h3>
-                                <span class="goal-value">93g / 150g</span>
-                            </div>
-                            <p>Nutrition target</p>
-                            <div class="goal-bar" aria-label="Protein goal progress">
-                                <span class="goal-fill goal-fill--protein"></span>
-                            </div>
-                        </article>
+                    <p class="helper-text">Quick links:</p>
+                    <div class="quick-links" aria-label="Popular topics">
+                        <a class="quick-chip" href="#faq">Reset password</a>
+                        <a class="quick-chip" href="#categories">Billing help</a>
+                        <a class="quick-chip" href="#support">Contact support</a>
+                        <a class="quick-chip" href="#faq">Track requests</a>
                     </div>
                 </div>
             </section>
 
-            <section class="panel schedule-panel" id="schedule" aria-labelledby="schedule-title">
+            <section class="categories-panel" id="categories" aria-labelledby="categories-title">
                 <div class="section-header">
                     <div>
-                        <span class="eyebrow">Schedule</span>
-                        <h2 id="schedule-title">Upcoming sessions</h2>
-                        <p>Your next sessions are lined up with enough variety to keep the week balanced.</p>
+                        <h2 id="categories-title">Browse help categories</h2>
+                        <p>Find the right articles faster by starting with the topic that matches your issue.</p>
                     </div>
-                    <span class="section-pill">3 sessions left</span>
+                    <a class="section-link" href="#support">Need direct help?</a>
                 </div>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Monday — HIIT Intervals</h3>
-                        <span class="schedule-chip">High intensity</span>
-                    </div>
-                    <p>Fast-paced interval work designed to boost endurance and conditioning.</p>
-                    <div class="schedule-meta">
-                        <span>7:00 AM • 35 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                <div class="category-grid">
+                    <article class="category-card">
+                        <span class="badge">Account</span>
+                        <h3>Account &amp; Login</h3>
+                        <p>Sign-in help, password resets, verification steps, and profile access issues.</p>
+                        <div class="category-meta">
+                            <span>18 articles</span>
+                            <a class="card-link" href="#faq">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <span class="badge">Billing</span>
+                        <h3>Billing &amp; Payments</h3>
+                        <p>Invoices, subscriptions, card updates, refunds, and payment troubleshooting.</p>
+                        <div class="category-meta">
+                            <span>14 articles</span>
+                            <a class="card-link" href="#faq">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <span class="badge">Orders</span>
+                        <h3>Orders &amp; Shipping</h3>
+                        <p>Tracking, delays, address changes, delivery updates, and return support.</p>
+                        <div class="category-meta">
+                            <span>11 articles</span>
+                            <a class="card-link" href="#faq">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <span class="badge">Security</span>
+                        <h3>Security &amp; Privacy</h3>
+                        <p>Two-factor authentication, account protection, privacy requests, and permissions.</p>
+                        <div class="category-meta">
+                            <span>9 articles</span>
+                            <a class="card-link" href="#faq">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <span class="badge">Setup</span>
+                        <h3>Integrations &amp; Setup</h3>
+                        <p>Configuration help, setup steps, syncing tools, and getting started guides.</p>
+                        <div class="category-meta">
+                            <span>16 articles</span>
+                            <a class="card-link" href="#faq">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <span class="badge">Troubleshooting</span>
+                        <h3>Technical Issues</h3>
+                        <p>Error messages, app issues, browser fixes, and common troubleshooting steps.</p>
+                        <div class="category-meta">
+                            <span>22 articles</span>
+                            <a class="card-link" href="#faq">Explore</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Tuesday — Upper Body Strength</h3>
-                        <span class="schedule-chip">Strength</span>
+            <section class="faq-panel" id="faq" aria-labelledby="faq-title">
+                <div class="section-header">
+                    <div>
+                        <h2 id="faq-title">Frequently asked questions</h2>
+                        <p>Quick answers to the issues people ask about most often.</p>
                     </div>
-                    <p>Compound lifts and accessory work focused on pressing and pulling power.</p>
-                    <div class="schedule-meta">
-                        <span>6:30 PM • 50 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                    <a class="section-link" href="#support">Still need help?</a>
+                </div>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Wednesday — Recovery Yoga</h3>
-                        <span class="schedule-chip">Recovery</span>
+                <div class="faq-grid">
+                    <article class="faq-card">
+                        <h3>How do I reset my password?</h3>
+                        <p>Use the forgot-password option on the sign-in page, then follow the verification link sent to your email.</p>
+                        <a class="card-link" href="#support">Read more</a>
+                    </article>
+                    <article class="faq-card">
+                        <h3>Where can I update my billing details?</h3>
+                        <p>Open billing settings from your account panel to change payment methods, addresses, or invoice preferences.</p>
+                        <a class="card-link" href="#support">Read more</a>
+                    </article>
+                    <article class="faq-card">
+                        <h3>How do I track an order or support request?</h3>
+                        <p>You can check order progress or open ticket status from your account dashboard under recent activity.</p>
+                        <a class="card-link" href="#support">Read more</a>
+                    </article>
+                    <article class="faq-card">
+                        <h3>How do I contact a support specialist?</h3>
+                        <p>Choose live chat, email, or phone support below based on how quickly you need help and the type of issue.</p>
+                        <a class="card-link" href="#support">Read more</a>
+                    </article>
+                </div>
+            </section>
+
+            <section class="support-panel" id="support" aria-labelledby="support-title">
+                <div class="section-header">
+                    <div>
+                        <h2 id="support-title">Contact support options</h2>
+                        <p>Choose the channel that matches the urgency of your question.</p>
                     </div>
-                    <p>Mobility, breath work, and light movement to support recovery and range of motion.</p>
-                    <div class="schedule-meta">
-                        <span>8:00 AM • 30 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                    <a class="section-link" href="#help-title">Back to top</a>
+                </div>
+
+                <div class="support-grid">
+                    <article class="support-card">
+                        <span class="badge">Live chat</span>
+                        <h3>Chat with support</h3>
+                        <p>Best for quick questions, billing clarifications, and setup guidance during business hours.</p>
+                        <div class="support-meta">
+                            <span>Typically replies in 5–10 min</span>
+                        </div>
+                        <a class="support-link" href="#">Start chat</a>
+                    </article>
+                    <article class="support-card">
+                        <span class="badge">Email</span>
+                        <h3>Email the help desk</h3>
+                        <p>Ideal for detailed issues, screenshots, and requests that need a full written response.</p>
+                        <div class="support-meta">
+                            <span>Average response time: 24h</span>
+                        </div>
+                        <a class="support-link" href="#">Send email</a>
+                    </article>
+                    <article class="support-card">
+                        <span class="badge">Community</span>
+                        <h3>Visit the community forum</h3>
+                        <p>Browse shared answers, setup tips, and practical solutions from other customers and specialists.</p>
+                        <div class="support-meta">
+                            <span>Always available</span>
+                        </div>
+                        <a class="support-link" href="#">Open forum</a>
+                    </article>
+                </div>
             </section>
         </div>
     </main>
