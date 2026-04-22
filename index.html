@@ -3,87 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Dashboard</title>
+    <title>PulseChat Workspace</title>
     <style>
         :root {
             color-scheme: light dark;
-            --page-bg: #eef7f3;
-            --surface: rgba(255, 255, 255, 0.86);
-            --card-bg: #ffffff;
-            --text-primary: #183128;
-            --text-secondary: #5d7b6f;
-            --accent: #1fcf8b;
-            --accent-strong: #0f9f72;
-            --accent-soft: rgba(31, 207, 139, 0.14);
-            --accent-energy: #6f7bff;
-            --accent-warm: #ffb353;
-            --border: rgba(24, 49, 40, 0.1);
-            --shadow: 0 26px 58px rgba(25, 71, 56, 0.12);
-            --shadow-hover: 0 32px 68px rgba(25, 71, 56, 0.18);
+            --bg-top: #e6f0ff;
+            --bg-bottom: #f7fbff;
+            --surface: rgba(255, 255, 255, 0.84);
+            --surface-strong: rgba(255, 255, 255, 0.96);
+            --surface-soft: rgba(148, 163, 184, 0.12);
+            --border: rgba(71, 85, 105, 0.16);
+            --border-strong: rgba(59, 130, 246, 0.22);
+            --text-primary: #10233f;
+            --text-secondary: #5c708d;
+            --text-muted: #7d8ea7;
+            --accent: #3b82f6;
+            --accent-strong: #2563eb;
+            --accent-soft: rgba(59, 130, 246, 0.14);
+            --success: #22c55e;
+            --incoming: rgba(255, 255, 255, 0.88);
+            --outgoing: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            --shadow: 0 26px 60px rgba(76, 96, 133, 0.16);
+            --shadow-hover: 0 28px 64px rgba(76, 96, 133, 0.22);
             --radius-xl: 32px;
             --radius-lg: 24px;
             --radius-md: 18px;
             --transition: 180ms ease;
-            --container-width: 1160px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-top: #07111f;
+                --bg-bottom: #0f1b2f;
+                --surface: rgba(9, 18, 33, 0.84);
+                --surface-strong: rgba(10, 20, 37, 0.96);
+                --surface-soft: rgba(148, 163, 184, 0.10);
+                --border: rgba(148, 163, 184, 0.14);
+                --border-strong: rgba(96, 165, 250, 0.22);
+                --text-primary: #eff6ff;
+                --text-secondary: #bfd0ea;
+                --text-muted: #87a0c0;
+                --accent: #60a5fa;
+                --accent-strong: #3b82f6;
+                --accent-soft: rgba(96, 165, 250, 0.12);
+                --incoming: rgba(255, 255, 255, 0.05);
+                --outgoing: linear-gradient(135deg, rgba(37, 99, 235, 0.38) 0%, rgba(96, 165, 250, 0.34) 100%);
+                --shadow: 0 28px 70px rgba(2, 6, 23, 0.42);
+                --shadow-hover: 0 30px 72px rgba(2, 6, 23, 0.5);
+            }
         }
 
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
-            min-height: 100vh;
+            min-height: 100%;
+        }
+
+        body {
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(31, 207, 139, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(111, 123, 255, 0.18), transparent 24%),
-                linear-gradient(180deg, #f7fdf9 0%, #eef7f3 100%);
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 24%),
+                radial-gradient(circle at top right, rgba(34, 197, 94, 0.10), transparent 22%),
+                linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
         }
 
-        .fitness-page {
-            padding: 42px 24px 60px;
+        button,
+        input,
+        textarea {
+            font: inherit;
         }
 
-        .fitness-shell {
-            width: min(100%, var(--container-width));
+        button {
+            color: inherit;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .chat-page {
+            min-height: 100vh;
+            padding: 28px;
+        }
+
+        .chat-shell {
+            width: min(1180px, 100%);
+            min-height: calc(100vh - 56px);
             margin: 0 auto;
             display: grid;
+            grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
             gap: 24px;
         }
 
-        .dashboard-hero,
-        .panel,
-        .stat-card,
-        .progress-card,
-        .goal-item,
-        .schedule-item {
+        .chat-sidebar,
+        .chat-main {
             border: 1px solid var(--border);
             background: var(--surface);
             box-shadow: var(--shadow);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        .dashboard-hero,
-        .panel {
+        .chat-sidebar {
+            display: grid;
+            grid-template-rows: auto auto minmax(0, 1fr);
+            gap: 18px;
+            padding: 24px;
             border-radius: var(--radius-xl);
         }
 
-        .dashboard-hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 360px);
-            gap: 28px;
-            padding: 34px;
+        .chat-sidebar__header,
+        .chat-main__header,
+        .chat-contact,
+        .chat-main__person {
+            display: flex;
             align-items: center;
+        }
+
+        .chat-sidebar__header,
+        .chat-main__header {
+            justify-content: space-between;
+            gap: 14px;
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 16px;
+            margin: 0 0 12px;
             padding: 8px 14px;
             border-radius: 999px;
             background: var(--accent-soft);
@@ -94,633 +154,534 @@
             text-transform: uppercase;
         }
 
-        .dashboard-hero h1,
-        .section-header h2,
-        .stat-card strong,
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
+        .chat-sidebar__header h1,
+        .chat-main__person h2 {
             margin: 0;
-            line-height: 1.06;
             letter-spacing: -0.03em;
         }
 
-        .dashboard-hero h1 {
-            margin-bottom: 14px;
-            font-size: clamp(2.3rem, 4.5vw, 4rem);
-            max-width: 10ch;
+        .chat-sidebar__header h1 {
+            font-size: clamp(1.8rem, 3vw, 2.3rem);
         }
 
-        .dashboard-hero p,
-        .section-header p,
-        .stat-card span,
-        .progress-card p,
-        .goal-item p,
-        .schedule-item p {
+        .chat-sidebar__header p,
+        .chat-main__person p,
+        .chat-contact__preview,
+        .chat-composer__hint,
+        .chat-message__time {
             margin: 0;
             color: var(--text-secondary);
-            line-height: 1.68;
+            line-height: 1.5;
         }
 
-        .dashboard-hero p {
-            max-width: 58ch;
-        }
-
-        .hero-actions,
-        .hero-metrics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .hero-actions {
-            margin-top: 24px;
-        }
-
-        .hero-metrics {
-            margin-top: 20px;
-        }
-
-        .primary-button,
-        .secondary-button,
-        .metric-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 999px;
-            font-weight: 800;
-        }
-
-        .primary-button,
-        .secondary-button {
-            gap: 10px;
-            padding: 14px 20px;
+        .chat-icon-button,
+        .chat-send {
             border: 1px solid transparent;
-            text-decoration: none;
+            border-radius: 16px;
+            cursor: pointer;
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
         }
 
-        .primary-button {
-            background: linear-gradient(135deg, var(--accent), #54dfaa);
-            color: #ffffff;
-            box-shadow: 0 18px 34px rgba(31, 207, 139, 0.24);
-        }
-
-        .secondary-button {
-            background: rgba(255, 255, 255, 0.7);
-            color: var(--text-primary);
+        .chat-icon-button {
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-soft);
             border-color: var(--border);
         }
 
-        .metric-chip {
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-
-        .primary-button:hover,
-        .primary-button:focus-visible,
-        .secondary-button:hover,
-        .secondary-button:focus-visible,
-        .stat-card:hover,
-        .stat-card:focus-within,
-        .progress-card:hover,
-        .progress-card:focus-within,
-        .goal-item:hover,
-        .schedule-item:hover {
-            transform: translateY(-4px);
-            border-color: rgba(31, 207, 139, 0.22);
+        .chat-icon-button:hover,
+        .chat-icon-button:focus-visible,
+        .chat-contact:hover,
+        .chat-contact:focus-visible,
+        .chat-send:hover,
+        .chat-send:focus-visible {
+            transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
         }
 
-        .primary-button:focus-visible,
-        .secondary-button:focus-visible,
-        .schedule-link:focus-visible {
-            outline: 2px solid rgba(111, 123, 255, 0.34);
+        .chat-icon-button:focus-visible,
+        .chat-contact:focus-visible,
+        .chat-send:focus-visible,
+        .chat-search input:focus-visible,
+        .chat-composer textarea:focus-visible {
+            outline: 2px solid rgba(59, 130, 246, 0.32);
             outline-offset: 3px;
         }
 
-        .hero-visual {
-            min-height: 320px;
-            border-radius: calc(var(--radius-xl) - 8px);
-            overflow: hidden;
+        .chat-search {
             position: relative;
-            background:
-                radial-gradient(circle at 26% 22%, rgba(255, 255, 255, 0.9), transparent 14%),
-                radial-gradient(circle at 74% 20%, rgba(111, 123, 255, 0.26), transparent 18%),
-                linear-gradient(180deg, #baf5d8 0%, #dffcf0 36%, #6f7bff 37%, #5261ff 100%);
         }
 
-        .hero-visual::before,
-        .hero-visual::after {
-            content: "";
-            position: absolute;
+        .chat-search input,
+        .chat-composer textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface-strong);
+            color: var(--text-primary);
         }
 
-        .hero-visual::before {
-            inset: auto 26px 24px 26px;
-            height: 124px;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.24);
-            border: 1px solid rgba(255, 255, 255, 0.34);
+        .chat-search input {
+            padding: 15px 18px;
         }
 
-        .hero-visual::after {
-            width: 138px;
-            height: 138px;
-            top: 26px;
-            right: 24px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.24);
-            border: 12px solid rgba(255, 255, 255, 0.34);
+        .chat-search input::placeholder,
+        .chat-composer textarea::placeholder {
+            color: var(--text-muted);
         }
 
-        .stats-grid {
+        .chat-contact-list {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
+            gap: 12px;
+            overflow: auto;
+            padding-right: 4px;
         }
 
-        .stat-card {
-            padding: 22px;
-            border-radius: var(--radius-lg);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        .chat-contact {
+            width: 100%;
+            gap: 14px;
+            padding: 16px;
+            border: 1px solid transparent;
+            border-radius: 22px;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
         }
 
-        .stat-card strong {
-            display: block;
-            margin-bottom: 8px;
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-        }
-
-        .stat-trend {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 14px;
-            padding: 8px 12px;
-            border-radius: 999px;
+        .chat-contact--active {
+            border-color: var(--border-strong);
             background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.82rem;
-            font-weight: 800;
         }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-            gap: 24px;
-        }
-
-        .panel {
-            padding: 28px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 18px;
-            margin-bottom: 22px;
-            flex-wrap: wrap;
-        }
-
-        .section-header h2 {
-            margin-bottom: 10px;
-            font-size: clamp(1.5rem, 2.5vw, 2rem);
-        }
-
-        .section-pill {
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 9px 14px;
-            border-radius: 999px;
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
+            border-radius: 16px;
             font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
         }
 
-        .progress-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
+        .chat-avatar--green { background: linear-gradient(135deg, #34d399, #16a34a); }
+        .chat-avatar--violet { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .chat-avatar--orange { background: linear-gradient(135deg, #fb923c, #ea580c); }
+        .chat-avatar--pink { background: linear-gradient(135deg, #f472b6, #db2777); }
+
+        .chat-contact__body {
+            flex: 1;
+            min-width: 0;
         }
 
-        .progress-card {
-            padding: 20px;
-            border-radius: var(--radius-lg);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .progress-card h3,
-        .goal-item h3,
-        .schedule-item h3 {
-            font-size: 1.06rem;
-            margin-bottom: 8px;
-        }
-
-        .progress-value {
-            display: inline-flex;
+        .chat-contact__top {
+            display: flex;
             align-items: baseline;
-            gap: 8px;
-            margin: 16px 0 14px;
-            font-size: 2rem;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .chat-contact__top strong,
+        .chat-contact__time,
+        .chat-contact__preview {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .chat-contact__time {
+            flex-shrink: 0;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .chat-contact__preview {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
+        }
+
+        .chat-contact__badge {
+            min-width: 24px;
+            height: 24px;
+            padding: 0 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: var(--success);
+            color: #ffffff;
+            font-size: 0.78rem;
             font-weight: 800;
         }
 
-        .progress-value small {
-            font-size: 0.94rem;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar,
-        .goal-bar {
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(24, 49, 40, 0.08);
+        .chat-main {
+            display: grid;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+            min-height: 0;
+            border-radius: var(--radius-xl);
             overflow: hidden;
         }
 
-        .progress-fill,
-        .goal-fill {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
+        .chat-main__header,
+        .chat-composer {
+            padding: 22px 24px;
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        .progress-fill--movement { width: 78%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .progress-fill--strength { width: 64%; background: linear-gradient(90deg, var(--accent-energy), #8da0ff); }
-        .progress-fill--hydration { width: 82%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .progress-fill--recovery { width: 71%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
+        .chat-main__header {
+            border-bottom: 1px solid var(--border);
+        }
 
-        .goals-panel,
-        .schedule-panel {
+        .chat-main__person {
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .chat-main__person h2 {
+            font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+        }
+
+        .chat-main__actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-thread {
             display: grid;
-            gap: 16px;
+            align-content: start;
+            gap: 14px;
+            min-height: 0;
+            overflow: auto;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top, rgba(59, 130, 246, 0.06), transparent 44%),
+                rgba(255, 255, 255, 0.03);
         }
 
-        .goal-item,
-        .schedule-item {
-            padding: 18px;
-            border-radius: var(--radius-md);
-            background: var(--card-bg);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .goal-top,
-        .schedule-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .goal-value,
-        .schedule-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 12px;
+        .chat-day-label {
+            justify-self: center;
+            padding: 8px 14px;
             border-radius: 999px;
-            font-weight: 800;
+            background: var(--surface-soft);
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 700;
         }
 
-        .goal-value {
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-        }
-
-        .goal-fill--steps { width: 76%; background: linear-gradient(90deg, var(--accent), #7af0bb); }
-        .goal-fill--water { width: 68%; background: linear-gradient(90deg, #31c7ff, #7fe6ff); }
-        .goal-fill--sleep { width: 88%; background: linear-gradient(90deg, var(--accent-energy), #94a4ff); }
-        .goal-fill--protein { width: 62%; background: linear-gradient(90deg, var(--accent-warm), #ffd392); }
-
-        .schedule-chip {
-            background: rgba(111, 123, 255, 0.12);
-            color: var(--accent-energy);
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-        }
-
-        .schedule-meta {
+        .chat-message {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            color: var(--text-secondary);
-            font-size: 0.94rem;
         }
 
-        .schedule-link {
-            color: var(--accent-energy);
+        .chat-message--incoming {
+            justify-content: flex-start;
+        }
+
+        .chat-message--outgoing {
+            justify-content: flex-end;
+        }
+
+        .chat-message__bubble {
+            width: min(100%, 560px);
+            padding: 16px 18px;
+            border-radius: 22px;
+            border: 1px solid var(--border);
+            box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        .chat-message--incoming .chat-message__bubble {
+            background: var(--incoming);
+            border-top-left-radius: 10px;
+        }
+
+        .chat-message--outgoing .chat-message__bubble {
+            background: var(--outgoing);
+            border-top-right-radius: 10px;
+        }
+
+        .chat-message__bubble p {
+            margin: 0 0 10px;
+            line-height: 1.65;
+            color: var(--text-primary);
+            overflow-wrap: anywhere;
+        }
+
+        .chat-message__time {
+            display: block;
+            text-align: right;
+            font-size: 0.8rem;
+        }
+
+        .chat-composer {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: end;
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-composer__field {
+            display: grid;
+            gap: 8px;
+        }
+
+        .chat-composer textarea {
+            min-height: 62px;
+            padding: 16px 18px;
+            resize: vertical;
+            max-height: 180px;
+        }
+
+        .chat-composer__hint {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+        }
+
+        .chat-send {
+            padding: 16px 24px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #ffffff;
             font-weight: 800;
-            text-decoration: none;
-        }
-
-        .schedule-link:hover,
-        .schedule-link:focus-visible {
-            text-decoration: underline;
+            box-shadow: 0 18px 30px rgba(59, 130, 246, 0.22);
         }
 
         @media (max-width: 980px) {
-            .fitness-page {
-                padding: 32px 20px 48px;
+            .chat-page {
+                padding: 20px;
             }
 
-            .dashboard-hero,
-            .dashboard-grid,
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr 1fr;
+            .chat-shell {
+                grid-template-columns: 300px minmax(0, 1fr);
+                gap: 18px;
             }
 
-            .dashboard-hero {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-visual {
-                min-height: 260px;
+            .chat-sidebar,
+            .chat-main__header,
+            .chat-thread,
+            .chat-composer {
+                padding-left: 18px;
+                padding-right: 18px;
             }
         }
 
-        @media (max-width: 640px) {
-            .fitness-page {
-                padding: 18px 16px 32px;
+        @media (max-width: 780px) {
+            .chat-shell {
+                min-height: auto;
+                grid-template-columns: 1fr;
             }
 
-            .dashboard-hero,
-            .panel {
-                padding: 22px 20px;
+            .chat-sidebar {
+                grid-template-rows: auto auto auto;
+            }
+
+            .chat-contact-list {
+                max-height: 360px;
+            }
+
+            .chat-main {
+                min-height: 620px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .chat-page {
+                padding: 14px;
+            }
+
+            .chat-sidebar,
+            .chat-main {
                 border-radius: 24px;
             }
 
-            .stats-grid,
-            .progress-grid {
-                grid-template-columns: 1fr;
+            .chat-sidebar {
+                padding: 18px;
             }
 
-            .hero-actions {
+            .chat-main__header {
+                align-items: flex-start;
                 flex-direction: column;
             }
 
-            .primary-button,
-            .secondary-button {
+            .chat-main__actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .chat-thread,
+            .chat-composer {
+                padding: 16px;
+            }
+
+            .chat-message__bubble {
                 width: 100%;
             }
-        }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --page-bg: #07120f;
-                --surface: rgba(10, 23, 19, 0.86);
-                --card-bg: rgba(12, 28, 23, 0.96);
-                --text-primary: #eefbf4;
-                --text-secondary: #a4c3b6;
-                --border: rgba(168, 215, 195, 0.12);
-                --shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
-                --shadow-hover: 0 34px 76px rgba(0, 0, 0, 0.5);
+            .chat-composer {
+                grid-template-columns: 1fr;
             }
 
-            body {
-                background:
-                    radial-gradient(circle at top left, rgba(31, 207, 139, 0.14), transparent 24%),
-                    radial-gradient(circle at top right, rgba(111, 123, 255, 0.16), transparent 24%),
-                    linear-gradient(180deg, #040a08 0%, #081310 100%);
-            }
-
-            .secondary-button,
-            .metric-chip,
-            .stat-card,
-            .progress-card,
-            .goal-item,
-            .schedule-item {
-                background: rgba(255, 255, 255, 0.04);
-            }
-
-            .progress-bar,
-            .goal-bar {
-                background: rgba(255, 255, 255, 0.08);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                transition: none !important;
-                animation: none !important;
+            .chat-send {
+                width: 100%;
+                justify-self: stretch;
             }
         }
     </style>
 </head>
 <body>
-    <main class="fitness-page">
-        <div class="fitness-shell">
-            <section class="dashboard-hero" aria-labelledby="dashboard-title">
-                <div>
-                    <span class="eyebrow">Weekly Snapshot</span>
-                    <h1 id="dashboard-title">Train stronger. Recover smarter.</h1>
-                    <p>
-                        Your dashboard keeps workouts, recovery, and goals in one clean view so you can keep momentum without losing sight of the bigger picture.
-                    </p>
-                    <div class="hero-metrics" aria-label="Quick filters">
-                        <span class="metric-chip">Weekly plan</span>
-                        <span class="metric-chip">Recovery focus</span>
-                        <span class="metric-chip">Nutrition sync</span>
-                    </div>
-                    <div class="hero-actions">
-                        <a class="primary-button" href="#progress">View progress</a>
-                        <a class="secondary-button" href="#schedule">Today’s schedule</a>
-                    </div>
-                </div>
-                <div class="hero-visual" aria-hidden="true"></div>
-            </section>
-
-            <section class="stats-grid" aria-label="Workout stats overview">
-                <article class="stat-card">
-                    <strong>18</strong>
-                    <span>Workouts completed this month</span>
-                    <div class="stat-trend">+12% from last month</div>
-                </article>
-                <article class="stat-card">
-                    <strong>8,420</strong>
-                    <span>Calories burned across all sessions</span>
-                    <div class="stat-trend">Consistency up this week</div>
-                </article>
-                <article class="stat-card">
-                    <strong>11h 40m</strong>
-                    <span>Active time logged this week</span>
-                    <div class="stat-trend">2 sessions ahead</div>
-                </article>
-                <article class="stat-card">
-                    <strong>6-day</strong>
-                    <span>Current training streak</span>
-                    <div class="stat-trend">Recovery score 82/100</div>
-                </article>
-            </section>
-
-            <section class="dashboard-grid">
-                <div class="panel" id="progress" aria-labelledby="progress-title">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Progress</span>
-                            <h2 id="progress-title">Momentum at a glance</h2>
-                            <p>Track the habits and milestones that move your training forward every week.</p>
-                        </div>
-                        <span class="section-pill">4 active goals</span>
-                    </div>
-
-                    <div class="progress-grid">
-                        <article class="progress-card">
-                            <h3>Weekly movement</h3>
-                            <p>Active minutes completed toward your target.</p>
-                            <div class="progress-value">78<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Weekly movement progress">
-                                <span class="progress-fill progress-fill--movement"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Strength target</h3>
-                            <p>Resistance sessions completed this week.</p>
-                            <div class="progress-value">64<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Strength target progress">
-                                <span class="progress-fill progress-fill--strength"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Hydration</h3>
-                            <p>Average water intake relative to your plan.</p>
-                            <div class="progress-value">82<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Hydration progress">
-                                <span class="progress-fill progress-fill--hydration"></span>
-                            </div>
-                        </article>
-                        <article class="progress-card">
-                            <h3>Recovery balance</h3>
-                            <p>Sleep and low-intensity work completed.</p>
-                            <div class="progress-value">71<small>% complete</small></div>
-                            <div class="progress-bar" aria-label="Recovery balance progress">
-                                <span class="progress-fill progress-fill--recovery"></span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="section-header">
-                        <div>
-                            <span class="eyebrow">Daily goals</span>
-                            <h2>Targets for today</h2>
-                            <p>Small wins that keep your routine moving in the right direction.</p>
-                        </div>
-                        <span class="section-pill">On track</span>
-                    </div>
-
-                    <div class="goals-panel">
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Steps</h3>
-                                <span class="goal-value">7,600 / 10,000</span>
-                            </div>
-                            <p>Daily movement target</p>
-                            <div class="goal-bar" aria-label="Steps goal progress">
-                                <span class="goal-fill goal-fill--steps"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Water</h3>
-                                <span class="goal-value">1.7L / 2.5L</span>
-                            </div>
-                            <p>Hydration goal</p>
-                            <div class="goal-bar" aria-label="Water goal progress">
-                                <span class="goal-fill goal-fill--water"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Sleep</h3>
-                                <span class="goal-value">7.1h / 8h</span>
-                            </div>
-                            <p>Recovery target</p>
-                            <div class="goal-bar" aria-label="Sleep goal progress">
-                                <span class="goal-fill goal-fill--sleep"></span>
-                            </div>
-                        </article>
-                        <article class="goal-item">
-                            <div class="goal-top">
-                                <h3>Protein</h3>
-                                <span class="goal-value">93g / 150g</span>
-                            </div>
-                            <p>Nutrition target</p>
-                            <div class="goal-bar" aria-label="Protein goal progress">
-                                <span class="goal-fill goal-fill--protein"></span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="panel schedule-panel" id="schedule" aria-labelledby="schedule-title">
-                <div class="section-header">
+    <main class="chat-page">
+        <section class="chat-shell" aria-label="Chat application layout">
+            <aside class="chat-sidebar" aria-label="Conversation list">
+                <header class="chat-sidebar__header">
                     <div>
-                        <span class="eyebrow">Schedule</span>
-                        <h2 id="schedule-title">Upcoming sessions</h2>
-                        <p>Your next sessions are lined up with enough variety to keep the week balanced.</p>
+                        <p class="eyebrow">Messaging hub</p>
+                        <h1>PulseChat</h1>
+                        <p>Keep conversations tidy, quick to scan, and easy to reply to.</p>
                     </div>
-                    <span class="section-pill">3 sessions left</span>
-                </div>
+                    <button class="chat-icon-button" type="button" aria-label="Start a new conversation">+</button>
+                </header>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Monday — HIIT Intervals</h3>
-                        <span class="schedule-chip">High intensity</span>
-                    </div>
-                    <p>Fast-paced interval work designed to boost endurance and conditioning.</p>
-                    <div class="schedule-meta">
-                        <span>7:00 AM • 35 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                <label class="chat-search" for="chat-search-input">
+                    <span class="sr-only">Search contacts</span>
+                    <input id="chat-search-input" type="search" placeholder="Search contacts or messages">
+                </label>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Tuesday — Upper Body Strength</h3>
-                        <span class="schedule-chip">Strength</span>
-                    </div>
-                    <p>Compound lifts and accessory work focused on pressing and pulling power.</p>
-                    <div class="schedule-meta">
-                        <span>6:30 PM • 50 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
-                    </div>
-                </article>
+                <nav class="chat-contact-list" aria-label="Contacts">
+                    <button class="chat-contact chat-contact--active" type="button">
+                        <span class="chat-avatar">M</span>
+                        <span class="chat-contact__body">
+                            <span class="chat-contact__top">
+                                <strong>Maya Chen</strong>
+                                <span class="chat-contact__time">09:24</span>
+                            </span>
+                            <span class="chat-contact__preview">The responsive pass looks strong — let’s keep the composer roomy on mobile.</span>
+                        </span>
+                        <span class="chat-contact__badge">2</span>
+                    </button>
 
-                <article class="schedule-item">
-                    <div class="schedule-top">
-                        <h3>Wednesday — Recovery Yoga</h3>
-                        <span class="schedule-chip">Recovery</span>
+                    <button class="chat-contact" type="button">
+                        <span class="chat-avatar chat-avatar--green">N</span>
+                        <span class="chat-contact__body">
+                            <span class="chat-contact__top">
+                                <strong>Noah Reed</strong>
+                                <span class="chat-contact__time">08:52</span>
+                            </span>
+                            <span class="chat-contact__preview">Could you share the latest spacing notes before standup?</span>
+                        </span>
+                    </button>
+
+                    <button class="chat-contact" type="button">
+                        <span class="chat-avatar chat-avatar--violet">J</span>
+                        <span class="chat-contact__body">
+                            <span class="chat-contact__top">
+                                <strong>Julian Park</strong>
+                                <span class="chat-contact__time">Yesterday</span>
+                            </span>
+                            <span class="chat-contact__preview">The sidebar cards feel much better after trimming the previews.</span>
+                        </span>
+                    </button>
+
+                    <button class="chat-contact" type="button">
+                        <span class="chat-avatar chat-avatar--orange">P</span>
+                        <span class="chat-contact__body">
+                            <span class="chat-contact__top">
+                                <strong>Product Team</strong>
+                                <span class="chat-contact__time">Yesterday</span>
+                            </span>
+                            <span class="chat-contact__preview">4 unread updates about launch copy, QA, and release timing.</span>
+                        </span>
+                        <span class="chat-contact__badge">4</span>
+                    </button>
+
+                    <button class="chat-contact" type="button">
+                        <span class="chat-avatar chat-avatar--pink">D</span>
+                        <span class="chat-contact__body">
+                            <span class="chat-contact__top">
+                                <strong>Design Sync</strong>
+                                <span class="chat-contact__time">Mon</span>
+                            </span>
+                            <span class="chat-contact__preview">Please bring the final desktop and mobile mock references.</span>
+                        </span>
+                    </button>
+                </nav>
+            </aside>
+
+            <section class="chat-main" aria-labelledby="active-conversation-title">
+                <header class="chat-main__header">
+                    <div class="chat-main__person">
+                        <span class="chat-avatar">M</span>
+                        <div>
+                            <h2 id="active-conversation-title">Maya Chen</h2>
+                            <p>Online now · reviewing layout polish</p>
+                        </div>
                     </div>
-                    <p>Mobility, breath work, and light movement to support recovery and range of motion.</p>
-                    <div class="schedule-meta">
-                        <span>8:00 AM • 30 min</span>
-                        <a class="schedule-link" href="#">Open session</a>
+                    <div class="chat-main__actions" aria-label="Conversation actions">
+                        <button class="chat-icon-button" type="button" aria-label="Start call">☎</button>
+                        <button class="chat-icon-button" type="button" aria-label="Open more options">⋯</button>
                     </div>
-                </article>
+                </header>
+
+                <section class="chat-thread" aria-label="Conversation messages">
+                    <span class="chat-day-label">Today</span>
+
+                    <article class="chat-message chat-message--incoming">
+                        <div class="chat-message__bubble">
+                            <p>Morning. The shell already feels calmer than the old dashboard layout. Do you want the contacts panel to stay visible on tablet?</p>
+                            <span class="chat-message__time">09:08</span>
+                        </div>
+                    </article>
+
+                    <article class="chat-message chat-message--outgoing">
+                        <div class="chat-message__bubble">
+                            <p>Yes — tablet should still feel like a proper messaging app. On smaller phones, though, stacking the panels is the safer choice.</p>
+                            <span class="chat-message__time">09:11</span>
+                        </div>
+                    </article>
+
+                    <article class="chat-message chat-message--incoming">
+                        <div class="chat-message__bubble">
+                            <p>Perfect. I also want enough breathing room around the bubbles so long feedback notes don’t feel crowded.</p>
+                            <span class="chat-message__time">09:15</span>
+                        </div>
+                    </article>
+
+                    <article class="chat-message chat-message--outgoing">
+                        <div class="chat-message__bubble">
+                            <p>Agreed. I’m keeping the thread readable with a capped bubble width, softer surfaces, and a stronger composer so the input is obvious right away.</p>
+                            <span class="chat-message__time">09:19</span>
+                        </div>
+                    </article>
+
+                    <article class="chat-message chat-message--incoming">
+                        <div class="chat-message__bubble">
+                            <p>Nice. Leave clear notes for QA to check overflow handling, mobile stacking, and focus visibility.</p>
+                            <span class="chat-message__time">09:22</span>
+                        </div>
+                    </article>
+
+                    <article class="chat-message chat-message--outgoing">
+                        <div class="chat-message__bubble">
+                            <p>Will do. The page is staying HTML/CSS-only, with no extra behavior beyond the layout itself.</p>
+                            <span class="chat-message__time">09:24</span>
+                        </div>
+                    </article>
+                </section>
+
+                <form class="chat-composer" aria-label="Message input area">
+                    <label class="chat-composer__field" for="message-input">
+                        <span class="sr-only">Type a message</span>
+                        <textarea id="message-input" placeholder="Type a message..."></textarea>
+                        <span class="chat-composer__hint">Pressing send is decorative in this static layout demo.</span>
+                    </label>
+                    <button class="chat-send" type="submit">Send message</button>
+                </form>
             </section>
-        </div>
+        </section>
     </main>
 </body>
 </html>
