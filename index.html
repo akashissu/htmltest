@@ -180,6 +180,7 @@
         .calc-button:focus-visible {
             transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
+            border-color: rgba(108, 124, 255, 0.16);
         }
 
         .calc-button:focus-visible {
@@ -189,6 +190,7 @@
 
         .calc-button:active {
             transform: translateY(0);
+            box-shadow: 0 10px 18px rgba(87, 105, 170, 0.14);
         }
 
         .calc-button--utility {
@@ -346,6 +348,7 @@
         const resultDisplay = document.getElementById('result');
         const keypad = document.querySelector('.calculator-keypad');
         const operatorPattern = /[+\-*/]/;
+        const trailingOperatorPattern = /[+\-*/.]$/;
         let expression = '';
         let justEvaluated = false;
         let errorState = false;
@@ -365,10 +368,64 @@
                 .trim();
         }
 
+        function normalizeResult(value) {
+            return Number.parseFloat(value.toFixed(10)).toString();
+        }
+
         function setDisplays(resultValue = null) {
             expressionDisplay.textContent = expression ? formatExpression(expression) : '0';
             resultDisplay.textContent = resultValue ?? (expression || '0');
             resultDisplay.classList.toggle('is-error', errorState);
+        }
+
+        function showError(message) {
+            errorState = true;
+            justEvaluated = false;
+            setDisplays(message);
+        }
+
+        function sanitizeExpression(input) {
+            return input.replace(/[^0-9+\-*/.]/g, '');
+        }
+
+        function canEvaluate(input) {
+            return Boolean(input)
+                && /^[0-9+\-*/.]+$/.test(input)
+                && !/^[+*/.]/.test(input)
+                && !trailingOperatorPattern.test(input);
+        }
+
+        function computeExpression(input) {
+            const sanitized = sanitizeExpression(input);
+            if (!canEvaluate(sanitized)) {
+                throw new Error('Invalid expression');
+            }
+
+            const result = Function(`"use strict"; return (${sanitized})`)();
+            if (!Number.isFinite(result)) {
+                throw new Error('Cannot divide by zero');
+            }
+
+            return normalizeResult(result);
+        }
+
+        function updatePreview() {
+            if (!expression) {
+                setDisplays('0');
+                return;
+            }
+
+            if (trailingOperatorPattern.test(expression)) {
+                setDisplays(expression);
+                return;
+            }
+
+            try {
+                const preview = computeExpression(expression);
+                setDisplays(preview);
+            } catch {
+                setDisplays(expression);
+            }
         }
 
         function clearAll() {
@@ -385,7 +442,8 @@
             }
 
             expression = expression.slice(0, -1);
-            setDisplays(expression || '0');
+            errorState = false;
+            updatePreview();
         }
 
         function appendNumber(value) {
@@ -399,7 +457,7 @@
             }
 
             expression += value;
-            setDisplays(expression);
+            updatePreview();
         }
 
         function appendDecimal() {
@@ -423,7 +481,7 @@
                 expression += '.';
             }
 
-            setDisplays(expression);
+            updatePreview();
         }
 
         function appendOperator(value) {
@@ -434,7 +492,7 @@
             if (!expression) {
                 if (value === '-') {
                     expression = '-';
-                    setDisplays(expression);
+                    updatePreview();
                 }
                 return;
             }
@@ -454,11 +512,7 @@
                 expression += value;
             }
 
-            setDisplays(expression);
-        }
-
-        function sanitizeExpression(input) {
-            return input.replace(/[^0-9+\-*/.]/g, '');
+            updatePreview();
         }
 
         function evaluateExpression() {
@@ -466,29 +520,14 @@
                 return;
             }
 
-            const sanitized = sanitizeExpression(expression);
-            if (!/^[0-9+\-*/.]+$/.test(sanitized) || /^[+*/.]|[+\-*/.]$/.test(sanitized)) {
-                errorState = true;
-                justEvaluated = false;
-                setDisplays('Invalid input');
-                return;
-            }
-
             try {
-                const result = Function(`"use strict"; return (${sanitized})`)();
-                if (!Number.isFinite(result)) {
-                    throw new Error('Math error');
-                }
-
-                const normalized = Number.parseFloat(result.toFixed(10)).toString();
+                const normalized = computeExpression(expression);
                 expression = normalized;
                 justEvaluated = true;
                 errorState = false;
                 setDisplays(normalized);
             } catch (error) {
-                errorState = true;
-                justEvaluated = false;
-                setDisplays('Cannot divide by zero');
+                showError(error.message === 'Cannot divide by zero' ? 'Cannot divide by zero' : 'Invalid expression');
             }
         }
 
@@ -531,7 +570,13 @@
         });
 
         window.addEventListener('keydown', (event) => {
-            const { key } = event;
+            const { key, ctrlKey, metaKey, altKey, target } = event;
+            const tagName = target?.tagName;
+            const isEditable = tagName === 'INPUT' || tagName === 'TEXTAREA' || target?.isContentEditable;
+
+            if (ctrlKey || metaKey || altKey || isEditable) {
+                return;
+            }
 
             if (/^\d$/.test(key)) {
                 appendNumber(key);
