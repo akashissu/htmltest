@@ -3,29 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Adoption Spotlight</title>
+    <title>Modern Calculator UI</title>
     <style>
         :root {
             color-scheme: light dark;
-            --page-bg: #fff8f2;
-            --page-accent: #ffe1c8;
-            --surface: rgba(255, 253, 250, 0.88);
+            --page-bg: #eef3ff;
+            --page-bg-deep: #dfe7ff;
+            --surface: rgba(255, 255, 255, 0.74);
             --surface-strong: #ffffff;
-            --text-primary: #40281f;
-            --text-secondary: #7a6054;
-            --accent: #ff8f6b;
-            --accent-strong: #ea6d45;
-            --accent-soft: rgba(255, 143, 107, 0.16);
-            --sage: #83b8a4;
-            --gold: #f0be67;
-            --border: rgba(64, 40, 31, 0.1);
-            --shadow: 0 24px 52px rgba(124, 83, 57, 0.14);
-            --shadow-hover: 0 30px 68px rgba(124, 83, 57, 0.2);
+            --surface-muted: rgba(244, 247, 255, 0.86);
+            --text-primary: #16203f;
+            --text-secondary: #60709a;
+            --accent: #6c7cff;
+            --accent-strong: #4c5cff;
+            --accent-soft: rgba(108, 124, 255, 0.14);
+            --utility: #eef2ff;
+            --utility-text: #4b5d93;
+            --danger-soft: rgba(255, 110, 128, 0.12);
+            --danger-text: #cc4b67;
+            --shadow: 0 30px 60px rgba(64, 84, 150, 0.18);
+            --shadow-hover: 0 22px 34px rgba(64, 84, 150, 0.18);
+            --border: rgba(22, 32, 63, 0.08);
             --radius-xl: 34px;
-            --radius-lg: 26px;
+            --radius-lg: 24px;
             --radius-md: 18px;
-            --container-width: 1180px;
             --transition: 180ms ease;
+            --shell-width: 430px;
         }
 
         * {
@@ -38,617 +41,531 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text-primary);
             background:
-                radial-gradient(circle at top left, rgba(255, 143, 107, 0.22), transparent 26%),
-                radial-gradient(circle at top right, rgba(131, 184, 164, 0.22), transparent 22%),
-                linear-gradient(180deg, #fffdf9 0%, var(--page-bg) 52%, #fff6ee 100%);
+                radial-gradient(circle at top left, rgba(108, 124, 255, 0.22), transparent 24%),
+                radial-gradient(circle at top right, rgba(104, 221, 194, 0.18), transparent 26%),
+                linear-gradient(180deg, #f7f9ff 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
         }
 
-        .adoption-page {
-            padding: 44px 22px 60px;
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
         }
 
-        .adoption-shell {
-            width: min(100%, var(--container-width));
-            margin: 0 auto;
+        .calculator-page {
+            min-height: 100vh;
             display: grid;
-            gap: 24px;
+            place-items: center;
+            padding: 24px;
         }
 
-        .adoption-hero,
-        .adoption-section,
-        .feature-chip,
-        .pet-card {
+        .calculator-shell {
+            width: min(100%, var(--shell-width));
+            padding: 28px;
             border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .adoption-hero,
-        .adoption-section {
-            background: var(--surface);
             border-radius: var(--radius-xl);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
         }
 
-        .adoption-hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.08fr) minmax(300px, 400px);
-            gap: 28px;
-            align-items: center;
-            padding: 34px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .eyebrow,
-        .feature-chip,
-        .pet-badge,
-        .pet-meta span {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 999px;
-            font-weight: 800;
+        .calculator-header {
+            margin-bottom: 22px;
         }
 
         .eyebrow {
+            display: inline-flex;
+            align-items: center;
             gap: 8px;
-            margin-bottom: 16px;
             padding: 8px 14px;
+            margin-bottom: 14px;
+            border-radius: 999px;
             background: var(--accent-soft);
             color: var(--accent-strong);
             font-size: 0.78rem;
+            font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        h1,
-        h2,
-        h3,
-        p {
+        .calculator-header h1,
+        .display-result,
+        .calc-button {
             margin: 0;
-        }
-
-        .adoption-hero h1,
-        .section-header h2,
-        .pet-card h3 {
-            line-height: 1.05;
             letter-spacing: -0.03em;
         }
 
-        .adoption-hero h1 {
-            margin-bottom: 14px;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            max-width: 10ch;
+        .calculator-header h1 {
+            margin-bottom: 10px;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            line-height: 1.04;
         }
 
-        .adoption-hero p,
-        .section-header p,
-        .pet-card p {
+        .calculator-header p {
+            margin: 0;
             color: var(--text-secondary);
-            line-height: 1.68;
+            line-height: 1.65;
         }
 
-        .adoption-hero p {
-            max-width: 58ch;
-        }
-
-        .hero-features {
+        .calculator-display {
+            min-height: 152px;
+            margin-bottom: 20px;
+            padding: 22px 22px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: var(--radius-lg);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 247, 255, 0.92));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 24px;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 14px;
         }
 
-        .feature-chip {
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.72);
+        .display-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .display-expression,
+        .display-result {
+            text-align: right;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .display-expression {
+            min-height: 28px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .display-result {
+            font-size: clamp(2.35rem, 9vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.05;
             color: var(--text-primary);
         }
 
-        .hero-visual {
-            min-height: 360px;
-            border-radius: calc(var(--radius-xl) - 10px);
-            position: relative;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.8), transparent 18%),
-                linear-gradient(160deg, #ffd9ba 0%, #fff1d8 44%, #d8f0e5 100%);
+        .display-result.is-error {
+            color: var(--danger-text);
+            font-size: clamp(1.8rem, 7vw, 2.8rem);
         }
 
-        .hero-visual::before,
-        .hero-visual::after,
-        .pet-illustration,
-        .pet-illustration::before,
-        .pet-illustration::after {
-            content: "";
-            position: absolute;
-        }
-
-        .hero-visual::before {
-            inset: auto -40px -80px auto;
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            background: rgba(255, 143, 107, 0.22);
-        }
-
-        .hero-visual::after {
-            inset: 18px auto auto 18px;
-            width: 104px;
-            height: 104px;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.34);
-            transform: rotate(-12deg);
-        }
-
-        .pet-illustration {
-            left: 50%;
-            bottom: 24px;
-            width: 250px;
-            height: 250px;
-            transform: translateX(-50%);
-            border-radius: 46% 46% 40% 40%;
-            background: linear-gradient(180deg, #ffffff 0%, #fff0df 100%);
-            box-shadow: 0 26px 60px rgba(143, 95, 67, 0.18);
-        }
-
-        .pet-illustration::before {
-            width: 88px;
-            height: 88px;
-            left: 26px;
-            top: 20px;
-            border-radius: 28px 28px 18px 18px;
-            background: #f6b58d;
-            transform: rotate(-26deg);
-            box-shadow: 110px 0 0 #f6b58d;
-        }
-
-        .pet-illustration::after {
-            inset: 74px 54px 34px;
-            border-radius: 42% 42% 46% 46%;
-            background:
-                radial-gradient(circle at 32% 36%, #40281f 0 7px, transparent 8px),
-                radial-gradient(circle at 68% 36%, #40281f 0 7px, transparent 8px),
-                radial-gradient(circle at 50% 58%, #ea6d45 0 12px, transparent 13px),
-                linear-gradient(180deg, transparent 0 70%, #f4c9ab 70% 100%);
-        }
-
-        .adoption-section {
-            padding: 32px;
-            display: grid;
-            gap: 24px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 18px;
-            align-items: end;
-        }
-
-        .section-header h2 {
-            margin-bottom: 12px;
-            font-size: clamp(2rem, 4vw, 3rem);
-        }
-
-        .section-pill {
-            padding: 10px 16px;
-            border-radius: 999px;
-            background: rgba(131, 184, 164, 0.16);
-            color: #3e695b;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .pet-grid {
+        .calculator-keypad {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 20px;
+            gap: 12px;
         }
 
-        .pet-card {
-            display: grid;
-            grid-template-rows: 220px auto;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: var(--surface-strong);
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-        }
-
-        .pet-card:hover,
-        .pet-card:focus-within {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(255, 143, 107, 0.22);
-        }
-
-        .pet-image {
-            position: relative;
-            isolation: isolate;
-            overflow: hidden;
-            background: linear-gradient(180deg, #ffe9d6 0%, #fff7ef 100%);
-        }
-
-        .pet-image::before,
-        .pet-image::after,
-        .pet-avatar,
-        .pet-avatar::before,
-        .pet-avatar::after {
-            content: "";
-            position: absolute;
-        }
-
-        .pet-image::before {
-            width: 140px;
-            height: 140px;
-            right: -18px;
-            top: -18px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.42);
-        }
-
-        .pet-image::after {
-            width: 110px;
-            height: 110px;
-            left: -24px;
-            bottom: -24px;
-            border-radius: 50%;
-            background: rgba(131, 184, 164, 0.18);
-        }
-
-        .pet-avatar {
-            left: 50%;
-            bottom: 18px;
-            width: 148px;
-            height: 148px;
-            transform: translateX(-50%);
-            border-radius: 44% 44% 40% 40%;
-            background: var(--avatar-base, #fff3e5);
-            box-shadow: 0 16px 38px rgba(123, 84, 64, 0.14);
-        }
-
-        .pet-avatar::before {
-            width: 54px;
-            height: 54px;
-            top: 12px;
-            left: 18px;
-            border-radius: 18px 18px 12px 12px;
-            background: var(--avatar-ear, #e7ba8a);
-            transform: rotate(-24deg);
-            box-shadow: 58px 0 0 var(--avatar-ear, #e7ba8a);
-        }
-
-        .pet-avatar::after {
-            inset: 40px 28px 20px;
-            border-radius: 42% 42% 46% 46%;
-            background:
-                radial-gradient(circle at 34% 34%, #40281f 0 5px, transparent 6px),
-                radial-gradient(circle at 66% 34%, #40281f 0 5px, transparent 6px),
-                radial-gradient(circle at 50% 57%, var(--avatar-nose, #ea6d45) 0 9px, transparent 10px),
-                linear-gradient(180deg, transparent 0 72%, rgba(255, 255, 255, 0.35) 72% 100%);
-        }
-
-        .pet-image--dog {
-            background: linear-gradient(180deg, #ffe0c2 0%, #fff6ec 100%);
-        }
-
-        .pet-image--cat {
-            background: linear-gradient(180deg, #e6f2eb 0%, #f7fcf9 100%);
-        }
-
-        .pet-image--beagle {
-            background: linear-gradient(180deg, #fff0d3 0%, #fffaf0 100%);
-        }
-
-        .pet-image--rabbit {
-            background: linear-gradient(180deg, #efe8ff 0%, #faf7ff 100%);
-        }
-
-        .pet-image--dog .pet-avatar {
-            --avatar-base: #fff2df;
-            --avatar-ear: #d8a071;
-            --avatar-nose: #ea6d45;
-        }
-
-        .pet-image--cat .pet-avatar {
-            --avatar-base: #f8f7f1;
-            --avatar-ear: #8cae9f;
-            --avatar-nose: #ff8f6b;
-            border-radius: 40% 40% 44% 44%;
-        }
-
-        .pet-image--cat .pet-avatar::before {
-            width: 40px;
-            height: 40px;
-            top: 8px;
-            left: 16px;
-            border-radius: 8px;
-            transform: rotate(45deg);
-            box-shadow: 74px 0 0 var(--avatar-ear, #8cae9f);
-        }
-
-        .pet-image--beagle .pet-avatar {
-            --avatar-base: #fff5e8;
-            --avatar-ear: #b98656;
-            --avatar-nose: #d36a43;
-        }
-
-        .pet-image--rabbit .pet-avatar {
-            --avatar-base: #f8f1ff;
-            --avatar-ear: #d7c7f7;
-            --avatar-nose: #ff8f6b;
-            border-radius: 42% 42% 48% 48%;
-        }
-
-        .pet-image--rabbit .pet-avatar::before {
-            width: 28px;
-            height: 86px;
-            top: -42px;
-            left: 34px;
-            border-radius: 999px;
-            transform: none;
-            box-shadow: 52px 0 0 var(--avatar-ear, #d7c7f7);
-        }
-
-        .pet-badge {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            z-index: 1;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.86);
-            color: var(--text-primary);
-            font-size: 0.78rem;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-        }
-
-        .pet-content {
-            display: grid;
-            gap: 16px;
-            padding: 22px;
-        }
-
-        .pet-content h3 {
-            font-size: 1.6rem;
-        }
-
-        .pet-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .pet-meta span {
-            padding: 9px 12px;
-            background: rgba(255, 143, 107, 0.12);
-            color: #7b4a37;
-            font-size: 0.9rem;
-        }
-
-        .pet-button {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 48px;
-            width: 100%;
+        .calc-button {
+            min-height: 74px;
             border: 1px solid transparent;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--accent), #ffb28f);
-            color: #ffffff;
-            text-decoration: none;
+            border-radius: 22px;
+            background: var(--surface-strong);
+            color: var(--text-primary);
+            font-size: 1.35rem;
             font-weight: 800;
-            transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), filter var(--transition);
-            box-shadow: 0 16px 28px rgba(255, 143, 107, 0.26);
+            cursor: pointer;
+            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
         }
 
-        .pet-button:hover,
-        .pet-button:focus-visible {
+        .calc-button:hover,
+        .calc-button:focus-visible {
             transform: translateY(-2px);
-            filter: saturate(1.06);
-            border-color: rgba(255, 255, 255, 0.44);
+            box-shadow: var(--shadow-hover);
         }
 
-        .pet-button:focus-visible {
-            outline: 2px solid rgba(64, 40, 31, 0.2);
+        .calc-button:focus-visible {
+            outline: 2px solid rgba(108, 124, 255, 0.32);
             outline-offset: 3px;
         }
 
-        @media (max-width: 1080px) {
-            .adoption-hero {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-visual {
-                min-height: 300px;
-            }
-
-            .pet-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+        .calc-button:active {
+            transform: translateY(0);
         }
 
-        @media (max-width: 720px) {
-            .adoption-page {
-                padding-inline: 16px;
+        .calc-button--utility {
+            background: var(--utility);
+            color: var(--utility-text);
+        }
+
+        .calc-button--danger {
+            background: var(--danger-soft);
+            color: var(--danger-text);
+        }
+
+        .calc-button--operator {
+            background: rgba(108, 124, 255, 0.14);
+            color: var(--accent-strong);
+        }
+
+        .calc-button--accent {
+            background: linear-gradient(135deg, var(--accent), #8a97ff);
+            color: #ffffff;
+            box-shadow: 0 18px 30px rgba(108, 124, 255, 0.28);
+        }
+
+        .calc-button--wide {
+            grid-column: span 2;
+        }
+
+        .calculator-note {
+            margin-top: 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 480px) {
+            .calculator-page {
+                padding: 16px;
             }
 
-            .adoption-hero,
-            .adoption-section {
-                padding: 24px;
+            .calculator-shell {
+                padding: 20px;
+                border-radius: 28px;
             }
 
-            .section-header {
-                flex-direction: column;
-                align-items: start;
+            .calculator-display {
+                min-height: 138px;
+                padding: 20px 18px 16px;
             }
 
-            .pet-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pet-card {
-                grid-template-rows: 210px auto;
+            .calc-button {
+                min-height: 64px;
+                border-radius: 18px;
+                font-size: 1.2rem;
             }
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --page-bg: #241b18;
-                --page-accent: #3b2924;
-                --surface: rgba(45, 34, 29, 0.86);
-                --surface-strong: #312420;
-                --text-primary: #fff4ec;
-                --text-secondary: #d9beb0;
-                --accent: #ff9c79;
-                --accent-strong: #ffb390;
-                --accent-soft: rgba(255, 156, 121, 0.18);
-                --sage: #93c3b1;
-                --gold: #efc66f;
-                --border: rgba(255, 244, 236, 0.08);
-                --shadow: 0 28px 56px rgba(0, 0, 0, 0.3);
-                --shadow-hover: 0 34px 72px rgba(0, 0, 0, 0.38);
+                --page-bg: #101522;
+                --page-bg-deep: #0a0f1b;
+                --surface: rgba(20, 26, 40, 0.82);
+                --surface-strong: #182036;
+                --surface-muted: rgba(29, 37, 59, 0.9);
+                --text-primary: #f4f7ff;
+                --text-secondary: #9ba9cb;
+                --accent: #7e8cff;
+                --accent-strong: #b4beff;
+                --accent-soft: rgba(126, 140, 255, 0.16);
+                --utility: #212b44;
+                --utility-text: #dbe3ff;
+                --danger-soft: rgba(255, 110, 128, 0.14);
+                --danger-text: #ff9daf;
+                --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
+                --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
+                --border: rgba(255, 255, 255, 0.08);
             }
 
             body {
                 background:
-                    radial-gradient(circle at top left, rgba(255, 156, 121, 0.18), transparent 26%),
-                    radial-gradient(circle at top right, rgba(147, 195, 177, 0.18), transparent 24%),
-                    linear-gradient(180deg, #1f1714 0%, #241b18 55%, #1b1411 100%);
+                    radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
+                    radial-gradient(circle at top right, rgba(104, 221, 194, 0.14), transparent 26%),
+                    linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
             }
 
-            .feature-chip,
-            .pet-badge {
-                background: rgba(255, 255, 255, 0.08);
-                color: var(--text-primary);
+            .calculator-display {
+                background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
+                border-color: rgba(255, 255, 255, 0.06);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
             }
 
-            .pet-meta span {
-                background: rgba(255, 156, 121, 0.14);
-                color: #ffdccc;
-            }
-
-            .section-pill {
-                background: rgba(147, 195, 177, 0.16);
-                color: #d9fff1;
+            .calc-button {
+                box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
-                transition: none !important;
                 animation: none !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <main class="adoption-page">
-        <div class="adoption-shell">
-            <section class="adoption-hero" aria-labelledby="adoption-title">
+    <main class="calculator-page">
+        <section class="calculator-shell" aria-labelledby="calculator-title">
+            <header class="calculator-header">
+                <span class="eyebrow">Modern calculator</span>
+                <h1 id="calculator-title">Quick math, beautifully done.</h1>
+                <p>Handle everyday arithmetic with a polished keypad, clear display, and responsive layout that feels right at home on desktop or mobile.</p>
+            </header>
+
+            <div class="calculator-display" aria-live="polite">
                 <div>
-                    <span class="eyebrow">Adopt with heart</span>
-                    <h1 id="adoption-title">Meet your next best friend.</h1>
-                    <p>
-                        Every pet in our care is ready for a loving home, a soft bed, and a family that will adore them. Browse friendly faces, compare breed and age at a glance, and start the adoption journey today.
-                    </p>
-                    <div class="hero-features" aria-label="Adoption highlights">
-                        <span class="feature-chip">Vaccinated & ready</span>
-                        <span class="feature-chip">Gentle temperament checks</span>
-                        <span class="feature-chip">Warm shelter support</span>
-                    </div>
+                    <div class="display-label">Expression</div>
+                    <div class="display-expression" id="expression">0</div>
                 </div>
-                <div class="hero-visual" aria-hidden="true">
-                    <div class="pet-illustration"></div>
+                <div>
+                    <div class="display-label">Result</div>
+                    <div class="display-result" id="result">0</div>
                 </div>
-            </section>
+            </div>
 
-            <section class="adoption-section" aria-labelledby="available-pets-title">
-                <div class="section-header">
-                    <div>
-                        <span class="eyebrow">Available pets</span>
-                        <h2 id="available-pets-title">Friendly faces looking for home</h2>
-                        <p>Each pet card highlights the essentials so it is easy to find a companion that fits your family, space, and pace.</p>
-                    </div>
-                    <span class="section-pill">4 pets ready to meet you</span>
-                </div>
+            <div class="calculator-keypad" aria-label="Calculator keypad">
+                <button class="calc-button calc-button--danger" type="button" data-action="clear">AC</button>
+                <button class="calc-button calc-button--utility" type="button" data-action="delete">DEL</button>
+                <button class="calc-button calc-button--operator" type="button" data-value="/">÷</button>
+                <button class="calc-button calc-button--operator" type="button" data-value="*">×</button>
 
-                <div class="pet-grid">
-                    <article class="pet-card">
-                        <div class="pet-image pet-image--dog" aria-hidden="true">
-                            <span class="pet-badge">Playful pup</span>
-                            <div class="pet-avatar"></div>
-                        </div>
-                        <div class="pet-content">
-                            <div>
-                                <h3>Luna</h3>
-                                <p>Sunny, affectionate, and happiest when she has room to trot right beside you.</p>
-                            </div>
-                            <div class="pet-meta" aria-label="Luna details">
-                                <span>Golden Retriever</span>
-                                <span>2 years old</span>
-                            </div>
-                            <a class="pet-button" href="#">Adopt Luna</a>
-                        </div>
-                    </article>
+                <button class="calc-button" type="button" data-value="7">7</button>
+                <button class="calc-button" type="button" data-value="8">8</button>
+                <button class="calc-button" type="button" data-value="9">9</button>
+                <button class="calc-button calc-button--operator" type="button" data-value="-">−</button>
 
-                    <article class="pet-card">
-                        <div class="pet-image pet-image--cat" aria-hidden="true">
-                            <span class="pet-badge">Calm companion</span>
-                            <div class="pet-avatar"></div>
-                        </div>
-                        <div class="pet-content">
-                            <div>
-                                <h3>Milo</h3>
-                                <p>A cozy tabby with curious eyes who loves window naps and gentle head scratches.</p>
-                            </div>
-                            <div class="pet-meta" aria-label="Milo details">
-                                <span>Tabby Cat</span>
-                                <span>1 year old</span>
-                            </div>
-                            <a class="pet-button" href="#">Adopt Milo</a>
-                        </div>
-                    </article>
+                <button class="calc-button" type="button" data-value="4">4</button>
+                <button class="calc-button" type="button" data-value="5">5</button>
+                <button class="calc-button" type="button" data-value="6">6</button>
+                <button class="calc-button calc-button--operator" type="button" data-value="+">+</button>
 
-                    <article class="pet-card">
-                        <div class="pet-image pet-image--beagle" aria-hidden="true">
-                            <span class="pet-badge">Family favorite</span>
-                            <div class="pet-avatar"></div>
-                        </div>
-                        <div class="pet-content">
-                            <div>
-                                <h3>Daisy</h3>
-                                <p>Friendly and adventurous, with a wagging tail that starts the moment you say hello.</p>
-                            </div>
-                            <div class="pet-meta" aria-label="Daisy details">
-                                <span>Beagle Mix</span>
-                                <span>3 years old</span>
-                            </div>
-                            <a class="pet-button" href="#">Adopt Daisy</a>
-                        </div>
-                    </article>
+                <button class="calc-button" type="button" data-value="1">1</button>
+                <button class="calc-button" type="button" data-value="2">2</button>
+                <button class="calc-button" type="button" data-value="3">3</button>
+                <button class="calc-button calc-button--accent" type="button" data-action="equals">=</button>
 
-                    <article class="pet-card">
-                        <div class="pet-image pet-image--rabbit" aria-hidden="true">
-                            <span class="pet-badge">Gentle hopper</span>
-                            <div class="pet-avatar"></div>
-                        </div>
-                        <div class="pet-content">
-                            <div>
-                                <h3>Coco</h3>
-                                <p>Soft, sweet, and content to lounge nearby after a little bounce around the room.</p>
-                            </div>
-                            <div class="pet-meta" aria-label="Coco details">
-                                <span>Mini Lop Rabbit</span>
-                                <span>8 months old</span>
-                            </div>
-                            <a class="pet-button" href="#">Adopt Coco</a>
-                        </div>
-                    </article>
-                </div>
-            </section>
-        </div>
+                <button class="calc-button calc-button--wide" type="button" data-value="0">0</button>
+                <button class="calc-button" type="button" data-action="decimal">.</button>
+            </div>
+
+            <p class="calculator-note">Supports keyboard input too: numbers, operators, Enter, Backspace, and Escape.</p>
+        </section>
     </main>
+
+    <script>
+        const expressionDisplay = document.getElementById('expression');
+        const resultDisplay = document.getElementById('result');
+        const keypad = document.querySelector('.calculator-keypad');
+        const operatorPattern = /[+\-*/]/;
+        let expression = '';
+        let justEvaluated = false;
+        let errorState = false;
+
+        function getCurrentOperand() {
+            const parts = expression.split(/[+\-*/]/);
+            return parts[parts.length - 1] || '';
+        }
+
+        function formatExpression(value) {
+            return value
+                .replace(/\*/g, ' × ')
+                .replace(/\//g, ' ÷ ')
+                .replace(/\+/g, ' + ')
+                .replace(/-/g, ' − ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function setDisplays(resultValue = null) {
+            expressionDisplay.textContent = expression ? formatExpression(expression) : '0';
+            resultDisplay.textContent = resultValue ?? (expression || '0');
+            resultDisplay.classList.toggle('is-error', errorState);
+        }
+
+        function clearAll() {
+            expression = '';
+            justEvaluated = false;
+            errorState = false;
+            setDisplays('0');
+        }
+
+        function deleteLast() {
+            if (justEvaluated || errorState) {
+                clearAll();
+                return;
+            }
+
+            expression = expression.slice(0, -1);
+            setDisplays(expression || '0');
+        }
+
+        function appendNumber(value) {
+            if (errorState) {
+                clearAll();
+            }
+
+            if (justEvaluated) {
+                expression = '';
+                justEvaluated = false;
+            }
+
+            expression += value;
+            setDisplays(expression);
+        }
+
+        function appendDecimal() {
+            if (errorState) {
+                clearAll();
+            }
+
+            if (justEvaluated) {
+                expression = '';
+                justEvaluated = false;
+            }
+
+            const currentOperand = getCurrentOperand();
+            if (currentOperand.includes('.')) {
+                return;
+            }
+
+            if (!expression || operatorPattern.test(expression.slice(-1))) {
+                expression += '0.';
+            } else {
+                expression += '.';
+            }
+
+            setDisplays(expression);
+        }
+
+        function appendOperator(value) {
+            if (errorState) {
+                return;
+            }
+
+            if (!expression) {
+                if (value === '-') {
+                    expression = '-';
+                    setDisplays(expression);
+                }
+                return;
+            }
+
+            if (justEvaluated) {
+                justEvaluated = false;
+            }
+
+            const lastChar = expression.slice(-1);
+            if (operatorPattern.test(lastChar)) {
+                if (value === '-' && lastChar !== '-') {
+                    expression += value;
+                } else {
+                    expression = expression.slice(0, -1) + value;
+                }
+            } else {
+                expression += value;
+            }
+
+            setDisplays(expression);
+        }
+
+        function sanitizeExpression(input) {
+            return input.replace(/[^0-9+\-*/.]/g, '');
+        }
+
+        function evaluateExpression() {
+            if (!expression || errorState) {
+                return;
+            }
+
+            const sanitized = sanitizeExpression(expression);
+            if (!/^[0-9+\-*/.]+$/.test(sanitized) || /^[+*/.]|[+\-*/.]$/.test(sanitized)) {
+                errorState = true;
+                justEvaluated = false;
+                setDisplays('Invalid input');
+                return;
+            }
+
+            try {
+                const result = Function(`"use strict"; return (${sanitized})`)();
+                if (!Number.isFinite(result)) {
+                    throw new Error('Math error');
+                }
+
+                const normalized = Number.parseFloat(result.toFixed(10)).toString();
+                expression = normalized;
+                justEvaluated = true;
+                errorState = false;
+                setDisplays(normalized);
+            } catch (error) {
+                errorState = true;
+                justEvaluated = false;
+                setDisplays('Cannot divide by zero');
+            }
+        }
+
+        keypad.addEventListener('click', (event) => {
+            const button = event.target.closest('button');
+            if (!button) {
+                return;
+            }
+
+            const { action, value } = button.dataset;
+
+            if (action === 'clear') {
+                clearAll();
+                return;
+            }
+
+            if (action === 'delete') {
+                deleteLast();
+                return;
+            }
+
+            if (action === 'decimal') {
+                appendDecimal();
+                return;
+            }
+
+            if (action === 'equals') {
+                evaluateExpression();
+                return;
+            }
+
+            if (/^\d$/.test(value)) {
+                appendNumber(value);
+                return;
+            }
+
+            if (operatorPattern.test(value)) {
+                appendOperator(value);
+            }
+        });
+
+        window.addEventListener('keydown', (event) => {
+            const { key } = event;
+
+            if (/^\d$/.test(key)) {
+                appendNumber(key);
+                return;
+            }
+
+            if (key === '.') {
+                appendDecimal();
+                return;
+            }
+
+            if (operatorPattern.test(key)) {
+                appendOperator(key);
+                return;
+            }
+
+            if (key === 'Enter' || key === '=') {
+                event.preventDefault();
+                evaluateExpression();
+                return;
+            }
+
+            if (key === 'Backspace') {
+                event.preventDefault();
+                deleteLast();
+                return;
+            }
+
+            if (key === 'Escape') {
+                clearAll();
+            }
+        });
+
+        clearAll();
+    </script>
 </body>
 </html>
