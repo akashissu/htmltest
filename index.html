@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Calculator UI</title>
+    <title>Modern Tic Tac Toe</title>
     <style>
         :root {
             color-scheme: light dark;
             --page-bg: #eef3ff;
             --page-bg-deep: #dfe7ff;
-            --surface: rgba(255, 255, 255, 0.74);
+            --surface: rgba(255, 255, 255, 0.76);
             --surface-strong: #ffffff;
-            --surface-muted: rgba(244, 247, 255, 0.86);
+            --surface-soft: rgba(243, 247, 255, 0.94);
             --text-primary: #16203f;
             --text-secondary: #60709a;
             --accent: #6c7cff;
             --accent-strong: #4c5cff;
             --accent-soft: rgba(108, 124, 255, 0.14);
-            --utility: #eef2ff;
-            --utility-text: #4b5d93;
+            --accent-alt: #35c8b5;
+            --accent-alt-soft: rgba(53, 200, 181, 0.16);
             --danger-soft: rgba(255, 110, 128, 0.12);
             --danger-text: #cc4b67;
-            --shadow: 0 30px 60px rgba(64, 84, 150, 0.18);
-            --shadow-hover: 0 22px 34px rgba(64, 84, 150, 0.18);
             --border: rgba(22, 32, 63, 0.08);
+            --shadow: 0 30px 60px rgba(64, 84, 150, 0.18);
+            --shadow-hover: 0 18px 30px rgba(64, 84, 150, 0.18);
             --radius-xl: 34px;
             --radius-lg: 24px;
             --radius-md: 18px;
             --transition: 180ms ease;
-            --shell-width: 430px;
+            --shell-width: 520px;
         }
 
         * {
@@ -42,25 +42,22 @@
             color: var(--text-primary);
             background:
                 radial-gradient(circle at top left, rgba(108, 124, 255, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(104, 221, 194, 0.18), transparent 26%),
+                radial-gradient(circle at top right, rgba(53, 200, 181, 0.16), transparent 28%),
                 linear-gradient(180deg, #f7f9ff 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
         }
 
-        button,
-        input,
-        textarea,
-        select {
+        button {
             font: inherit;
         }
 
-        .calculator-page {
+        .game-page {
             min-height: 100vh;
             display: grid;
             place-items: center;
             padding: 24px;
         }
 
-        .calculator-shell {
+        .game-shell {
             width: min(100%, var(--shell-width));
             padding: 28px;
             border: 1px solid var(--border);
@@ -71,8 +68,16 @@
             -webkit-backdrop-filter: blur(18px);
         }
 
-        .calculator-header {
-            margin-bottom: 22px;
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .game-header-copy {
+            flex: 1;
         }
 
         .eyebrow {
@@ -90,199 +95,332 @@
             text-transform: uppercase;
         }
 
-        .calculator-header h1,
-        .display-result,
-        .calc-button {
+        .game-header h1,
+        .cell,
+        .control-button {
             margin: 0;
             letter-spacing: -0.03em;
         }
 
-        .calculator-header h1 {
+        .game-header h1 {
             margin-bottom: 10px;
             font-size: clamp(2rem, 6vw, 2.8rem);
             line-height: 1.04;
         }
 
-        .calculator-header p {
+        .game-header p {
             margin: 0;
             color: var(--text-secondary);
             line-height: 1.65;
         }
 
-        .calculator-display {
-            min-height: 152px;
+        .theme-toggle {
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(108, 124, 255, 0.14);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.68);
+            color: var(--accent-strong);
+            box-shadow: 0 12px 24px rgba(87, 105, 170, 0.12);
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+        }
+
+        .theme-toggle:hover,
+        .theme-toggle:focus-visible,
+        .control-button:hover,
+        .control-button:focus-visible,
+        .cell:hover,
+        .cell:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .theme-toggle:focus-visible,
+        .control-button:focus-visible,
+        .cell:focus-visible {
+            outline: 2px solid rgba(108, 124, 255, 0.32);
+            outline-offset: 3px;
+        }
+
+        .theme-toggle:active,
+        .control-button:active,
+        .cell:active {
+            transform: translateY(0);
+        }
+
+        .status-panel {
             margin-bottom: 20px;
-            padding: 22px 22px 18px;
+            padding: 18px 20px;
             border: 1px solid rgba(255, 255, 255, 0.28);
             border-radius: var(--radius-lg);
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 247, 255, 0.92));
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 247, 255, 0.92));
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
             gap: 14px;
         }
 
-        .display-label {
+        .status-copy {
+            min-width: 0;
+        }
+
+        .status-label {
             font-size: 0.8rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--text-secondary);
+            margin-bottom: 8px;
         }
 
-        .display-expression,
-        .display-result {
-            text-align: right;
-            word-break: break-word;
-            overflow-wrap: anywhere;
-        }
-
-        .display-expression {
-            min-height: 28px;
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        .display-result {
-            font-size: clamp(2.35rem, 9vw, 3.8rem);
+        .status-message {
+            font-size: clamp(1.05rem, 4vw, 1.35rem);
             font-weight: 800;
-            line-height: 1.05;
-            color: var(--text-primary);
+            line-height: 1.25;
         }
 
-        .display-result.is-error {
-            color: var(--danger-text);
-            font-size: clamp(1.8rem, 7vw, 2.8rem);
-        }
-
-        .calculator-keypad {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 12px;
-        }
-
-        .calc-button {
-            min-height: 74px;
-            border: 1px solid transparent;
-            border-radius: 22px;
-            background: var(--surface-strong);
-            color: var(--text-primary);
-            font-size: 1.35rem;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 92px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+            font-size: 0.74rem;
             font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: center;
         }
 
-        .calc-button:hover,
-        .calc-button:focus-visible {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(108, 124, 255, 0.16);
+        .status-badge.is-win {
+            background: var(--accent-alt-soft);
+            color: #148c7d;
         }
 
-        .calc-button:focus-visible {
-            outline: 2px solid rgba(108, 124, 255, 0.32);
-            outline-offset: 3px;
-        }
-
-        .calc-button:active {
-            transform: translateY(0);
-            box-shadow: 0 10px 18px rgba(87, 105, 170, 0.14);
-        }
-
-        .calc-button--utility {
-            background: var(--utility);
-            color: var(--utility-text);
-        }
-
-        .calc-button--danger {
+        .status-badge.is-draw {
             background: var(--danger-soft);
             color: var(--danger-text);
         }
 
-        .calc-button--operator {
-            background: rgba(108, 124, 255, 0.14);
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .cell {
+            aspect-ratio: 1 / 1;
+            border: 1px solid transparent;
+            border-radius: 22px;
+            background: var(--surface-strong);
+            color: var(--text-primary);
+            display: grid;
+            place-items: center;
+            font-size: clamp(2.4rem, 10vw, 4.2rem);
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
+        }
+
+        .cell:hover,
+        .cell:focus-visible {
+            border-color: rgba(108, 124, 255, 0.18);
+        }
+
+        .cell:disabled {
+            cursor: default;
+        }
+
+        .cell[data-value="X"] {
             color: var(--accent-strong);
         }
 
-        .calc-button--accent {
+        .cell[data-value="O"] {
+            color: #179a8b;
+        }
+
+        .cell.is-winning {
+            background: linear-gradient(135deg, rgba(53, 200, 181, 0.18), rgba(108, 124, 255, 0.18));
+            border-color: rgba(53, 200, 181, 0.3);
+        }
+
+        .cell.is-locked {
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-button {
+            flex: 1;
+            min-height: 58px;
+            border: 1px solid transparent;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 800;
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+        }
+
+        .control-button--primary {
             background: linear-gradient(135deg, var(--accent), #8a97ff);
             color: #ffffff;
             box-shadow: 0 18px 30px rgba(108, 124, 255, 0.28);
         }
 
-        .calc-button--wide {
-            grid-column: span 2;
+        .control-button--secondary {
+            background: var(--surface-strong);
+            color: var(--text-primary);
+            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
         }
 
-        .calculator-note {
+        .game-note {
             margin-top: 16px;
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.92rem;
         }
 
-        @media (max-width: 480px) {
-            .calculator-page {
+        .game-note strong {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 520px) {
+            .game-page {
                 padding: 16px;
             }
 
-            .calculator-shell {
+            .game-shell {
                 padding: 20px;
                 border-radius: 28px;
             }
 
-            .calculator-display {
-                min-height: 138px;
-                padding: 20px 18px 16px;
+            .game-header {
+                flex-direction: column;
             }
 
-            .calc-button {
-                min-height: 64px;
+            .theme-toggle {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+            }
+
+            .status-panel {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .cell {
                 border-radius: 18px;
-                font-size: 1.2rem;
             }
         }
 
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --page-bg: #101522;
+            --page-bg-deep: #0a0f1b;
+            --surface: rgba(20, 26, 40, 0.84);
+            --surface-strong: #182036;
+            --surface-soft: rgba(29, 37, 59, 0.92);
+            --text-primary: #f4f7ff;
+            --text-secondary: #9ba9cb;
+            --accent: #7e8cff;
+            --accent-strong: #b4beff;
+            --accent-soft: rgba(126, 140, 255, 0.16);
+            --accent-alt: #41dac5;
+            --accent-alt-soft: rgba(65, 218, 197, 0.14);
+            --danger-soft: rgba(255, 110, 128, 0.14);
+            --danger-text: #ff9daf;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
+            --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
+        }
+
+        :root[data-theme="dark"] body {
+            background:
+                radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
+                radial-gradient(circle at top right, rgba(65, 218, 197, 0.14), transparent 28%),
+                linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
+        }
+
+        :root[data-theme="dark"] .status-panel {
+            background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        :root[data-theme="dark"] .theme-toggle,
+        :root[data-theme="dark"] .cell,
+        :root[data-theme="dark"] .control-button--secondary {
+            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+        }
+
+        :root[data-theme="dark"] .theme-toggle {
+            background: rgba(24, 32, 54, 0.9);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
+                color-scheme: dark;
                 --page-bg: #101522;
                 --page-bg-deep: #0a0f1b;
-                --surface: rgba(20, 26, 40, 0.82);
+                --surface: rgba(20, 26, 40, 0.84);
                 --surface-strong: #182036;
-                --surface-muted: rgba(29, 37, 59, 0.9);
+                --surface-soft: rgba(29, 37, 59, 0.92);
                 --text-primary: #f4f7ff;
                 --text-secondary: #9ba9cb;
                 --accent: #7e8cff;
                 --accent-strong: #b4beff;
                 --accent-soft: rgba(126, 140, 255, 0.16);
-                --utility: #212b44;
-                --utility-text: #dbe3ff;
+                --accent-alt: #41dac5;
+                --accent-alt-soft: rgba(65, 218, 197, 0.14);
                 --danger-soft: rgba(255, 110, 128, 0.14);
                 --danger-text: #ff9daf;
+                --border: rgba(255, 255, 255, 0.08);
                 --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
                 --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
-                --border: rgba(255, 255, 255, 0.08);
             }
 
-            body {
+            :root:not([data-theme="light"]) body {
                 background:
                     radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
-                    radial-gradient(circle at top right, rgba(104, 221, 194, 0.14), transparent 26%),
+                    radial-gradient(circle at top right, rgba(65, 218, 197, 0.14), transparent 28%),
                     linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
             }
 
-            .calculator-display {
+            :root:not([data-theme="light"]) .status-panel {
                 background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
                 border-color: rgba(255, 255, 255, 0.06);
                 box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
             }
 
-            .calc-button {
+            :root:not([data-theme="light"]) .theme-toggle,
+            :root:not([data-theme="light"]) .cell,
+            :root:not([data-theme="light"]) .control-button--secondary {
                 box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+            }
+
+            :root:not([data-theme="light"]) .theme-toggle {
+                background: rgba(24, 32, 54, 0.9);
+                border-color: rgba(255, 255, 255, 0.08);
             }
         }
 
@@ -295,278 +433,204 @@
     </style>
 </head>
 <body>
-    <main class="calculator-page">
-        <section class="calculator-shell" aria-labelledby="calculator-title">
-            <header class="calculator-header">
-                <span class="eyebrow">Modern calculator</span>
-                <h1 id="calculator-title">Quick math, beautifully done.</h1>
-                <p>Handle everyday arithmetic with a polished keypad, clear display, and responsive layout that feels right at home on desktop or mobile.</p>
+    <main class="game-page">
+        <section class="game-shell" aria-labelledby="game-title">
+            <header class="game-header">
+                <div class="game-header-copy">
+                    <span class="eyebrow">Modern game night</span>
+                    <h1 id="game-title">Tic Tac Toe, reimagined.</h1>
+                    <p>Take turns placing X and O, race to complete a line, and restart instantly for another round.</p>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+                    <span id="theme-icon" aria-hidden="true">🌙</span>
+                </button>
             </header>
 
-            <div class="calculator-display" aria-live="polite">
-                <div>
-                    <div class="display-label">Expression</div>
-                    <div class="display-expression" id="expression">0</div>
+            <section class="status-panel" aria-live="polite">
+                <div class="status-copy">
+                    <div class="status-label">Game status</div>
+                    <div class="status-message" id="status-message">Player X, your move.</div>
                 </div>
-                <div>
-                    <div class="display-label">Result</div>
-                    <div class="display-result" id="result">0</div>
-                </div>
+                <div class="status-badge" id="status-badge">In play</div>
+            </section>
+
+            <section class="board" id="board" aria-label="Tic Tac Toe board">
+                <button class="cell" type="button" data-index="0" aria-label="Cell 1, empty"></button>
+                <button class="cell" type="button" data-index="1" aria-label="Cell 2, empty"></button>
+                <button class="cell" type="button" data-index="2" aria-label="Cell 3, empty"></button>
+                <button class="cell" type="button" data-index="3" aria-label="Cell 4, empty"></button>
+                <button class="cell" type="button" data-index="4" aria-label="Cell 5, empty"></button>
+                <button class="cell" type="button" data-index="5" aria-label="Cell 6, empty"></button>
+                <button class="cell" type="button" data-index="6" aria-label="Cell 7, empty"></button>
+                <button class="cell" type="button" data-index="7" aria-label="Cell 8, empty"></button>
+                <button class="cell" type="button" data-index="8" aria-label="Cell 9, empty"></button>
+            </section>
+
+            <div class="controls">
+                <button class="control-button control-button--primary" id="restart-button" type="button">Restart game</button>
+                <button class="control-button control-button--secondary" id="new-round-button" type="button">Clear board</button>
             </div>
 
-            <div class="calculator-keypad" aria-label="Calculator keypad">
-                <button class="calc-button calc-button--danger" type="button" data-action="clear">AC</button>
-                <button class="calc-button calc-button--utility" type="button" data-action="delete">DEL</button>
-                <button class="calc-button calc-button--operator" type="button" data-value="/">÷</button>
-                <button class="calc-button calc-button--operator" type="button" data-value="*">×</button>
-
-                <button class="calc-button" type="button" data-value="7">7</button>
-                <button class="calc-button" type="button" data-value="8">8</button>
-                <button class="calc-button" type="button" data-value="9">9</button>
-                <button class="calc-button calc-button--operator" type="button" data-value="-">−</button>
-
-                <button class="calc-button" type="button" data-value="4">4</button>
-                <button class="calc-button" type="button" data-value="5">5</button>
-                <button class="calc-button" type="button" data-value="6">6</button>
-                <button class="calc-button calc-button--operator" type="button" data-value="+">+</button>
-
-                <button class="calc-button" type="button" data-value="1">1</button>
-                <button class="calc-button" type="button" data-value="2">2</button>
-                <button class="calc-button" type="button" data-value="3">3</button>
-                <button class="calc-button calc-button--accent" type="button" data-action="equals">=</button>
-
-                <button class="calc-button calc-button--wide" type="button" data-value="0">0</button>
-                <button class="calc-button" type="button" data-action="decimal">.</button>
-            </div>
-
-            <p class="calculator-note">Supports keyboard input too: numbers, operators, Enter, Backspace, and Escape.</p>
+            <p class="game-note"><strong>Tip:</strong> use Tab to move across cells and Enter or Space to play. Press <strong>T</strong> to switch themes.</p>
         </section>
     </main>
 
     <script>
-        const expressionDisplay = document.getElementById('expression');
-        const resultDisplay = document.getElementById('result');
-        const keypad = document.querySelector('.calculator-keypad');
-        const operatorPattern = /[+\-*/]/;
-        const trailingOperatorPattern = /[+\-*/.]$/;
-        let expression = '';
-        let justEvaluated = false;
-        let errorState = false;
+        const boardElement = document.getElementById('board');
+        const cells = Array.from(document.querySelectorAll('.cell'));
+        const statusMessage = document.getElementById('status-message');
+        const statusBadge = document.getElementById('status-badge');
+        const restartButton = document.getElementById('restart-button');
+        const newRoundButton = document.getElementById('new-round-button');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
 
-        function getCurrentOperand() {
-            const parts = expression.split(/[+\-*/]/);
-            return parts[parts.length - 1] || '';
-        }
+        const winningLines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
 
-        function formatExpression(value) {
-            return value
-                .replace(/\*/g, ' × ')
-                .replace(/\//g, ' ÷ ')
-                .replace(/\+/g, ' + ')
-                .replace(/-/g, ' − ')
-                .replace(/\s+/g, ' ')
-                .trim();
-        }
+        const themeStorageKey = 'pap-237-theme';
 
-        function normalizeResult(value) {
-            return Number.parseFloat(value.toFixed(10)).toString();
-        }
+        let board = Array(9).fill('');
+        let currentPlayer = 'X';
+        let winner = null;
+        let winningLine = [];
+        let isDraw = false;
+        let isGameOver = false;
 
-        function setDisplays(resultValue = null) {
-            expressionDisplay.textContent = expression ? formatExpression(expression) : '0';
-            resultDisplay.textContent = resultValue ?? (expression || '0');
-            resultDisplay.classList.toggle('is-error', errorState);
-        }
-
-        function showError(message) {
-            errorState = true;
-            justEvaluated = false;
-            setDisplays(message);
-        }
-
-        function sanitizeExpression(input) {
-            return input.replace(/[^0-9+\-*/.]/g, '');
-        }
-
-        function canEvaluate(input) {
-            return Boolean(input)
-                && /^[0-9+\-*/.]+$/.test(input)
-                && !/^[+*/.]/.test(input)
-                && !trailingOperatorPattern.test(input);
-        }
-
-        function computeExpression(input) {
-            const sanitized = sanitizeExpression(input);
-            if (!canEvaluate(sanitized)) {
-                throw new Error('Invalid expression');
+        function getStatusState() {
+            if (winner) {
+                return {
+                    message: `Player ${winner} wins this round!`,
+                    badge: 'Winner',
+                    badgeClass: 'is-win'
+                };
             }
 
-            const result = Function(`"use strict"; return (${sanitized})`)();
-            if (!Number.isFinite(result)) {
-                throw new Error('Cannot divide by zero');
+            if (isDraw) {
+                return {
+                    message: 'Draw game. Nobody blinked.',
+                    badge: 'Draw',
+                    badgeClass: 'is-draw'
+                };
             }
 
-            return normalizeResult(result);
+            return {
+                message: `Player ${currentPlayer}, your move.`,
+                badge: 'In play',
+                badgeClass: ''
+            };
         }
 
-        function updatePreview() {
-            if (!expression) {
-                setDisplays('0');
+        function setCellAccessibility(cell, index, value) {
+            const state = value ? `${value} placed` : 'empty';
+            cell.setAttribute('aria-label', `Cell ${index + 1}, ${state}`);
+        }
+
+        function renderBoard() {
+            const status = getStatusState();
+            statusMessage.textContent = status.message;
+            statusBadge.textContent = status.badge;
+            statusBadge.classList.toggle('is-win', status.badgeClass === 'is-win');
+            statusBadge.classList.toggle('is-draw', status.badgeClass === 'is-draw');
+
+            cells.forEach((cell, index) => {
+                const value = board[index];
+                cell.textContent = value;
+                cell.dataset.value = value;
+                cell.disabled = Boolean(value) || isGameOver;
+                cell.classList.toggle('is-winning', winningLine.includes(index));
+                cell.classList.toggle('is-locked', isGameOver && !winningLine.includes(index));
+                setCellAccessibility(cell, index, value);
+            });
+        }
+
+        function findWinningLine(nextBoard, player) {
+            return winningLines.find((line) => line.every((index) => nextBoard[index] === player)) || null;
+        }
+
+        function handleMove(index) {
+            if (isGameOver || board[index]) {
                 return;
             }
 
-            if (trailingOperatorPattern.test(expression)) {
-                setDisplays(expression);
+            board[index] = currentPlayer;
+            const matchedLine = findWinningLine(board, currentPlayer);
+
+            if (matchedLine) {
+                winner = currentPlayer;
+                winningLine = matchedLine;
+                isGameOver = true;
+                renderBoard();
                 return;
             }
 
-            try {
-                const preview = computeExpression(expression);
-                setDisplays(preview);
-            } catch {
-                setDisplays(expression);
-            }
-        }
-
-        function clearAll() {
-            expression = '';
-            justEvaluated = false;
-            errorState = false;
-            setDisplays('0');
-        }
-
-        function deleteLast() {
-            if (justEvaluated || errorState) {
-                clearAll();
+            if (board.every(Boolean)) {
+                isDraw = true;
+                isGameOver = true;
+                renderBoard();
                 return;
             }
 
-            expression = expression.slice(0, -1);
-            errorState = false;
-            updatePreview();
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            renderBoard();
         }
 
-        function appendNumber(value) {
-            if (errorState) {
-                clearAll();
-            }
-
-            if (justEvaluated) {
-                expression = '';
-                justEvaluated = false;
-            }
-
-            expression += value;
-            updatePreview();
+        function resetGame(startingPlayer = 'X') {
+            board = Array(9).fill('');
+            currentPlayer = startingPlayer;
+            winner = null;
+            winningLine = [];
+            isDraw = false;
+            isGameOver = false;
+            renderBoard();
         }
 
-        function appendDecimal() {
-            if (errorState) {
-                clearAll();
-            }
-
-            if (justEvaluated) {
-                expression = '';
-                justEvaluated = false;
-            }
-
-            const currentOperand = getCurrentOperand();
-            if (currentOperand.includes('.')) {
-                return;
-            }
-
-            if (!expression || operatorPattern.test(expression.slice(-1))) {
-                expression += '0.';
-            } else {
-                expression += '.';
-            }
-
-            updatePreview();
+        function applyTheme(theme) {
+            const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
+            const switchLabel = resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+            document.documentElement.dataset.theme = resolvedTheme;
+            themeToggle.setAttribute('aria-pressed', String(resolvedTheme === 'dark'));
+            themeToggle.setAttribute('aria-label', switchLabel);
+            themeToggle.setAttribute('title', switchLabel);
+            themeIcon.textContent = resolvedTheme === 'dark' ? '☀️' : '🌙';
         }
 
-        function appendOperator(value) {
-            if (errorState) {
-                return;
-            }
-
-            if (!expression) {
-                if (value === '-') {
-                    expression = '-';
-                    updatePreview();
-                }
-                return;
-            }
-
-            if (justEvaluated) {
-                justEvaluated = false;
-            }
-
-            const lastChar = expression.slice(-1);
-            if (operatorPattern.test(lastChar)) {
-                if (value === '-' && lastChar !== '-') {
-                    expression += value;
-                } else {
-                    expression = expression.slice(0, -1) + value;
-                }
-            } else {
-                expression += value;
-            }
-
-            updatePreview();
+        function initializeTheme() {
+            const storedTheme = window.localStorage.getItem(themeStorageKey);
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
         }
 
-        function evaluateExpression() {
-            if (!expression || errorState) {
-                return;
-            }
-
-            try {
-                const normalized = computeExpression(expression);
-                expression = normalized;
-                justEvaluated = true;
-                errorState = false;
-                setDisplays(normalized);
-            } catch (error) {
-                showError(error.message === 'Cannot divide by zero' ? 'Cannot divide by zero' : 'Invalid expression');
-            }
-        }
-
-        keypad.addEventListener('click', (event) => {
-            const button = event.target.closest('button');
+        boardElement.addEventListener('click', (event) => {
+            const button = event.target.closest('.cell');
             if (!button) {
                 return;
             }
 
-            const { action, value } = button.dataset;
+            handleMove(Number(button.dataset.index));
+        });
 
-            if (action === 'clear') {
-                clearAll();
-                return;
-            }
+        restartButton.addEventListener('click', () => {
+            resetGame('X');
+        });
 
-            if (action === 'delete') {
-                deleteLast();
-                return;
-            }
+        newRoundButton.addEventListener('click', () => {
+            const nextStarter = currentPlayer === 'X' ? 'O' : 'X';
+            resetGame(isGameOver ? nextStarter : currentPlayer);
+        });
 
-            if (action === 'decimal') {
-                appendDecimal();
-                return;
-            }
-
-            if (action === 'equals') {
-                evaluateExpression();
-                return;
-            }
-
-            if (/^\d$/.test(value)) {
-                appendNumber(value);
-                return;
-            }
-
-            if (operatorPattern.test(value)) {
-                appendOperator(value);
-            }
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            window.localStorage.setItem(themeStorageKey, nextTheme);
+            applyTheme(nextTheme);
         });
 
         window.addEventListener('keydown', (event) => {
@@ -578,39 +642,20 @@
                 return;
             }
 
-            if (/^\d$/.test(key)) {
-                appendNumber(key);
-                return;
-            }
-
-            if (key === '.') {
-                appendDecimal();
-                return;
-            }
-
-            if (operatorPattern.test(key)) {
-                appendOperator(key);
-                return;
-            }
-
-            if (key === 'Enter' || key === '=') {
+            if (key.toLowerCase() === 't') {
                 event.preventDefault();
-                evaluateExpression();
+                themeToggle.click();
                 return;
             }
 
-            if (key === 'Backspace') {
+            if (key.toLowerCase() === 'r') {
                 event.preventDefault();
-                deleteLast();
-                return;
-            }
-
-            if (key === 'Escape') {
-                clearAll();
+                restartButton.click();
             }
         });
 
-        clearAll();
+        initializeTheme();
+        resetGame();
     </script>
 </body>
 </html>
