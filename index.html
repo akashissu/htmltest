@@ -72,7 +72,15 @@
         }
 
         .calculator-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
             margin-bottom: 22px;
+        }
+
+        .calculator-header-copy {
+            flex: 1;
         }
 
         .eyebrow {
@@ -95,6 +103,43 @@
         .calc-button {
             margin: 0;
             letter-spacing: -0.03em;
+        }
+
+        .theme-toggle {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border: 1px solid rgba(108, 124, 255, 0.14);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.68);
+            color: var(--accent-strong);
+            box-shadow: 0 12px 24px rgba(87, 105, 170, 0.12);
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+        }
+
+        .theme-toggle:hover,
+        .theme-toggle:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(108, 124, 255, 0.22);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid rgba(108, 124, 255, 0.32);
+            outline-offset: 3px;
+        }
+
+        .theme-toggle:active {
+            transform: translateY(0);
+        }
+
+        .theme-toggle__icon {
+            font-size: 1.15rem;
+            line-height: 1;
         }
 
         .calculator-header h1 {
@@ -124,12 +169,40 @@
             gap: 14px;
         }
 
+        .display-meta,
+        .display-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
         .display-label {
             font-size: 0.8rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--text-secondary);
+        }
+
+        .display-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 74px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .display-status.is-error {
+            background: var(--danger-soft);
+            color: var(--danger-text);
         }
 
         .display-expression,
@@ -225,6 +298,10 @@
             font-size: 0.92rem;
         }
 
+        .calculator-note strong {
+            color: var(--text-primary);
+        }
+
         @media (max-width: 480px) {
             .calculator-page {
                 padding: 16px;
@@ -235,9 +312,24 @@
                 border-radius: 28px;
             }
 
+            .calculator-header {
+                flex-direction: column;
+            }
+
+            .theme-toggle {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+            }
+
             .calculator-display {
                 min-height: 138px;
                 padding: 20px 18px 16px;
+            }
+
+            .display-meta,
+            .display-label-row {
+                flex-wrap: wrap;
             }
 
             .calc-button {
@@ -247,8 +339,53 @@
             }
         }
 
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --page-bg: #101522;
+            --page-bg-deep: #0a0f1b;
+            --surface: rgba(20, 26, 40, 0.82);
+            --surface-strong: #182036;
+            --surface-muted: rgba(29, 37, 59, 0.9);
+            --text-primary: #f4f7ff;
+            --text-secondary: #9ba9cb;
+            --accent: #7e8cff;
+            --accent-strong: #b4beff;
+            --accent-soft: rgba(126, 140, 255, 0.16);
+            --utility: #212b44;
+            --utility-text: #dbe3ff;
+            --danger-soft: rgba(255, 110, 128, 0.14);
+            --danger-text: #ff9daf;
+            --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
+            --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        :root[data-theme="dark"] body {
+            background:
+                radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
+                radial-gradient(circle at top right, rgba(104, 221, 194, 0.14), transparent 26%),
+                linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
+        }
+
+        :root[data-theme="dark"] .calculator-display {
+            background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        :root[data-theme="dark"] .calc-button {
+            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+        }
+
+        :root[data-theme="dark"] .theme-toggle {
+            background: rgba(24, 32, 54, 0.9);
+            border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+        }
+
         @media (prefers-color-scheme: dark) {
-            :root {
+            :root:not([data-theme="light"]) {
+                color-scheme: dark;
                 --page-bg: #101522;
                 --page-bg-deep: #0a0f1b;
                 --surface: rgba(20, 26, 40, 0.82);
@@ -268,20 +405,26 @@
                 --border: rgba(255, 255, 255, 0.08);
             }
 
-            body {
+            :root:not([data-theme="light"]) body {
                 background:
                     radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
                     radial-gradient(circle at top right, rgba(104, 221, 194, 0.14), transparent 26%),
                     linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
             }
 
-            .calculator-display {
+            :root:not([data-theme="light"]) .calculator-display {
                 background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
                 border-color: rgba(255, 255, 255, 0.06);
                 box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
             }
 
-            .calc-button {
+            :root:not([data-theme="light"]) .calc-button {
+                box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+            }
+
+            :root:not([data-theme="light"]) .theme-toggle {
+                background: rgba(24, 32, 54, 0.9);
+                border-color: rgba(255, 255, 255, 0.08);
                 box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
             }
         }
@@ -298,18 +441,26 @@
     <main class="calculator-page">
         <section class="calculator-shell" aria-labelledby="calculator-title">
             <header class="calculator-header">
-                <span class="eyebrow">Modern calculator</span>
-                <h1 id="calculator-title">Quick math, beautifully done.</h1>
-                <p>Handle everyday arithmetic with a polished keypad, clear display, and responsive layout that feels right at home on desktop or mobile.</p>
+                <div class="calculator-header-copy">
+                    <span class="eyebrow">Modern calculator</span>
+                    <h1 id="calculator-title">Quick math, beautifully done.</h1>
+                    <p>Handle everyday arithmetic with a polished keypad, clear display, and responsive layout that feels right at home on desktop or mobile.</p>
+                </div>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+                    <span class="theme-toggle__icon" id="theme-icon" aria-hidden="true">🌙</span>
+                </button>
             </header>
 
             <div class="calculator-display" aria-live="polite">
-                <div>
+                <div class="display-meta">
                     <div class="display-label">Expression</div>
-                    <div class="display-expression" id="expression">0</div>
+                    <div class="display-status" id="display-status">Ready</div>
                 </div>
+                <div class="display-expression" id="expression">0</div>
                 <div>
-                    <div class="display-label">Result</div>
+                    <div class="display-label-row">
+                        <div class="display-label">Result</div>
+                    </div>
                     <div class="display-result" id="result">0</div>
                 </div>
             </div>
@@ -339,16 +490,20 @@
                 <button class="calc-button" type="button" data-action="decimal">.</button>
             </div>
 
-            <p class="calculator-note">Supports keyboard input too: numbers, operators, Enter, Backspace, and Escape.</p>
+            <p class="calculator-note"><strong>Keyboard ready:</strong> use numbers, operators, Enter, Backspace, and Escape. Press <strong>T</strong> or tap the moon button to switch themes.</p>
         </section>
     </main>
 
     <script>
         const expressionDisplay = document.getElementById('expression');
         const resultDisplay = document.getElementById('result');
+        const displayStatus = document.getElementById('display-status');
         const keypad = document.querySelector('.calculator-keypad');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
         const operatorPattern = /[+\-*/]/;
         const trailingOperatorPattern = /[+\-*/.]$/;
+        const themeStorageKey = 'pap-234-theme';
         let expression = '';
         let justEvaluated = false;
         let errorState = false;
@@ -372,10 +527,24 @@
             return Number.parseFloat(value.toFixed(10)).toString();
         }
 
+        function getDisplayStatus() {
+            if (errorState) {
+                return 'Error';
+            }
+
+            if (justEvaluated) {
+                return 'Solved';
+            }
+
+            return expression ? 'Typing' : 'Ready';
+        }
+
         function setDisplays(resultValue = null) {
             expressionDisplay.textContent = expression ? formatExpression(expression) : '0';
             resultDisplay.textContent = resultValue ?? (expression || '0');
             resultDisplay.classList.toggle('is-error', errorState);
+            displayStatus.textContent = getDisplayStatus();
+            displayStatus.classList.toggle('is-error', errorState);
         }
 
         function showError(message) {
@@ -502,9 +671,15 @@
             }
 
             const lastChar = expression.slice(-1);
+            const secondToLastChar = expression.slice(-2, -1);
+
             if (operatorPattern.test(lastChar)) {
-                if (value === '-' && lastChar !== '-') {
+                const endsWithNegativeOperandMarker = lastChar === '-' && operatorPattern.test(secondToLastChar);
+
+                if (value === '-' && !endsWithNegativeOperandMarker) {
                     expression += value;
+                } else if (endsWithNegativeOperandMarker) {
+                    expression = expression.slice(0, -2) + value;
                 } else {
                     expression = expression.slice(0, -1) + value;
                 }
@@ -569,6 +744,28 @@
             }
         });
 
+        function applyTheme(theme) {
+            const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
+            const switchLabel = resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+            document.documentElement.dataset.theme = resolvedTheme;
+            themeToggle.setAttribute('aria-pressed', String(resolvedTheme === 'dark'));
+            themeToggle.setAttribute('aria-label', switchLabel);
+            themeToggle.setAttribute('title', switchLabel);
+            themeIcon.textContent = resolvedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function initializeTheme() {
+            const storedTheme = window.localStorage.getItem(themeStorageKey);
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            window.localStorage.setItem(themeStorageKey, nextTheme);
+            applyTheme(nextTheme);
+        });
+
         window.addEventListener('keydown', (event) => {
             const { key, ctrlKey, metaKey, altKey, target } = event;
             const tagName = target?.tagName;
@@ -605,11 +802,18 @@
                 return;
             }
 
+            if (key.toLowerCase() === 't') {
+                event.preventDefault();
+                themeToggle.click();
+                return;
+            }
+
             if (key === 'Escape') {
                 clearAll();
             }
         });
 
+        initializeTheme();
         clearAll();
     </script>
 </body>
