@@ -468,10 +468,10 @@
 
             <div class="controls">
                 <button class="control-button control-button--primary" id="restart-button" type="button">Restart game</button>
-                <button class="control-button control-button--secondary" id="new-round-button" type="button">Clear board</button>
+                <button class="control-button control-button--secondary" id="next-round-button" type="button">Next round</button>
             </div>
 
-            <p class="game-note"><strong>Tip:</strong> use Tab to move across cells and Enter or Space to play. Press <strong>T</strong> to switch themes.</p>
+            <p class="game-note"><strong>Tip:</strong> use Tab to move across cells and Enter or Space to play. Press <strong>T</strong> to switch themes and <strong>R</strong> to restart with X.</p>
         </section>
     </main>
 
@@ -481,7 +481,7 @@
         const statusMessage = document.getElementById('status-message');
         const statusBadge = document.getElementById('status-badge');
         const restartButton = document.getElementById('restart-button');
-        const newRoundButton = document.getElementById('new-round-button');
+        const nextRoundButton = document.getElementById('next-round-button');
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
 
@@ -496,7 +496,7 @@
             [2, 4, 6]
         ];
 
-        const themeStorageKey = 'pap-237-theme';
+        const themeStorageKey = 'pap-238-theme';
 
         let board = Array(9).fill('');
         let currentPlayer = 'X';
@@ -504,12 +504,13 @@
         let winningLine = [];
         let isDraw = false;
         let isGameOver = false;
+        let roundStarter = 'X';
 
         function getStatusState() {
             if (winner) {
                 return {
                     message: `Player ${winner} wins this round!`,
-                    badge: 'Winner',
+                    badge: `Winner: ${winner}`,
                     badgeClass: 'is-win'
                 };
             }
@@ -524,7 +525,7 @@
 
             return {
                 message: `Player ${currentPlayer}, your move.`,
-                badge: 'In play',
+                badge: `Turn: ${currentPlayer}`,
                 badgeClass: ''
             };
         }
@@ -593,6 +594,11 @@
             renderBoard();
         }
 
+        function startNextRound() {
+            roundStarter = roundStarter === 'X' ? 'O' : 'X';
+            resetGame(roundStarter);
+        }
+
         function applyTheme(theme) {
             const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
             const switchLabel = resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
@@ -619,12 +625,12 @@
         });
 
         restartButton.addEventListener('click', () => {
+            roundStarter = 'X';
             resetGame('X');
         });
 
-        newRoundButton.addEventListener('click', () => {
-            const nextStarter = currentPlayer === 'X' ? 'O' : 'X';
-            resetGame(isGameOver ? nextStarter : currentPlayer);
+        nextRoundButton.addEventListener('click', () => {
+            startNextRound();
         });
 
         themeToggle.addEventListener('click', () => {
