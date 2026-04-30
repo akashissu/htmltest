@@ -1,0 +1,33 @@
+{
+  "query": "CSS card layout best practices",
+  "source": "OpenClaw web_search fixture",
+  "fetchedAt": "2026-04-30T10:49:00Z",
+  "count": 5,
+  "results": [
+    {
+      "title": "195 CSS Cards - Free Frontend",
+      "url": "https://freefrontend.com/css-cards/",
+      "snippet": "CSS Cards collection for modern UI design."
+    },
+    {
+      "title": "Really Neat CSS Cards For You To Use In Your Website",
+      "url": "https://www.sliderrevolution.com/resources/css-cards/",
+      "snippet": "Examples of CSS cards for multiple layouts and screen sizes."
+    },
+    {
+      "title": "101 CSS Cards - freefrontend.org",
+      "url": "https://freefrontend.org/css-cards",
+      "snippet": "Card examples for products, blog posts, and services."
+    },
+    {
+      "title": "39 Best CSS Card Design Templates 2026 - uiCookies",
+      "url": "https://uicookies.com/css-card-design/",
+      "snippet": "Collection of animated and material design card templates."
+    },
+    {
+      "title": "10 CSS Card Layout Examples - subframe.com",
+      "url": "https://www.subframe.com/tips/css-card-layout-examples",
+      "snippet": "Creative and responsive card layout examples."
+    }
+  ]
+}
