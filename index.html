@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Tic Tac Toe</title>
+    <title>Fashion Showcase</title>
     <style>
         :root {
             color-scheme: light dark;
@@ -657,5 +657,147 @@
         initializeTheme();
         resetGame();
     </script>
+    <main class="fashion-showcase">
+        <header class="showcase-header">
+            <p class="eyebrow">Exclusive Collection</p>
+            <h1 class="headline">Discover Your Style</h1>
+            <p class="intro">Explore our latest trends with these handpicked selections just for you.</p>
+        </header>
+        <section class="product-grid">
+            <article class="product-card">
+                <div class="product-image"></div>
+                <h2 class="product-name">Tailored Wool Coat</h2>
+                <p class="product-category">Outerwear</p>
+                <p class="product-price">$248</p>
+                <button class="shop-button">Quick shop</button>
+            </article>
+            <article class="product-card">
+                <div class="product-image"></div>
+                <h2 class="product-name">Satin Evening Set</h2>
+                <p class="product-category">Evening</p>
+                <p class="product-price">$186</p>
+                <button class="shop-button">Quick shop</button>
+            </article>
+            <article class="product-card">
+                <div class="product-image"></div>
+                <h2 class="product-name">Leather City Bag</h2>
+                <p class="product-category">Accessories</p>
+                <p class="product-price">$154</p>
+                <button class="shop-button">Quick shop</button>
+            </article>
+            <article class="product-card">
+                <div class="product-image"></div>
+                <h2 class="product-name">Minimal Heel Sandal</h2>
+                <p class="product-category">Footwear</p>
+                <p class="product-price">$128</p>
+                <button class="shop-button">Quick shop</button>
+            </article>
+        </section>
+    </main>
+
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --accent-color: #fdae61;
+            --text-color: #333;
+            --border-radius: 10px;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .fashion-showcase {
+            max-width: 900px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        .headline {
+            font-size: 2.5rem;
+            margin: 0.5em 0;
+        }
+
+        .intro {
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            overflow: hidden;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .product-image {
+            background-color: #ddd;
+            padding-bottom: 150px;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            margin: 10px 0 5px;
+        }
+
+        .product-category {
+            color: #888;
+            margin: 5px 0;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin: 5px 0;
+        }
+
+        .shop-button {
+            background-color: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .shop-button:hover {
+            background-color: #e68a00;
+        }
+
+    </style>
+
 </body>
 </html>
