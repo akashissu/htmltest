@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Tic Tac Toe</title>
+    <title>Podcast Homepage</title>
     <style>
         :root {
             color-scheme: light dark;
@@ -657,5 +657,130 @@
         initializeTheme();
         resetGame();
     </script>
+    <main class="podcast-homepage">
+        <header class="podcast-banner">
+            <h1>Stay Tuned: The Podcast</h1>
+            <p class="banner-description">Your weekly dose of insights and entertainment.</p>
+            <button class="subscribe-button">Subscribe Now</button>
+        </header>
+        <section class="episodes">
+            <h2>Featured Episodes</h2>
+            <div class="episode-cards">
+                <article class="episode-card">
+                    <h3>Episode 1: The Power of Habit</h3>
+                    <p>Explore how habits shape who we are and how we can shape them.</p>
+                    <button class="listen-button">Listen Now</button>
+                </article>
+                <article class="episode-card">
+                    <h3>Episode 2: The Future of Work</h3>
+                    <p>Insights into remote work and the evolving corporate culture.</p>
+                    <button class="listen-button">Listen Now</button>
+                </article>
+                <article class="episode-card">
+                    <h3>Episode 3: Sustainable Living</h3>
+                    <p>Simple ways to reduce your carbon footprint and live green.</p>
+                    <button class="listen-button">Listen Now</button>
+                </article>
+            </div>
+        </section>
+        <section class="hosts">
+            <h2>Meet Your Hosts</h2>
+            <div class="hosts-cards">
+                <article class="host-card">
+                    <h3>Alex Johnson</h3>
+                    <p>Writer, Speaker, and Adventurer. Alex brings stories to life.</p>
+                </article>
+                <article class="host-card">
+                    <h3>Jamie Lee</h3>
+                    <p>Technology Enthusiast and Innovator. Jamie explores tech trends.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <style>
+        :root {
+            --background-color: #f9f9f9;
+            --primary-color: #4a90e2;
+            --text-color: #333;
+            --card-background-color: #fff;
+            --border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .podcast-homepage {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .podcast-banner {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .podcast-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .podcast-banner .banner-description {
+            color: #777;
+        }
+
+        .subscribe-button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .subscribe-button:hover {
+            background-color: #357ABD;
+        }
+
+        .episodes, .hosts {
+            margin-bottom: 40px;
+        }
+
+        .episode-cards, .hosts-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .episode-card, .host-card {
+            background-color: var(--card-background-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .listen-button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .listen-button:hover {
+            background-color: #357ABD;
+        }
+
+    </style>
+
 </body>
 </html>
