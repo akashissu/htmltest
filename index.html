@@ -1,661 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Tic Tac Toe</title>
-    <style>
-        :root {
-            color-scheme: light dark;
-            --page-bg: #eef3ff;
-            --page-bg-deep: #dfe7ff;
-            --surface: rgba(255, 255, 255, 0.76);
-            --surface-strong: #ffffff;
-            --surface-soft: rgba(243, 247, 255, 0.94);
-            --text-primary: #16203f;
-            --text-secondary: #60709a;
-            --accent: #6c7cff;
-            --accent-strong: #4c5cff;
-            --accent-soft: rgba(108, 124, 255, 0.14);
-            --accent-alt: #35c8b5;
-            --accent-alt-soft: rgba(53, 200, 181, 0.16);
-            --danger-soft: rgba(255, 110, 128, 0.12);
-            --danger-text: #cc4b67;
-            --border: rgba(22, 32, 63, 0.08);
-            --shadow: 0 30px 60px rgba(64, 84, 150, 0.18);
-            --shadow-hover: 0 18px 30px rgba(64, 84, 150, 0.18);
-            --radius-xl: 34px;
-            --radius-lg: 24px;
-            --radius-md: 18px;
-            --transition: 180ms ease;
-            --shell-width: 520px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh Picks — Recipe Cards</title>
+  <style>
+    :root {
+      --bg: #fff7ef;
+      --bg-accent: #fff1df;
+      --card: #ffffff;
+      --text: #1f2933;
+      --muted: #59656f;
+      --tomato: #f25f5c;
+      --orange: #ff9f1c;
+      --leaf: #2fbf71;
+      --berry: #7b61ff;
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --shadow: 0 16px 36px rgba(31, 41, 51, 0.12);
+      --shadow-hover: 0 22px 48px rgba(31, 41, 51, 0.16);
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            color: var(--text-primary);
-            background:
-                radial-gradient(circle at top left, rgba(108, 124, 255, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(53, 200, 181, 0.16), transparent 28%),
-                linear-gradient(180deg, #f7f9ff 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
-        }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 159, 28, 0.14), transparent 26%),
+        radial-gradient(circle at 85% 10%, rgba(123, 97, 255, 0.12), transparent 22%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 55%, #fff 100%);
+      min-height: 100vh;
+      padding: 2.5rem 1rem;
+    }
 
-        button {
-            font: inherit;
-        }
+    .recipes {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
 
-        .game-page {
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-        }
+    .recipes__header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
 
-        .game-shell {
-            width: min(100%, var(--shell-width));
-            padding: 28px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            background: var(--surface);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-        }
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(242, 95, 92, 0.12);
+      color: #b2373b;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      letter-spacing: -0.02em;
+    }
 
-        .game-header-copy {
-            flex: 1;
-        }
+    .recipes__subtitle {
+      max-width: 62ch;
+      margin: 0.85rem auto 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
 
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            margin-bottom: 14px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.78rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.15rem;
+    }
 
-        .game-header h1,
-        .cell,
-        .control-button {
-            margin: 0;
-            letter-spacing: -0.03em;
-        }
+    .recipe-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
 
-        .game-header h1 {
-            margin-bottom: 10px;
-            font-size: clamp(2rem, 6vw, 2.8rem);
-            line-height: 1.04;
-        }
+    .recipe-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
 
-        .game-header p {
-            margin: 0;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
+    .recipe-card__image {
+      aspect-ratio: 16 / 10;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
 
-        .theme-toggle {
-            flex-shrink: 0;
-            width: 52px;
-            height: 52px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(108, 124, 255, 0.14);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.68);
-            color: var(--accent-strong);
-            box-shadow: 0 12px 24px rgba(87, 105, 170, 0.12);
-            cursor: pointer;
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
-        }
+    .recipe-card__image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.22) 100%);
+    }
 
-        .theme-toggle:hover,
-        .theme-toggle:focus-visible,
-        .control-button:hover,
-        .control-button:focus-visible,
-        .cell:hover,
-        .cell:focus-visible {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
+    .image--pasta {
+      background-image:
+        radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.22), transparent 24%),
+        linear-gradient(135deg, #ffb703 0%, #f25f5c 52%, #d94841 100%);
+    }
 
-        .theme-toggle:focus-visible,
-        .control-button:focus-visible,
-        .cell:focus-visible {
-            outline: 2px solid rgba(108, 124, 255, 0.32);
-            outline-offset: 3px;
-        }
+    .image--salmon {
+      background-image:
+        radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.18), transparent 26%),
+        linear-gradient(135deg, #ff8fab 0%, #ff9f1c 48%, #2fbf71 100%);
+    }
 
-        .theme-toggle:active,
-        .control-button:active,
-        .cell:active {
-            transform: translateY(0);
-        }
+    .image--tacos {
+      background-image:
+        radial-gradient(circle at 28% 30%, rgba(255, 255, 255, 0.18), transparent 25%),
+        linear-gradient(135deg, #2fbf71 0%, #8bd450 40%, #ffca3a 100%);
+    }
 
-        .status-panel {
-            margin-bottom: 20px;
-            padding: 18px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            border-radius: var(--radius-lg);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 247, 255, 0.92));
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-        }
+    .image--toast {
+      background-image:
+        radial-gradient(circle at 72% 22%, rgba(255, 255, 255, 0.25), transparent 28%),
+        linear-gradient(135deg, #7b61ff 0%, #ef476f 48%, #ff9f1c 100%);
+    }
 
-        .status-copy {
-            min-width: 0;
-        }
+    .recipe-card__body {
+      padding: 1rem 1rem 1.15rem;
+    }
 
-        .status-label {
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
+    .recipe-card h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
 
-        .status-message {
-            font-size: clamp(1.05rem, 4vw, 1.35rem);
-            font-weight: 800;
-            line-height: 1.25;
-        }
+    .meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.65rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #3b4552;
+      background: #f3f5f7;
+    }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 92px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.74rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            text-align: center;
-        }
+    .meta .dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--orange);
+      flex: 0 0 auto;
+    }
 
-        .status-badge.is-win {
-            background: var(--accent-alt-soft);
-            color: #148c7d;
-        }
+    .recipe-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.94rem;
+    }
 
-        .status-badge.is-draw {
-            background: var(--danger-soft);
-            color: var(--danger-text);
-        }
+    @media (max-width: 960px) {
+      .recipe-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
-        }
+    @media (max-width: 620px) {
+      body {
+        padding: 1.5rem 0.85rem;
+      }
 
-        .cell {
-            aspect-ratio: 1 / 1;
-            border: 1px solid transparent;
-            border-radius: 22px;
-            background: var(--surface-strong);
-            color: var(--text-primary);
-            display: grid;
-            place-items: center;
-            font-size: clamp(2.4rem, 10vw, 4.2rem);
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
-        }
+      .recipe-grid {
+        grid-template-columns: 1fr;
+      }
 
-        .cell:hover,
-        .cell:focus-visible {
-            border-color: rgba(108, 124, 255, 0.18);
-        }
+      .recipes__header {
+        text-align: left;
+      }
 
-        .cell:disabled {
-            cursor: default;
-        }
+      .recipes__subtitle {
+        margin-inline: 0;
+      }
+    }
 
-        .cell[data-value="X"] {
-            color: var(--accent-strong);
-        }
-
-        .cell[data-value="O"] {
-            color: #179a8b;
-        }
-
-        .cell.is-winning {
-            background: linear-gradient(135deg, rgba(53, 200, 181, 0.18), rgba(108, 124, 255, 0.18));
-            border-color: rgba(53, 200, 181, 0.3);
-        }
-
-        .cell.is-locked {
-            opacity: 0.9;
-        }
-
-        .controls {
-            display: flex;
-            gap: 12px;
-        }
-
-        .control-button {
-            flex: 1;
-            min-height: 58px;
-            border: 1px solid transparent;
-            border-radius: 18px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 800;
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
-        }
-
-        .control-button--primary {
-            background: linear-gradient(135deg, var(--accent), #8a97ff);
-            color: #ffffff;
-            box-shadow: 0 18px 30px rgba(108, 124, 255, 0.28);
-        }
-
-        .control-button--secondary {
-            background: var(--surface-strong);
-            color: var(--text-primary);
-            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
-        }
-
-        .game-note {
-            margin-top: 16px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-        }
-
-        .game-note strong {
-            color: var(--text-primary);
-        }
-
-        @media (max-width: 520px) {
-            .game-page {
-                padding: 16px;
-            }
-
-            .game-shell {
-                padding: 20px;
-                border-radius: 28px;
-            }
-
-            .game-header {
-                flex-direction: column;
-            }
-
-            .theme-toggle {
-                width: 48px;
-                height: 48px;
-                border-radius: 16px;
-            }
-
-            .status-panel {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-            .cell {
-                border-radius: 18px;
-            }
-        }
-
-        :root[data-theme="dark"] {
-            color-scheme: dark;
-            --page-bg: #101522;
-            --page-bg-deep: #0a0f1b;
-            --surface: rgba(20, 26, 40, 0.84);
-            --surface-strong: #182036;
-            --surface-soft: rgba(29, 37, 59, 0.92);
-            --text-primary: #f4f7ff;
-            --text-secondary: #9ba9cb;
-            --accent: #7e8cff;
-            --accent-strong: #b4beff;
-            --accent-soft: rgba(126, 140, 255, 0.16);
-            --accent-alt: #41dac5;
-            --accent-alt-soft: rgba(65, 218, 197, 0.14);
-            --danger-soft: rgba(255, 110, 128, 0.14);
-            --danger-text: #ff9daf;
-            --border: rgba(255, 255, 255, 0.08);
-            --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
-            --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
-        }
-
-        :root[data-theme="dark"] body {
-            background:
-                radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(65, 218, 197, 0.14), transparent 28%),
-                linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
-        }
-
-        :root[data-theme="dark"] .status-panel {
-            background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
-            border-color: rgba(255, 255, 255, 0.06);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-        }
-
-        :root[data-theme="dark"] .theme-toggle,
-        :root[data-theme="dark"] .cell,
-        :root[data-theme="dark"] .control-button--secondary {
-            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
-        }
-
-        :root[data-theme="dark"] .theme-toggle {
-            background: rgba(24, 32, 54, 0.9);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                color-scheme: dark;
-                --page-bg: #101522;
-                --page-bg-deep: #0a0f1b;
-                --surface: rgba(20, 26, 40, 0.84);
-                --surface-strong: #182036;
-                --surface-soft: rgba(29, 37, 59, 0.92);
-                --text-primary: #f4f7ff;
-                --text-secondary: #9ba9cb;
-                --accent: #7e8cff;
-                --accent-strong: #b4beff;
-                --accent-soft: rgba(126, 140, 255, 0.16);
-                --accent-alt: #41dac5;
-                --accent-alt-soft: rgba(65, 218, 197, 0.14);
-                --danger-soft: rgba(255, 110, 128, 0.14);
-                --danger-text: #ff9daf;
-                --border: rgba(255, 255, 255, 0.08);
-                --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
-                --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
-            }
-
-            :root:not([data-theme="light"]) body {
-                background:
-                    radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
-                    radial-gradient(circle at top right, rgba(65, 218, 197, 0.14), transparent 28%),
-                    linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
-            }
-
-            :root:not([data-theme="light"]) .status-panel {
-                background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
-                border-color: rgba(255, 255, 255, 0.06);
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            }
-
-            :root:not([data-theme="light"]) .theme-toggle,
-            :root:not([data-theme="light"]) .cell,
-            :root:not([data-theme="light"]) .control-button--secondary {
-                box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
-            }
-
-            :root:not([data-theme="light"]) .theme-toggle {
-                background: rgba(24, 32, 54, 0.9);
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation: none !important;
-                transition: none !important;
-            }
-        }
-    </style>
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
-    <main class="game-page">
-        <section class="game-shell" aria-labelledby="game-title">
-            <header class="game-header">
-                <div class="game-header-copy">
-                    <span class="eyebrow">Modern game night</span>
-                    <h1 id="game-title">Tic Tac Toe, reimagined.</h1>
-                    <p>Take turns placing X and O, race to complete a line, and restart instantly for another round.</p>
-                </div>
-                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
-                    <span id="theme-icon" aria-hidden="true">🌙</span>
-                </button>
-            </header>
+  <main class="recipes" aria-labelledby="recipes-title">
+    <header class="recipes__header">
+      <p class="eyebrow">Today’s Kitchen Picks</p>
+      <h1 id="recipes-title">Colorful recipes made for busy days</h1>
+      <p class="recipes__subtitle">
+        Browse quick, vibrant meals with simple ingredients. Each card includes cooking time,
+        flavor profile, and a short guide to help you pick your next favorite dish.
+      </p>
+    </header>
 
-            <section class="status-panel" aria-live="polite">
-                <div class="status-copy">
-                    <div class="status-label">Game status</div>
-                    <div class="status-message" id="status-message">Player X, your move.</div>
-                </div>
-                <div class="status-badge" id="status-badge">In play</div>
-            </section>
+    <section class="recipe-grid" aria-label="Recipe cards">
+      <article class="recipe-card">
+        <div class="recipe-card__image image--pasta" aria-hidden="true"></div>
+        <div class="recipe-card__body">
+          <h2>Spicy Tomato Pasta</h2>
+          <p class="meta"><span class="dot" aria-hidden="true"></span>25 min cook time</p>
+          <p>
+            Silky pasta tossed in roasted tomato sauce with chili flakes, basil, and garlic for a
+            bold weeknight dinner.
+          </p>
+        </div>
+      </article>
 
-            <section class="board" id="board" aria-label="Tic Tac Toe board">
-                <button class="cell" type="button" data-index="0" aria-label="Cell 1, empty"></button>
-                <button class="cell" type="button" data-index="1" aria-label="Cell 2, empty"></button>
-                <button class="cell" type="button" data-index="2" aria-label="Cell 3, empty"></button>
-                <button class="cell" type="button" data-index="3" aria-label="Cell 4, empty"></button>
-                <button class="cell" type="button" data-index="4" aria-label="Cell 5, empty"></button>
-                <button class="cell" type="button" data-index="5" aria-label="Cell 6, empty"></button>
-                <button class="cell" type="button" data-index="6" aria-label="Cell 7, empty"></button>
-                <button class="cell" type="button" data-index="7" aria-label="Cell 8, empty"></button>
-                <button class="cell" type="button" data-index="8" aria-label="Cell 9, empty"></button>
-            </section>
+      <article class="recipe-card">
+        <div class="recipe-card__image image--salmon" aria-hidden="true"></div>
+        <div class="recipe-card__body">
+          <h2>Citrus Salmon Bowl</h2>
+          <p class="meta"><span class="dot" aria-hidden="true"></span>30 min cook time</p>
+          <p>
+            Pan-seared salmon with orange-lime glaze, herbed rice, and crisp greens for a fresh,
+            balanced meal.
+          </p>
+        </div>
+      </article>
 
-            <div class="controls">
-                <button class="control-button control-button--primary" id="restart-button" type="button">Restart game</button>
-                <button class="control-button control-button--secondary" id="new-round-button" type="button">Clear board</button>
-            </div>
+      <article class="recipe-card">
+        <div class="recipe-card__image image--tacos" aria-hidden="true"></div>
+        <div class="recipe-card__body">
+          <h2>Garden Veggie Tacos</h2>
+          <p class="meta"><span class="dot" aria-hidden="true"></span>20 min cook time</p>
+          <p>
+            Charred peppers, sweet corn, and avocado crema layered in warm tortillas with a bright
+            squeeze of lime.
+          </p>
+        </div>
+      </article>
 
-            <p class="game-note"><strong>Tip:</strong> use Tab to move across cells and Enter or Space to play. Press <strong>T</strong> to switch themes.</p>
-        </section>
-    </main>
-
-    <script>
-        const boardElement = document.getElementById('board');
-        const cells = Array.from(document.querySelectorAll('.cell'));
-        const statusMessage = document.getElementById('status-message');
-        const statusBadge = document.getElementById('status-badge');
-        const restartButton = document.getElementById('restart-button');
-        const newRoundButton = document.getElementById('new-round-button');
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-
-        const winningLines = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-
-        const themeStorageKey = 'pap-237-theme';
-
-        let board = Array(9).fill('');
-        let currentPlayer = 'X';
-        let winner = null;
-        let winningLine = [];
-        let isDraw = false;
-        let isGameOver = false;
-
-        function getStatusState() {
-            if (winner) {
-                return {
-                    message: `Player ${winner} wins this round!`,
-                    badge: 'Winner',
-                    badgeClass: 'is-win'
-                };
-            }
-
-            if (isDraw) {
-                return {
-                    message: 'Draw game. Nobody blinked.',
-                    badge: 'Draw',
-                    badgeClass: 'is-draw'
-                };
-            }
-
-            return {
-                message: `Player ${currentPlayer}, your move.`,
-                badge: 'In play',
-                badgeClass: ''
-            };
-        }
-
-        function setCellAccessibility(cell, index, value) {
-            const state = value ? `${value} placed` : 'empty';
-            cell.setAttribute('aria-label', `Cell ${index + 1}, ${state}`);
-        }
-
-        function renderBoard() {
-            const status = getStatusState();
-            statusMessage.textContent = status.message;
-            statusBadge.textContent = status.badge;
-            statusBadge.classList.toggle('is-win', status.badgeClass === 'is-win');
-            statusBadge.classList.toggle('is-draw', status.badgeClass === 'is-draw');
-
-            cells.forEach((cell, index) => {
-                const value = board[index];
-                cell.textContent = value;
-                cell.dataset.value = value;
-                cell.disabled = Boolean(value) || isGameOver;
-                cell.classList.toggle('is-winning', winningLine.includes(index));
-                cell.classList.toggle('is-locked', isGameOver && !winningLine.includes(index));
-                setCellAccessibility(cell, index, value);
-            });
-        }
-
-        function findWinningLine(nextBoard, player) {
-            return winningLines.find((line) => line.every((index) => nextBoard[index] === player)) || null;
-        }
-
-        function handleMove(index) {
-            if (isGameOver || board[index]) {
-                return;
-            }
-
-            board[index] = currentPlayer;
-            const matchedLine = findWinningLine(board, currentPlayer);
-
-            if (matchedLine) {
-                winner = currentPlayer;
-                winningLine = matchedLine;
-                isGameOver = true;
-                renderBoard();
-                return;
-            }
-
-            if (board.every(Boolean)) {
-                isDraw = true;
-                isGameOver = true;
-                renderBoard();
-                return;
-            }
-
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            renderBoard();
-        }
-
-        function resetGame(startingPlayer = 'X') {
-            board = Array(9).fill('');
-            currentPlayer = startingPlayer;
-            winner = null;
-            winningLine = [];
-            isDraw = false;
-            isGameOver = false;
-            renderBoard();
-        }
-
-        function applyTheme(theme) {
-            const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
-            const switchLabel = resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-            document.documentElement.dataset.theme = resolvedTheme;
-            themeToggle.setAttribute('aria-pressed', String(resolvedTheme === 'dark'));
-            themeToggle.setAttribute('aria-label', switchLabel);
-            themeToggle.setAttribute('title', switchLabel);
-            themeIcon.textContent = resolvedTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function initializeTheme() {
-            const storedTheme = window.localStorage.getItem(themeStorageKey);
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            applyTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
-        }
-
-        boardElement.addEventListener('click', (event) => {
-            const button = event.target.closest('.cell');
-            if (!button) {
-                return;
-            }
-
-            handleMove(Number(button.dataset.index));
-        });
-
-        restartButton.addEventListener('click', () => {
-            resetGame('X');
-        });
-
-        newRoundButton.addEventListener('click', () => {
-            const nextStarter = currentPlayer === 'X' ? 'O' : 'X';
-            resetGame(isGameOver ? nextStarter : currentPlayer);
-        });
-
-        themeToggle.addEventListener('click', () => {
-            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-            window.localStorage.setItem(themeStorageKey, nextTheme);
-            applyTheme(nextTheme);
-        });
-
-        window.addEventListener('keydown', (event) => {
-            const { key, ctrlKey, metaKey, altKey, target } = event;
-            const tagName = target?.tagName;
-            const isEditable = tagName === 'INPUT' || tagName === 'TEXTAREA' || target?.isContentEditable;
-
-            if (ctrlKey || metaKey || altKey || isEditable) {
-                return;
-            }
-
-            if (key.toLowerCase() === 't') {
-                event.preventDefault();
-                themeToggle.click();
-                return;
-            }
-
-            if (key.toLowerCase() === 'r') {
-                event.preventDefault();
-                restartButton.click();
-            }
-        });
-
-        initializeTheme();
-        resetGame();
-    </script>
+      <article class="recipe-card">
+        <div class="recipe-card__image image--toast" aria-hidden="true"></div>
+        <div class="recipe-card__body">
+          <h2>Honey Berry Toast</h2>
+          <p class="meta"><span class="dot" aria-hidden="true"></span>10 min cook time</p>
+          <p>
+            Crunchy sourdough topped with whipped ricotta, mixed berries, toasted seeds, and a
+            drizzle of wildflower honey.
+          </p>
+        </div>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
