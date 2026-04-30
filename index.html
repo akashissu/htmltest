@@ -1,661 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Tic Tac Toe</title>
-    <style>
-        :root {
-            color-scheme: light dark;
-            --page-bg: #eef3ff;
-            --page-bg-deep: #dfe7ff;
-            --surface: rgba(255, 255, 255, 0.76);
-            --surface-strong: #ffffff;
-            --surface-soft: rgba(243, 247, 255, 0.94);
-            --text-primary: #16203f;
-            --text-secondary: #60709a;
-            --accent: #6c7cff;
-            --accent-strong: #4c5cff;
-            --accent-soft: rgba(108, 124, 255, 0.14);
-            --accent-alt: #35c8b5;
-            --accent-alt-soft: rgba(53, 200, 181, 0.16);
-            --danger-soft: rgba(255, 110, 128, 0.12);
-            --danger-text: #cc4b67;
-            --border: rgba(22, 32, 63, 0.08);
-            --shadow: 0 30px 60px rgba(64, 84, 150, 0.18);
-            --shadow-hover: 0 18px 30px rgba(64, 84, 150, 0.18);
-            --radius-xl: 34px;
-            --radius-lg: 24px;
-            --radius-md: 18px;
-            --transition: 180ms ease;
-            --shell-width: 520px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Layout</title>
+  <style>
+    :root {
+      --bg: #f3f5fb;
+      --panel: #ffffff;
+      --panel-muted: #f7f8fc;
+      --border: #dde3ef;
+      --text: #1f2a3d;
+      --muted: #69758a;
+      --accent: #4c6fff;
+      --accent-soft: #e9eeff;
+      --success: #1da76a;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --shadow: 0 12px 30px rgba(31, 42, 61, 0.08);
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            color: var(--text-primary);
-            background:
-                radial-gradient(circle at top left, rgba(108, 124, 255, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(53, 200, 181, 0.16), transparent 28%),
-                linear-gradient(180deg, #f7f9ff 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f7f9ff 0%, var(--bg) 100%);
+      padding: 1rem;
+    }
 
-        button {
-            font: inherit;
-        }
+    .chat-app {
+      width: min(1160px, 100%);
+      height: min(92vh, 820px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
 
-        .game-page {
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-        }
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background: var(--panel-muted);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
 
-        .game-shell {
-            width: min(100%, var(--shell-width));
-            padding: 28px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            background: var(--surface);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-        }
+    .sidebar__header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
+    .sidebar__title {
+      margin: 0;
+      font-size: 1.1rem;
+    }
 
-        .game-header-copy {
-            flex: 1;
-        }
+    .sidebar__search {
+      margin-top: 0.75rem;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.6rem 0.75rem;
+      font: inherit;
+      background: #fff;
+    }
 
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            margin-bottom: 14px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.78rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
+    .contacts {
+      list-style: none;
+      margin: 0;
+      padding: 0.5rem;
+      overflow: auto;
+      display: grid;
+      gap: 0.35rem;
+    }
 
-        .game-header h1,
-        .cell,
-        .control-button {
-            margin: 0;
-            letter-spacing: -0.03em;
-        }
+    .contact {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 0.65rem;
+      align-items: center;
+      padding: 0.65rem;
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid transparent;
+    }
 
-        .game-header h1 {
-            margin-bottom: 10px;
-            font-size: clamp(2rem, 6vw, 2.8rem);
-            line-height: 1.04;
-        }
+    .contact:hover,
+    .contact:focus-visible {
+      background: #fff;
+      border-color: var(--border);
+      outline: none;
+    }
 
-        .game-header p {
-            margin: 0;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
+    .contact--active {
+      background: #fff;
+      border-color: #cdd8ff;
+      box-shadow: inset 0 0 0 1px #d9e1ff;
+    }
 
-        .theme-toggle {
-            flex-shrink: 0;
-            width: 52px;
-            height: 52px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(108, 124, 255, 0.14);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.68);
-            color: var(--accent-strong);
-            box-shadow: 0 12px 24px rgba(87, 105, 170, 0.12);
-            cursor: pointer;
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
-        }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #6f8cff, #4c6fff);
+    }
 
-        .theme-toggle:hover,
-        .theme-toggle:focus-visible,
-        .control-button:hover,
-        .control-button:focus-visible,
-        .cell:hover,
-        .cell:focus-visible {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
+    .contact__name {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
 
-        .theme-toggle:focus-visible,
-        .control-button:focus-visible,
-        .cell:focus-visible {
-            outline: 2px solid rgba(108, 124, 255, 0.32);
-            outline-offset: 3px;
-        }
+    .contact__preview {
+      margin: 0.1rem 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 165px;
+    }
 
-        .theme-toggle:active,
-        .control-button:active,
-        .cell:active {
-            transform: translateY(0);
-        }
+    .contact__time {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
 
-        .status-panel {
-            margin-bottom: 20px;
-            padding: 18px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            border-radius: var(--radius-lg);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 247, 255, 0.92));
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-        }
+    .chat {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-width: 0;
+    }
 
-        .status-copy {
-            min-width: 0;
-        }
+    .chat__header {
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
 
-        .status-label {
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
+    .chat__title {
+      margin: 0;
+      font-size: 1rem;
+    }
 
-        .status-message {
-            font-size: clamp(1.05rem, 4vw, 1.35rem);
-            font-weight: 800;
-            line-height: 1.25;
-        }
+    .chat__status {
+      margin: 0.2rem 0 0;
+      font-size: 0.82rem;
+      color: var(--success);
+    }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 92px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent-strong);
-            font-size: 0.74rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            text-align: center;
-        }
+    .chat__actions {
+      display: flex;
+      gap: 0.5rem;
+    }
 
-        .status-badge.is-win {
-            background: var(--accent-alt-soft);
-            color: #148c7d;
-        }
+    .icon-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 10px;
+      padding: 0.4rem 0.55rem;
+      font: inherit;
+      cursor: pointer;
+    }
 
-        .status-badge.is-draw {
-            background: var(--danger-soft);
-            color: var(--danger-text);
-        }
+    .messages {
+      padding: 1rem;
+      overflow: auto;
+      background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
+      display: grid;
+      align-content: start;
+      gap: 0.65rem;
+    }
 
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
-        }
+    .message {
+      max-width: min(72%, 520px);
+      padding: 0.6rem 0.8rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      position: relative;
+    }
 
-        .cell {
-            aspect-ratio: 1 / 1;
-            border: 1px solid transparent;
-            border-radius: 22px;
-            background: var(--surface-strong);
-            color: var(--text-primary);
-            display: grid;
-            place-items: center;
-            font-size: clamp(2.4rem, 10vw, 4.2rem);
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), color var(--transition), opacity var(--transition);
-        }
+    .message--incoming {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-bottom-left-radius: 5px;
+    }
 
-        .cell:hover,
-        .cell:focus-visible {
-            border-color: rgba(108, 124, 255, 0.18);
-        }
+    .message--outgoing {
+      margin-left: auto;
+      background: var(--accent-soft);
+      border: 1px solid #d6e0ff;
+      border-bottom-right-radius: 5px;
+      color: #24345f;
+    }
 
-        .cell:disabled {
-            cursor: default;
-        }
+    .message__meta {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
 
-        .cell[data-value="X"] {
-            color: var(--accent-strong);
-        }
+    .composer {
+      border-top: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.65rem;
+      align-items: center;
+    }
 
-        .cell[data-value="O"] {
-            color: #179a8b;
-        }
+    .composer__input {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.72rem 0.85rem;
+      font: inherit;
+      min-width: 0;
+    }
 
-        .cell.is-winning {
-            background: linear-gradient(135deg, rgba(53, 200, 181, 0.18), rgba(108, 124, 255, 0.18));
-            border-color: rgba(53, 200, 181, 0.3);
-        }
+    .composer__send {
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      padding: 0.72rem 1rem;
+      font-weight: 700;
+      font: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+    }
 
-        .cell.is-locked {
-            opacity: 0.9;
-        }
+    @media (max-width: 900px) {
+      .chat-app {
+        grid-template-columns: 260px 1fr;
+      }
+    }
 
-        .controls {
-            display: flex;
-            gap: 12px;
-        }
+    @media (max-width: 760px) {
+      body {
+        padding: 0;
+      }
 
-        .control-button {
-            flex: 1;
-            min-height: 58px;
-            border: 1px solid transparent;
-            border-radius: 18px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 800;
-            transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
-        }
+      .chat-app {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        grid-template-columns: 1fr;
+      }
 
-        .control-button--primary {
-            background: linear-gradient(135deg, var(--accent), #8a97ff);
-            color: #ffffff;
-            box-shadow: 0 18px 30px rgba(108, 124, 255, 0.28);
-        }
+      .sidebar {
+        display: none;
+      }
 
-        .control-button--secondary {
-            background: var(--surface-strong);
-            color: var(--text-primary);
-            box-shadow: 0 16px 28px rgba(87, 105, 170, 0.12);
-        }
-
-        .game-note {
-            margin-top: 16px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-        }
-
-        .game-note strong {
-            color: var(--text-primary);
-        }
-
-        @media (max-width: 520px) {
-            .game-page {
-                padding: 16px;
-            }
-
-            .game-shell {
-                padding: 20px;
-                border-radius: 28px;
-            }
-
-            .game-header {
-                flex-direction: column;
-            }
-
-            .theme-toggle {
-                width: 48px;
-                height: 48px;
-                border-radius: 16px;
-            }
-
-            .status-panel {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-            .cell {
-                border-radius: 18px;
-            }
-        }
-
-        :root[data-theme="dark"] {
-            color-scheme: dark;
-            --page-bg: #101522;
-            --page-bg-deep: #0a0f1b;
-            --surface: rgba(20, 26, 40, 0.84);
-            --surface-strong: #182036;
-            --surface-soft: rgba(29, 37, 59, 0.92);
-            --text-primary: #f4f7ff;
-            --text-secondary: #9ba9cb;
-            --accent: #7e8cff;
-            --accent-strong: #b4beff;
-            --accent-soft: rgba(126, 140, 255, 0.16);
-            --accent-alt: #41dac5;
-            --accent-alt-soft: rgba(65, 218, 197, 0.14);
-            --danger-soft: rgba(255, 110, 128, 0.14);
-            --danger-text: #ff9daf;
-            --border: rgba(255, 255, 255, 0.08);
-            --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
-            --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
-        }
-
-        :root[data-theme="dark"] body {
-            background:
-                radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
-                radial-gradient(circle at top right, rgba(65, 218, 197, 0.14), transparent 28%),
-                linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
-        }
-
-        :root[data-theme="dark"] .status-panel {
-            background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
-            border-color: rgba(255, 255, 255, 0.06);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-        }
-
-        :root[data-theme="dark"] .theme-toggle,
-        :root[data-theme="dark"] .cell,
-        :root[data-theme="dark"] .control-button--secondary {
-            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
-        }
-
-        :root[data-theme="dark"] .theme-toggle {
-            background: rgba(24, 32, 54, 0.9);
-            border-color: rgba(255, 255, 255, 0.08);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                color-scheme: dark;
-                --page-bg: #101522;
-                --page-bg-deep: #0a0f1b;
-                --surface: rgba(20, 26, 40, 0.84);
-                --surface-strong: #182036;
-                --surface-soft: rgba(29, 37, 59, 0.92);
-                --text-primary: #f4f7ff;
-                --text-secondary: #9ba9cb;
-                --accent: #7e8cff;
-                --accent-strong: #b4beff;
-                --accent-soft: rgba(126, 140, 255, 0.16);
-                --accent-alt: #41dac5;
-                --accent-alt-soft: rgba(65, 218, 197, 0.14);
-                --danger-soft: rgba(255, 110, 128, 0.14);
-                --danger-text: #ff9daf;
-                --border: rgba(255, 255, 255, 0.08);
-                --shadow: 0 32px 70px rgba(0, 0, 0, 0.42);
-                --shadow-hover: 0 22px 36px rgba(0, 0, 0, 0.3);
-            }
-
-            :root:not([data-theme="light"]) body {
-                background:
-                    radial-gradient(circle at top left, rgba(126, 140, 255, 0.22), transparent 24%),
-                    radial-gradient(circle at top right, rgba(65, 218, 197, 0.14), transparent 28%),
-                    linear-gradient(180deg, #0d1220 0%, var(--page-bg) 55%, var(--page-bg-deep) 100%);
-            }
-
-            :root:not([data-theme="light"]) .status-panel {
-                background: linear-gradient(180deg, rgba(27, 35, 56, 0.94), rgba(18, 25, 42, 0.94));
-                border-color: rgba(255, 255, 255, 0.06);
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            }
-
-            :root:not([data-theme="light"]) .theme-toggle,
-            :root:not([data-theme="light"]) .cell,
-            :root:not([data-theme="light"]) .control-button--secondary {
-                box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
-            }
-
-            :root:not([data-theme="light"]) .theme-toggle {
-                background: rgba(24, 32, 54, 0.9);
-                border-color: rgba(255, 255, 255, 0.08);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation: none !important;
-                transition: none !important;
-            }
-        }
-    </style>
+      .message {
+        max-width: 86%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <main class="game-page">
-        <section class="game-shell" aria-labelledby="game-title">
-            <header class="game-header">
-                <div class="game-header-copy">
-                    <span class="eyebrow">Modern game night</span>
-                    <h1 id="game-title">Tic Tac Toe, reimagined.</h1>
-                    <p>Take turns placing X and O, race to complete a line, and restart instantly for another round.</p>
-                </div>
-                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
-                    <span id="theme-icon" aria-hidden="true">🌙</span>
-                </button>
-            </header>
+  <main class="chat-app" aria-label="Chat application layout">
+    <aside class="sidebar" aria-label="Contacts sidebar">
+      <div class="sidebar__header">
+        <h1 class="sidebar__title">Messages</h1>
+        <input class="sidebar__search" type="search" placeholder="Search contacts" aria-label="Search contacts" />
+      </div>
 
-            <section class="status-panel" aria-live="polite">
-                <div class="status-copy">
-                    <div class="status-label">Game status</div>
-                    <div class="status-message" id="status-message">Player X, your move.</div>
-                </div>
-                <div class="status-badge" id="status-badge">In play</div>
-            </section>
-
-            <section class="board" id="board" aria-label="Tic Tac Toe board">
-                <button class="cell" type="button" data-index="0" aria-label="Cell 1, empty"></button>
-                <button class="cell" type="button" data-index="1" aria-label="Cell 2, empty"></button>
-                <button class="cell" type="button" data-index="2" aria-label="Cell 3, empty"></button>
-                <button class="cell" type="button" data-index="3" aria-label="Cell 4, empty"></button>
-                <button class="cell" type="button" data-index="4" aria-label="Cell 5, empty"></button>
-                <button class="cell" type="button" data-index="5" aria-label="Cell 6, empty"></button>
-                <button class="cell" type="button" data-index="6" aria-label="Cell 7, empty"></button>
-                <button class="cell" type="button" data-index="7" aria-label="Cell 8, empty"></button>
-                <button class="cell" type="button" data-index="8" aria-label="Cell 9, empty"></button>
-            </section>
-
-            <div class="controls">
-                <button class="control-button control-button--primary" id="restart-button" type="button">Restart game</button>
-                <button class="control-button control-button--secondary" id="new-round-button" type="button">Clear board</button>
+      <ul class="contacts">
+        <li>
+          <a class="contact contact--active" href="#" aria-current="true">
+            <div class="avatar">AL</div>
+            <div>
+              <p class="contact__name">Alicia</p>
+              <p class="contact__preview">Can we review the mockups after lunch?</p>
             </div>
+            <span class="contact__time">2m</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact" href="#">
+            <div class="avatar">JR</div>
+            <div>
+              <p class="contact__name">Jordan</p>
+              <p class="contact__preview">Sent the updated style guide.</p>
+            </div>
+            <span class="contact__time">14m</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact" href="#">
+            <div class="avatar">MK</div>
+            <div>
+              <p class="contact__name">Mika</p>
+              <p class="contact__preview">Perfect, let's ship it today.</p>
+            </div>
+            <span class="contact__time">1h</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact" href="#">
+            <div class="avatar">SP</div>
+            <div>
+              <p class="contact__name">Sofia</p>
+              <p class="contact__preview">I’ll join the call in 5 mins.</p>
+            </div>
+            <span class="contact__time">3h</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
 
-            <p class="game-note"><strong>Tip:</strong> use Tab to move across cells and Enter or Space to play. Press <strong>T</strong> to switch themes.</p>
-        </section>
-    </main>
+    <section class="chat" aria-label="Conversation area">
+      <header class="chat__header">
+        <div>
+          <h2 class="chat__title">Alicia</h2>
+          <p class="chat__status">● Online</p>
+        </div>
+        <div class="chat__actions" aria-label="Conversation actions">
+          <button class="icon-btn" type="button" aria-label="Voice call">📞</button>
+          <button class="icon-btn" type="button" aria-label="More options">⋯</button>
+        </div>
+      </header>
 
-    <script>
-        const boardElement = document.getElementById('board');
-        const cells = Array.from(document.querySelectorAll('.cell'));
-        const statusMessage = document.getElementById('status-message');
-        const statusBadge = document.getElementById('status-badge');
-        const restartButton = document.getElementById('restart-button');
-        const newRoundButton = document.getElementById('new-round-button');
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
+      <div class="messages" aria-label="Message history">
+        <article class="message message--incoming">
+          Morning! Do you have the final chat layout ready?
+          <span class="message__meta">9:12 AM</span>
+        </article>
+        <article class="message message--outgoing">
+          Yes — I finished the responsive version with sidebar, conversation area, and composer.
+          <span class="message__meta">9:14 AM</span>
+        </article>
+        <article class="message message--incoming">
+          Amazing. Please send a screenshot in the standup thread.
+          <span class="message__meta">9:15 AM</span>
+        </article>
+      </div>
 
-        const winningLines = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-
-        const themeStorageKey = 'pap-237-theme';
-
-        let board = Array(9).fill('');
-        let currentPlayer = 'X';
-        let winner = null;
-        let winningLine = [];
-        let isDraw = false;
-        let isGameOver = false;
-
-        function getStatusState() {
-            if (winner) {
-                return {
-                    message: `Player ${winner} wins this round!`,
-                    badge: 'Winner',
-                    badgeClass: 'is-win'
-                };
-            }
-
-            if (isDraw) {
-                return {
-                    message: 'Draw game. Nobody blinked.',
-                    badge: 'Draw',
-                    badgeClass: 'is-draw'
-                };
-            }
-
-            return {
-                message: `Player ${currentPlayer}, your move.`,
-                badge: 'In play',
-                badgeClass: ''
-            };
-        }
-
-        function setCellAccessibility(cell, index, value) {
-            const state = value ? `${value} placed` : 'empty';
-            cell.setAttribute('aria-label', `Cell ${index + 1}, ${state}`);
-        }
-
-        function renderBoard() {
-            const status = getStatusState();
-            statusMessage.textContent = status.message;
-            statusBadge.textContent = status.badge;
-            statusBadge.classList.toggle('is-win', status.badgeClass === 'is-win');
-            statusBadge.classList.toggle('is-draw', status.badgeClass === 'is-draw');
-
-            cells.forEach((cell, index) => {
-                const value = board[index];
-                cell.textContent = value;
-                cell.dataset.value = value;
-                cell.disabled = Boolean(value) || isGameOver;
-                cell.classList.toggle('is-winning', winningLine.includes(index));
-                cell.classList.toggle('is-locked', isGameOver && !winningLine.includes(index));
-                setCellAccessibility(cell, index, value);
-            });
-        }
-
-        function findWinningLine(nextBoard, player) {
-            return winningLines.find((line) => line.every((index) => nextBoard[index] === player)) || null;
-        }
-
-        function handleMove(index) {
-            if (isGameOver || board[index]) {
-                return;
-            }
-
-            board[index] = currentPlayer;
-            const matchedLine = findWinningLine(board, currentPlayer);
-
-            if (matchedLine) {
-                winner = currentPlayer;
-                winningLine = matchedLine;
-                isGameOver = true;
-                renderBoard();
-                return;
-            }
-
-            if (board.every(Boolean)) {
-                isDraw = true;
-                isGameOver = true;
-                renderBoard();
-                return;
-            }
-
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            renderBoard();
-        }
-
-        function resetGame(startingPlayer = 'X') {
-            board = Array(9).fill('');
-            currentPlayer = startingPlayer;
-            winner = null;
-            winningLine = [];
-            isDraw = false;
-            isGameOver = false;
-            renderBoard();
-        }
-
-        function applyTheme(theme) {
-            const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
-            const switchLabel = resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-            document.documentElement.dataset.theme = resolvedTheme;
-            themeToggle.setAttribute('aria-pressed', String(resolvedTheme === 'dark'));
-            themeToggle.setAttribute('aria-label', switchLabel);
-            themeToggle.setAttribute('title', switchLabel);
-            themeIcon.textContent = resolvedTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function initializeTheme() {
-            const storedTheme = window.localStorage.getItem(themeStorageKey);
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            applyTheme(storedTheme || (prefersDark ? 'dark' : 'light'));
-        }
-
-        boardElement.addEventListener('click', (event) => {
-            const button = event.target.closest('.cell');
-            if (!button) {
-                return;
-            }
-
-            handleMove(Number(button.dataset.index));
-        });
-
-        restartButton.addEventListener('click', () => {
-            resetGame('X');
-        });
-
-        newRoundButton.addEventListener('click', () => {
-            const nextStarter = currentPlayer === 'X' ? 'O' : 'X';
-            resetGame(isGameOver ? nextStarter : currentPlayer);
-        });
-
-        themeToggle.addEventListener('click', () => {
-            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-            window.localStorage.setItem(themeStorageKey, nextTheme);
-            applyTheme(nextTheme);
-        });
-
-        window.addEventListener('keydown', (event) => {
-            const { key, ctrlKey, metaKey, altKey, target } = event;
-            const tagName = target?.tagName;
-            const isEditable = tagName === 'INPUT' || tagName === 'TEXTAREA' || target?.isContentEditable;
-
-            if (ctrlKey || metaKey || altKey || isEditable) {
-                return;
-            }
-
-            if (key.toLowerCase() === 't') {
-                event.preventDefault();
-                themeToggle.click();
-                return;
-            }
-
-            if (key.toLowerCase() === 'r') {
-                event.preventDefault();
-                restartButton.click();
-            }
-        });
-
-        initializeTheme();
-        resetGame();
-    </script>
+      <form class="composer" aria-label="Message input area">
+        <input class="composer__input" type="text" placeholder="Type a message…" aria-label="Type a message" />
+        <button class="composer__send" type="button">Send</button>
+      </form>
+    </section>
+  </main>
 </body>
 </html>
