@@ -3,23 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple Weather UI</title>
+  <title>Product Page</title>
   <style>
     :root {
-      --bg-top: #dff0ff;
-      --bg-bottom: #f5f9ff;
-      --panel: #ffffff;
-      --panel-soft: #f7faff;
-      --border: #d7e3f3;
-      --text: #1f2c3d;
-      --muted: #5f6f86;
-      --accent: #3b82f6;
-      --sun: #f5b942;
-      --cloud: #8fa3bf;
-      --rain: #4f8edc;
-      --radius-xl: 22px;
-      --radius-md: 14px;
-      --shadow: 0 18px 40px rgba(31, 44, 61, 0.1);
+      --bg-main: #f9fbfd;
+      --bg-card: #ffffff;
+      --text-main: #333333;
+      --text-muted: #777777;
+      --accent: #2b8a3e;
+      --accent-hover: #237730;
+      --border: #dddddd;
+      --radius-lg: 12px;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
     }
 
     * { box-sizing: border-box; }
@@ -27,231 +23,99 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
-      display: grid;
-      place-items: center;
-      padding: 1rem;
+      font-family: Arial, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
     }
 
-    .weather-app {
-      width: min(960px, 100%);
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
+    .product-page {
+      width: 100%;
+      max-width: 900px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
       overflow: hidden;
-    }
-
-    .weather-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border);
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
     }
 
-    .weather-header h1 {
-      margin: 0;
-      font-size: 1.1rem;
+    .image-preview {
+      width: 100%;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
     }
 
-    .search {
+    .product-info {
+      padding: 2rem;
       display: flex;
-      gap: 0.5rem;
-      width: min(420px, 100%);
-    }
-
-    .search input {
-      flex: 1;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.65rem 0.75rem;
-      font: inherit;
-      min-width: 0;
-    }
-
-    .search button {
-      border: none;
-      border-radius: 10px;
-      background: var(--accent);
-      color: #fff;
-      font: inherit;
-      padding: 0.65rem 0.9rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .current {
-      padding: 1rem;
-      background: linear-gradient(180deg, #ffffff 0%, var(--panel-soft) 100%);
-      display: grid;
-      grid-template-columns: 1fr auto;
+      flex-direction: column;
       gap: 1rem;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
     }
 
-    .location {
+    .product-name {
       margin: 0;
-      font-size: 0.95rem;
-      color: var(--muted);
+      font-size: 1.8rem;
     }
 
-    .temp {
-      margin: 0.25rem 0 0;
-      font-size: clamp(2.2rem, 6vw, 3.3rem);
-      line-height: 1;
-    }
-
-    .condition {
-      margin: 0.35rem 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .weather-icon {
-      font-size: 3rem;
-      line-height: 1;
-      text-align: right;
-    }
-
-    .forecast {
-      padding: 1rem;
-    }
-
-    .forecast h2 {
-      margin: 0 0 0.75rem;
-      font-size: 1rem;
-    }
-
-    .forecast-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0.65rem;
-    }
-
-    .day-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0.7rem;
-      text-align: center;
-    }
-
-    .day {
-      margin: 0;
-      font-weight: 700;
-      font-size: 0.88rem;
-    }
-
-    .icon {
-      margin: 0.35rem 0;
+    .price {
+      margin: 0.5rem 0;
       font-size: 1.25rem;
+      color: var(--accent);
     }
 
-    .temps {
+    .description {
       margin: 0;
-      font-size: 0.86rem;
-      color: var(--text);
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
-    .desc {
-      margin: 0.2rem 0 0;
-      font-size: 0.78rem;
-      color: var(--muted);
+    .add-to-cart {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-lg);
+      background: var(--accent);
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     }
 
-    .sun { color: var(--sun); }
-    .cloud { color: var(--cloud); }
-    .rain { color: var(--rain); }
-
-    @media (max-width: 760px) {
-      .forecast-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .current {
-        grid-template-columns: 1fr;
-      }
-
-      .weather-icon {
-        text-align: left;
-      }
+    .add-to-cart:hover {
+      background: var(--accent-hover);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
     }
 
-    @media (max-width: 420px) {
-      .forecast-grid {
-        grid-template-columns: 1fr;
+    @media (min-width: 600px) {
+      .product-page {
+        flex-direction: row;
       }
 
-      .search {
-        flex-direction: column;
+      .image-preview {
+        width: 50%;
+        height: auto;
       }
 
-      .search button {
-        width: 100%;
+      .product-info {
+        width: 50%;
       }
     }
   </style>
 </head>
 <body>
-  <main class="weather-app" aria-label="Weather application interface">
-    <header class="weather-header">
-      <h1>Weather</h1>
-      <form class="search" aria-label="Search city weather">
-        <input type="search" placeholder="Search city" aria-label="Search city" />
-        <button type="button">Search</button>
-      </form>
-    </header>
-
-    <section class="current" aria-label="Current weather">
-      <div>
-        <p class="location">San Francisco, CA</p>
-        <p class="temp">24°C</p>
-        <p class="condition">Sunny with light breeze · H:26° L:18°</p>
-      </div>
-      <div class="weather-icon sun" aria-hidden="true">☀️</div>
-    </section>
-
-    <section class="forecast" aria-label="5 day forecast">
-      <h2>5-Day Forecast</h2>
-      <div class="forecast-grid">
-        <article class="day-card">
-          <p class="day">Mon</p>
-          <p class="icon sun" aria-hidden="true">☀️</p>
-          <p class="temps">25° / 18°</p>
-          <p class="desc">Sunny</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Tue</p>
-          <p class="icon cloud" aria-hidden="true">☁️</p>
-          <p class="temps">23° / 17°</p>
-          <p class="desc">Cloudy</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Wed</p>
-          <p class="icon rain" aria-hidden="true">🌧️</p>
-          <p class="temps">21° / 16°</p>
-          <p class="desc">Rainy</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Thu</p>
-          <p class="icon cloud" aria-hidden="true">⛅</p>
-          <p class="temps">24° / 18°</p>
-          <p class="desc">Partly cloudy</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Fri</p>
-          <p class="icon sun" aria-hidden="true">☀️</p>
-          <p class="temps">26° / 19°</p>
-          <p class="desc">Sunny</p>
-        </article>
-      </div>
-    </section>
+  <main class="product-page">
+    <div class="image-preview" style="background-image: url('https://via.placeholder.com/400')" aria-label="Luxury Watch"></div>
+    <article class="product-info">
+      <h1 class="product-name">Luxury Watch</h1>
+      <p class="price">$250</p>
+      <p class="description">Elegant luxury watch with precision craftsmanship, featuring a stainless steel case, sapphire crystal, and automatic movement. Waterproof up to 50 meters with a 2-year international warranty. Perfect for both business and casual wear.</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </article>
   </main>
 </body>
 </html>
