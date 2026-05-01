@@ -3,23 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple Weather UI</title>
+  <title>Course Landing Page</title>
   <style>
     :root {
-      --bg-top: #dff0ff;
-      --bg-bottom: #f5f9ff;
-      --panel: #ffffff;
-      --panel-soft: #f7faff;
-      --border: #d7e3f3;
-      --text: #1f2c3d;
-      --muted: #5f6f86;
-      --accent: #3b82f6;
-      --sun: #f5b942;
-      --cloud: #8fa3bf;
-      --rain: #4f8edc;
-      --radius-xl: 22px;
-      --radius-md: 14px;
-      --shadow: 0 18px 40px rgba(31, 44, 61, 0.1);
+      --bg-main: #f9fafc;
+      --text-main: #333333;
+      --text-muted: #666666;
+      --accent: #3498db;
+      --accent-hover: #2980b9;
+      --bg-card: #ffffff;
+      --border: #dddddd;
+      --radius-lg: 12px;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
     }
 
     * { box-sizing: border-box; }
@@ -27,231 +23,141 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+      font-family: Arial, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-main);
       display: grid;
       place-items: center;
-      padding: 1rem;
+      padding: 2rem;
     }
 
-    .weather-app {
-      width: min(960px, 100%);
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .landing-page {
+      width: min(1200px, 100%);
+      display: grid;
+      gap: 2rem;
+      place-items: center;
     }
 
-    .weather-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .weather-header h1 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    .search {
-      display: flex;
-      gap: 0.5rem;
-      width: min(420px, 100%);
-    }
-
-    .search input {
-      flex: 1;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.65rem 0.75rem;
-      font: inherit;
-      min-width: 0;
-    }
-
-    .search button {
-      border: none;
-      border-radius: 10px;
-      background: var(--accent);
+    .hero {
+      width: 100%;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
       color: #fff;
-      font: inherit;
-      padding: 0.65rem 0.9rem;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .current {
-      padding: 1rem;
-      background: linear-gradient(180deg, #ffffff 0%, var(--panel-soft) 100%);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 1rem;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .location {
-      margin: 0;
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
-
-    .temp {
-      margin: 0.25rem 0 0;
-      font-size: clamp(2.2rem, 6vw, 3.3rem);
-      line-height: 1;
-    }
-
-    .condition {
-      margin: 0.35rem 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .weather-icon {
-      font-size: 3rem;
-      line-height: 1;
-      text-align: right;
-    }
-
-    .forecast {
-      padding: 1rem;
-    }
-
-    .forecast h2 {
-      margin: 0 0 0.75rem;
-      font-size: 1rem;
-    }
-
-    .forecast-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0.65rem;
-    }
-
-    .day-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0.7rem;
       text-align: center;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
     }
 
-    .day {
+    .hero h1 {
       margin: 0;
-      font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 2.5rem;
     }
 
-    .icon {
-      margin: 0.35rem 0;
-      font-size: 1.25rem;
+    .instructor-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
     }
 
-    .temps {
+    .instructor-card {
+      text-align: center;
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .instructor-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    .instructor-name {
       margin: 0;
-      font-size: 0.86rem;
-      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: bold;
     }
 
-    .desc {
-      margin: 0.2rem 0 0;
-      font-size: 0.78rem;
-      color: var(--muted);
+    .instructor-bio {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
     }
 
-    .sun { color: var(--sun); }
-    .cloud { color: var(--cloud); }
-    .rain { color: var(--rain); }
-
-    @media (max-width: 760px) {
-      .forecast-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .current {
-        grid-template-columns: 1fr;
-      }
-
-      .weather-icon {
-        text-align: left;
-      }
+    .course-highlights {
+      width: 100%;
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
     }
 
-    @media (max-width: 420px) {
-      .forecast-grid {
-        grid-template-columns: 1fr;
-      }
+    .highlight-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.75rem;
+    }
 
-      .search {
-        flex-direction: column;
-      }
+    .highlight-item {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-lg);
+      transition: background 0.2s;
+    }
 
-      .search button {
-        width: 100%;
-      }
+    .enroll-button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-lg);
+      background: var(--accent);
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .enroll-button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
     }
   </style>
 </head>
 <body>
-  <main class="weather-app" aria-label="Weather application interface">
-    <header class="weather-header">
-      <h1>Weather</h1>
-      <form class="search" aria-label="Search city weather">
-        <input type="search" placeholder="Search city" aria-label="Search city" />
-        <button type="button">Search</button>
-      </form>
-    </header>
-
-    <section class="current" aria-label="Current weather">
-      <div>
-        <p class="location">San Francisco, CA</p>
-        <p class="temp">24°C</p>
-        <p class="condition">Sunny with light breeze · H:26° L:18°</p>
-      </div>
-      <div class="weather-icon sun" aria-hidden="true">☀️</div>
+  <main class="landing-page">
+    <section class="hero">
+      <h1>Advance Your Knowledge with Top Instructors</h1>
     </section>
 
-    <section class="forecast" aria-label="5 day forecast">
-      <h2>5-Day Forecast</h2>
-      <div class="forecast-grid">
-        <article class="day-card">
-          <p class="day">Mon</p>
-          <p class="icon sun" aria-hidden="true">☀️</p>
-          <p class="temps">25° / 18°</p>
-          <p class="desc">Sunny</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Tue</p>
-          <p class="icon cloud" aria-hidden="true">☁️</p>
-          <p class="temps">23° / 17°</p>
-          <p class="desc">Cloudy</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Wed</p>
-          <p class="icon rain" aria-hidden="true">🌧️</p>
-          <p class="temps">21° / 16°</p>
-          <p class="desc">Rainy</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Thu</p>
-          <p class="icon cloud" aria-hidden="true">⛅</p>
-          <p class="temps">24° / 18°</p>
-          <p class="desc">Partly cloudy</p>
-        </article>
-        <article class="day-card">
-          <p class="day">Fri</p>
-          <p class="icon sun" aria-hidden="true">☀️</p>
-          <p class="temps">26° / 19°</p>
-          <p class="desc">Sunny</p>
-        </article>
-      </div>
+    <div class="instructor-cards">
+      <article class="instructor-card">
+        <img src="https://via.placeholder.com/100" alt="Dr. John Smith" class="instructor-photo">
+        <h2 class="instructor-name">Dr. John Smith</h2>
+        <p class="instructor-bio">Expert in Artificial Intelligence and Machine Learning with over 10 years of experience.</p>
+      </article>
+      <article class="instructor-card">
+        <img src="https://via.placeholder.com/100" alt="Prof. Sarah Lee" class="instructor-photo">
+        <h2 class="instructor-name">Prof. Sarah Lee</h2>
+        <p class="instructor-bio">Renowned Data Scientist and Author, passionate about teaching analytics and data visualization.</p>
+      </article>
+    </div>
+
+    <section class="course-highlights">
+      <ul class="highlight-list">
+        <li class="highlight-item">Interactive lessons and hands-on projects</li>
+        <li class="highlight-item">Access to recorded sessions and materials</li>
+        <li class="highlight-item">Certificate upon successful completion</li>
+      </ul>
     </section>
+
+    <button class="enroll-button">Enroll Now</button>
   </main>
 </body>
 </html>
