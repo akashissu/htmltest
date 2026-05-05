@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.hero {
+    background-image: url('hero-banner.jpg');
+    background-size: cover;
+    color: white;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.destinations {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.destination-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.destination-card img {
+    width: 100%;
+    height: auto;
+}
+
+.destination-card h2 {
+    margin: 10px 0;
+    font-size: 1.5em;
+}
+
+.destination-card p {
+    padding: 0 10px;
+    font-size: 1em;
+}
+
+.destination-card button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 20px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.destination-card button:hover {
+    background-color: #ff332e;
+}
