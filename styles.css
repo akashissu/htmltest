@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.hero {
+    background-image: url('hero.jpg');
+    background-size: cover;
+    text-align: center;
+    padding: 80px 20px;
+    color: white;
+}
+
+.highlights, .instructors {
+    margin: 40px 0;
+}
+
+.highlights ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.highlights li {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-card {
+    display: inline-block;
+    text-align: center;
+    margin: 20px;
+}
+
+.instructor-card img {
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.enroll-button {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-button:hover {
+    background-color: #005bb5;
+}
