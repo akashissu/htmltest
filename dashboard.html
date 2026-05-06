@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="charts.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <header class="top-nav">
+            <input type="search" placeholder="Search..."></input>
+            <div class="notification-icon">🔔</div>
+            <div class="profile-menu">User</div>
+        </header>
+        <section class="analytics-cards">
+            <div class="card">Sales: $1,000</div>
+            <div class="card">Users: 200</div>
+        </section>
+        <section class="charts">
+            <canvas id="salesChart"></canvas>
+        </section>
+        <section class="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul>
+                <li>User A logged in</li>
+                <li>Sales update completed</li>
+            </ul>
+        </section>
+        <section class="task-table">
+            <h2>Tasks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Update website</td>
+                        <td>In Progress</td>
+                        <td>Tomorrow</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
