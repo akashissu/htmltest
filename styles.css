@@ -1,0 +1,58 @@
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh;
+}
+
+.course-sidebar {
+    width: 220px;
+    background-color: #203040;
+    color: white;
+    padding: 20px;
+}
+
+.course-sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.course-sidebar nav ul li {
+    margin: 15px 0;
+}
+
+.course-sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.dashboard-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+.enrolled-courses, .lesson-progress, .announcements, .upcoming-assignments, .calendar-widget, .teacher-profile, .student-activity {
+    margin: 20px 0;
+}
+
+.course-card {
+    background-color: #eee;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dark-mode .course-sidebar, .dark-mode .main-content {
+    background-color: #1a1a1a;
+    color: #f2f2f2;
+}
+
+.dark-mode .course-card {
+    background-color: #2a2a2a;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="charts.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <aside class="course-sidebar">
+        <nav>
+            <ul>
+                <li><a href="#">Course 101</a></li>
+                <li><a href="#">Course 102</a></li>
+                <li><a href="#">Course 103</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>Welcome to Your Dashboard</h1>
+        </header>
+        <section class="enrolled-courses">
+            <h2>Enrolled Courses</h2>
+            <div class="course-card">Course 101 - Progress 50%</div>
+            <div class="course-card">Course 102 - Progress 70%</div>
+        </section>
+        <section class="lesson-progress">
+            <h2>Lesson Progress</h2>
+            <canvas id="lessonChart"></canvas>
+        </section>
+        <section class="announcements">
+            <h2>Announcements</h2>
+            <p>No new announcements.</p>
+        </section>
+        <section class="upcoming-assignments">
+            <h2>Upcoming Assignments</h2>
+            <ul>
+                <li>Assignment 1 - Due Tomorrow</li>
+                <li>Assignment 2 - Due Next Week</li>
+            </ul>
+        </section>
+        <section class="calendar-widget">
+            <h2>Calendar</h2>
+            <p>Calendar widget will be here.</p>
+        </section>
+        <section class="teacher-profile">
+            <h2>Teacher Profile</h2>
+            <p>Teacher Name: John Doe</p>
+        </section>
+        <section class="student-activity">
+            <h2>Student Activity</h2>
+            <canvas id="activityChart"></canvas>
+        </section>
+    </main>
+</body>
+</html>
