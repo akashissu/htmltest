@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.hero-banner {
+    background-image: url('banner.jpg');
+    background-size: cover;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.banner-content h1 {
+    font-size: 3em;
+    margin: 0;
+}
+
+.banner-content p {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.banner-content button {
+    background-color: #f50;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.categories {
+    padding: 20px;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.movie-card {
+    background: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+}
